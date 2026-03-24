@@ -1,0 +1,33 @@
+name: Compress Images
+
+# どんな時にこのロボットを動かすか（トリガー）
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.png'
+
+# ロボットに与える権限（圧縮した画像をリポジトリに上書き保存する権限）
+permissions:
+  contents: write
+
+# ロボットの具体的な作業内容
+jobs:
+  build:
+    runs-on: ubuntu-latest # GitHubが用意したUbuntuサーバー上で動きます
+    steps:
+      # 1. リポジトリのデータをロボットの作業領域に持ってくる
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Quality 80 で画像を圧縮し、上書き保存する
+      - name: Compress Images
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          jpegQuality: "80"
+          pngQuality: "80"
+          ignorePaths: "node_modules/**"
