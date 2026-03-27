@@ -274,6 +274,10 @@
             .social-sidebar.is-hidden { transform: translateX(70%); opacity: 0.6; }
             .social-btn:hover { width: 48px; }
         }
+                /* 3つ目のアイコン（上に戻るボタン）を強制的に消す */
+        #page_top, #page-top, .back-to-top, .scroll-top {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="is-locked">
@@ -566,14 +570,14 @@
 <section id="access">
     <h2 class="section-title">通学路</h2>
     <div class="map-wrapper">
-        <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=池袋ムーブメントスタジオ&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+        <iframe src="https://maps.google.com/maps?q=東京都豊島区池袋2-11-5%20アユミビル&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <div class="guidelines-box" style="margin-top: 15px; text-align: center;">
         <p style="margin: 0; font-weight: bold; font-size: 1.1em;">池袋ムーブメントスタジオ</p>
-        <p style="margin: 5px 0 0 0;">東京都豊島区池袋2-55-2</p>
+        <p style="margin: 8px 0 0 0; font-size: 0.9em; line-height: 1.4;">〒171-0014<br>東京都豊島区池袋2丁目11番5号 アユミビル 2階</p>
+        <p style="margin: 8px 0 0 0; font-size: 0.95em; color: #ffeb3b; font-weight: bold;">「池袋駅」C1a出口から徒歩3分</p>
     </div>
-    </section>
-
+</section>
         <div class="chalk-tray-items">
             <div class="eraser"></div>
             <div class="chalk-yellow"></div>
