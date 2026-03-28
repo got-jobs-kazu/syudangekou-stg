@@ -248,11 +248,6 @@
         .btn-sticky:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .btn-sticky:active { transform: translateY(1px); }
 
-        /* 公式SNSサイドバー */
-        .social-sidebar { position: absolute; bottom: 60px; right: -12px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; }
-        .social-btn { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
-        .social-btn:hover { width: 55px; background-color: #222; }
-
         /* --- レスポンシブ --- */
         .pc-br { display: none; }
         @media (min-width: 600px) {
@@ -267,24 +262,12 @@
             .flyer-magnet-right { right: 20px; }
             .intro-text { font-size: 1.25rem; } 
         }
-        @media (max-width: 599px) {
-            .hero-stamp { animation: pressStampSp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
-            @keyframes pressStampSp { 0% { opacity: 0; transform: scale(3) rotate(20deg); } 50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 100% { opacity: 1; transform: scale(1) rotate(-10deg) translate(10px, 15px); } }
-            .social-sidebar { position: fixed; bottom: 100px; right: 0; transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
-            .social-sidebar.is-hidden { transform: translateX(70%); opacity: 0.6; }
-            .social-btn:hover { width: 48px; }
-/* -----------------------------------
-           右端の固定アイコン群 (X & チャット)
-        ------------------------------------ */
-        /* ▼ 基本設定（スマホ版：右下） ▼ */
-        #socialSidebar {
-/* =========================================
-           ▼ ここから下を </style> の直前に上書きする ▼
-           ========================================= */
-        /* 不要な上に戻るボタンなどを強制非表示 */
-        #page_top, #page-top, .back-to-top, .scroll-top { display: none !important; }
 
-        /* --- 右端固定アイコン（スマホ版） --- */
+        /* -----------------------------------
+           右端の固定アイコン群 (X & チャット) & ハンバーガーメニュー
+        ------------------------------------ */
+        
+        /* スマホ版 (基本設定) */
         #socialSidebar {
             position: fixed !important;
             bottom: 90px !important;
@@ -300,8 +283,10 @@
             transform: translateX(40px) !important;
             opacity: 0.5 !important;
         }
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
+        .social-btn:hover { width: 55px; background-color: #222; }
 
-        /* --- 右端固定アイコン（PC版：季の彩風） --- */
+        /* PC版（画面幅768px以上：「季の彩」風サイドタブ） */
         @media (min-width: 768px) {
             #socialSidebar {
                 top: 50% !important;
@@ -327,9 +312,13 @@
                 font-size: 1.5rem !important;
                 margin: 0 !important;
             }
+            #socialSidebar .social-btn:hover {
+                width: auto !important;
+                background-color: transparent !important;
+            }
         }
 
-        /* --- ハンバーガーメニューのデザイン --- */
+        /* ハンバーガーメニューのデザイン */
         .hamburger-btn {
             position: fixed; top: 15px; right: 15px; z-index: 2000;
             background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer;
@@ -355,24 +344,22 @@
         .notebook-paper ul { list-style: none; padding: 0; margin: 0; }
         .notebook-paper li { margin-bottom: 15px; text-align: center; }
         .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; display: block; }
-        /* =========================================
-           ▲ 上書きするのはここまで ▲
-           ========================================= */
+
     </style>
 </head>
 <body class="is-locked">
+    
     <button id="hamburgerBtn" class="hamburger-btn">
         <i class="fa-solid fa-bars"></i>
     </button>
-
     <div id="navMenu" class="nav-menu">
         <div class="notebook-paper">
             <button id="closeBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
-            <h2 style="font-family: 'Comic Sans MS', '丸ゴシック', sans-serif;">目次</h2>
+            <h2>目次</h2>
             <ul>
-                <li><a href="#video">ダイジェスト動画</a></li>
-                <li><a href="#schedule">当日の時間割</a></li>
-                <li><a href="#performers">出演者</a></li>
+                <li><a href="#movie">ダイジェスト動画</a></li>
+                <li><a href="#info">当日の時間割</a></li>
+                <li><a href="#member">出演者</a></li>
                 <li><a href="#guidelines">校則（注意事項）</a></li>
                 <li><a href="#access">通学路</a></li>
             </ul>
@@ -621,7 +608,7 @@
         <section id="staff">
             <h2 class="section-title">職員室</h2>
             <div class="grid-list">
-                <a href="https://tiget.net/users/1482915" target="_blank" class="card-link">
+                <a href="https://tiget.net/users/1482915" target="_blank" class="card-link" style="text-decoration:none;">
                     <div class="card-box magnet-blue">
                         <div class="combi-name-bar" style="border-bottom: none; padding-bottom: 5px;">主催</div>
                         <div class="card-info member-details" style="padding-top: 5px;">
@@ -635,7 +622,7 @@
                     </div>
                 </a>
                 
-                <a href="https://got-jobs-kazu.github.io/#" target="_blank" class="card-link">
+                <a href="https://got-jobs-kazu.github.io/#" target="_blank" class="card-link" style="text-decoration:none;">
                     <div class="card-box magnet-yellow">
                         <div class="combi-name-bar" style="border-bottom: none; padding-bottom: 5px;">Web制作</div>
                         <div class="card-info member-details" style="padding-top: 5px;">
@@ -664,38 +651,38 @@
             </div>
         </section>
 
-<section id="access">
-    <h2 class="section-title">通学路</h2>
-    <div class="map-wrapper">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.7349502904303!2d139.70436857413924!3d35.73273652714571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d2720e268ed%3A0x433e2fc9892e5271!2z5rGg6KKL44Og44O844OW44Oh44Oz44OI44K544K_44K444Kq!5e0!3m2!1sja!2sjp!4v1774677027061!5m2!1sja!2sjp" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-    <div class="guidelines-box" style="margin-top: 15px; text-align: center;">
-        <p style="margin: 0; font-weight: bold; font-size: 1.1em;">池袋ムーブメントスタジオ</p>
-        <p style="margin: 8px 0 0 0; font-size: 0.9em; line-height: 1.4;">〒171-0014<br>東京都豊島区池袋2丁目11番5号 アユミビル 2階</p>
-        <p style="margin: 8px 0 0 0; font-size: 0.95em; color: #ffeb3b; font-weight: bold;">「池袋駅」C1a出口から徒歩3分</p>
-    </div>
-</section>
+        <section id="access">
+            <h2 class="section-title">通学路</h2>
+            <div class="map-wrapper">
+                <iframe src="https://maps.google.co.jp/maps?output=embed&q=池袋ムーブメントスタジオ" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="guidelines-box" style="margin-top: 15px; text-align: center;">
+                <p style="margin: 0; font-weight: bold; font-size: 1.1em;">池袋ムーブメントスタジオ</p>
+                <p style="margin: 8px 0 0 0; font-size: 0.9em; line-height: 1.4;">〒171-0014<br>東京都豊島区池袋2丁目11番5号 アユミビル 2階</p>
+                <p style="margin: 8px 0 0 0; font-size: 0.95em; color: #ffeb3b; font-weight: bold;">「池袋駅」C1a出口から徒歩3分</p>
+            </div>
+        </section>
+
         <div class="chalk-tray-items">
             <div class="eraser"></div>
             <div class="chalk-yellow"></div>
             <div class="chalk-white"></div>
         </div>
 
-<div id="socialSidebar" class="social-sidebar">
-    <a href="https://x.com/shuudangekou1" target="_blank" class="social-btn x-btn" title="公式X (Twitter)">
-        <i class="fa-brands fa-x-twitter"></i>
-    </a>
-    <a href="#" target="_blank" class="social-btn chat-btn" title="AIスタッフに質問する" style="background-color: #2E5D4B; margin-top: 5px;">
-        <i class="fa-solid fa-comment-dots"></i>
-    </a>
-</div>
-
+        <div id="socialSidebar" class="social-sidebar">
+            <a href="https://x.com/shuudangekou1" target="_blank" class="social-btn" title="公式X (Twitter)">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a href="#" target="_blank" class="social-btn" title="AIスタッフに質問する" style="background-color: #2E5D4B; margin-top: 5px;">
+                <i class="fa-solid fa-comment-dots"></i>
+            </a>
         </div>
 
-        <footer>
-            <p style="margin-bottom:10px;">© 2026 集団下校実行委員会</p>
-        </footer>
     </div>
+
+    <footer>
+        <p style="margin-bottom:10px;">© 2026 集団下校実行委員会</p>
+    </footer>
 
     <div class="sticky-ticket-bar">
         <a href="https://tiget.net/events/470950" class="btn-sticky" target="_blank">
@@ -705,6 +692,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // === オープニングアニメーション制御 ===
             const openingLayer = document.getElementById('opening-layer');
             const mainBoard = document.getElementById('main-board');
             let hasStarted = false;
@@ -718,66 +706,57 @@
                 const startAnimation = () => {
                     if (hasStarted) return;
                     hasStarted = true;
-
                     openingLayer.classList.add('is-animating');
-
                     setTimeout(() => {
                         openingLayer.classList.add('is-shrinking');
                         mainBoard.classList.add('is-visible');
                     }, 1800);
-
                     setTimeout(() => {
                         mainBoard.classList.add('is-magnet-attached');
                         document.body.classList.remove('is-locked'); 
-                        
                         sessionStorage.setItem('hasSeenOpening', 'true');
-                        
                         setTimeout(() => {
                             openingLayer.style.display = 'none';
                         }, 1000);
                     }, 3000);
                 };
-
                 const triggerEvents = ['scroll', 'touchstart', 'touchmove', 'click', 'wheel'];
                 triggerEvents.forEach(ev => {
                     window.addEventListener(ev, startAnimation, { once: true });
                 });
             }
 
-            // スマホ版公式SNSサイドバーの隠し制御
+            // === スマホ版：右下アイコンのスクロール隠し制御 ===
             let scrollTimeout;
             const sidebar = document.getElementById('socialSidebar');
-
             if (sidebar) {
                 window.addEventListener('scroll', () => {
-                    if (!hasStarted || window.innerWidth >= 600) return;
-
+                    if (!hasStarted || window.innerWidth >= 768) return; // PC版は隠さない
                     sidebar.classList.add('is-hidden');
                     clearTimeout(scrollTimeout);
-                    
                     scrollTimeout = setTimeout(() => {
                         sidebar.classList.remove('is-hidden');
                     }, 400); 
                 });
-                
-                window.addEventListener('resize', () => {
-                    if (window.innerWidth >= 600) {
-                        sidebar.classList.remove('is-hidden');
-                    }
+            }
+
+            // === ハンバーガーメニュー制御 ===
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            if(hamburgerBtn && navMenu) {
+                const menuLinks = navMenu.querySelectorAll('a');
+                // ≡ボタンで開く
+                hamburgerBtn.addEventListener('click', () => { navMenu.classList.add('is-active'); });
+                // Xボタンで閉じる
+                closeBtn.addEventListener('click', () => { navMenu.classList.remove('is-active'); });
+                // リンクを押したら閉じる
+                menuLinks.forEach(link => { 
+                    link.addEventListener('click', () => { navMenu.classList.remove('is-active'); }); 
                 });
             }
         });
-        // ▼ ハンバーガーメニューの開閉処理 ▼
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const navMenu = document.getElementById('navMenu');
-        const menuLinks = navMenu.querySelectorAll('a');
-
-        if(hamburgerBtn && navMenu) {
-            hamburgerBtn.addEventListener('click', () => { navMenu.classList.add('is-active'); });
-            closeBtn.addEventListener('click', () => { navMenu.classList.remove('is-active'); });
-            menuLinks.forEach(link => { link.addEventListener('click', () => { navMenu.classList.remove('is-active'); }); });
-        }
     </script>
 </body>
 </html>
