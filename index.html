@@ -273,8 +273,25 @@
             .social-sidebar { position: fixed; bottom: 100px; right: 0; transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
             .social-sidebar.is-hidden { transform: translateX(70%); opacity: 0.6; }
             .social-btn:hover { width: 48px; }
+       /* ▼ アイコンの配置と滑らかなスライド（半隠れ）設定 ▼ */
+        #socialSidebar {
+            position: fixed !important;
+            bottom: 20px !important; /* 縦の高さ（下からの距離）をここで完全固定！ズレをなくす */
+            right: 15px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important; /* Xとチャットの間の余白 */
+            transform: translateX(0) !important; /* 通常時はズレなし */
+            transition: transform 0.3s ease, opacity 0.3s ease !important; /* なめらかなアニメーション */
         }
-                /* 3つ目のアイコン（上に戻るボタン）を強制的に消す */
+
+        /* スクロール中に半分隠れる時の設定 */
+        #socialSidebar.is-hidden {
+            transform: translateX(40px) !important; /* 高さは変えず、右に40pxだけスライドさせる */
+            opacity: 0.5 !important; /* 少しだけ半透明にする */
+        }
+
+        /* 3つ目のアイコン（上に戻るボタン）を強制的に消す */
         #page_top, #page-top, .back-to-top, .scroll-top {
             display: none !important;
         }
@@ -570,7 +587,7 @@
 <section id="access">
     <h2 class="section-title">通学路</h2>
     <div class="map-wrapper">
-        <iframe src="https://maps.google.com/maps?q=東京都豊島区池袋2-11-5%20アユミビル&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.7349502904303!2d139.70436857413924!3d35.73273652714571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d2720e268ed%3A0x433e2fc9892e5271!2z5rGg6KKL44Og44O844OW44Oh44Oz44OI44K544K_44K444Kq!5e0!3m2!1sja!2sjp!4v1774677027061!5m2!1sja!2sjp" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <div class="guidelines-box" style="margin-top: 15px; text-align: center;">
         <p style="margin: 0; font-weight: bold; font-size: 1.1em;">池袋ムーブメントスタジオ</p>
