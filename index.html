@@ -273,25 +273,45 @@
             .social-sidebar { position: fixed; bottom: 100px; right: 0; transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
             .social-sidebar.is-hidden { transform: translateX(70%); opacity: 0.6; }
             .social-btn:hover { width: 48px; }
-       /* ▼ アイコンの配置と滑らかなスライド（半隠れ）設定 ▼ */
-#socialSidebar {
+/* -----------------------------------
+           右端の固定アイコン群 (X & チャット)
+        ------------------------------------ */
+        /* ▼ 基本設定（スマホ版：右下） ▼ */
+        #socialSidebar {
             position: fixed !important;
-            bottom: 90px !important; /* ←★ここを20pxから90pxに変更して上に持ち上げる */
+            bottom: 90px !important; /* 黄色いチケットボタンとの被りを回避 */
             right: 15px !important;
             display: flex !important;
             flex-direction: column !important;
-            gap: 10px !important; /* Xとチャットの間の余白 */
-            transform: translateX(0) !important; /* 通常時はズレなし */
-            transition: transform 0.3s ease, opacity 0.3s ease !important; /* なめらかなアニメーション */
+            gap: 10px !important;
+            transform: translateX(0) !important;
+            transition: all 0.3s ease !important;
+            z-index: 1000 !important;
         }
 
-        /* スクロール中に半分隠れる時の設定 */
+        /* スマホスクロール時の半隠れ */
         #socialSidebar.is-hidden {
-            transform: translateX(40px) !important; /* 高さは変えず、右に40pxだけスライドさせる */
-            opacity: 0.5 !important; /* 少しだけ半透明にする */
+            transform: translateX(40px) !important;
+            opacity: 0.5 !important;
         }
 
-        /* 3つ目のアイコン（上に戻るボタン）を強制的に消す */
+        /* ▼ PC版（画面幅768px以上）：右端中央サイドタブ ▼ */
+        @media (min-width: 768px) {
+            #socialSidebar {
+                top: 50% !important; /* 縦のど真ん中 */
+                bottom: auto !important; /* スマホの下固定設定を解除 */
+                right: 0 !important; /* 画面右端にピタッとつける */
+                transform: translateY(-50%) !important; /* 縦中央揃えのおまじない */
+                gap: 5px !important; 
+            }
+            /* PC版は画面が広いので、常に隠れず表示させる設定 */
+            #socialSidebar.is-hidden {
+                transform: translateY(-50%) !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* 不要なアイコン（上に戻るボタン等）を強制的に消す */
         #page_top, #page-top, .back-to-top, .scroll-top {
             display: none !important;
         }
