@@ -295,19 +295,32 @@
             opacity: 0.5 !important;
         }
 
-        /* ▼ PC版（画面幅768px以上）：右端中央サイドタブ ▼ */
+ /* ▼ PC版（画面幅768px以上）：「季の彩」風の白背景サイドタブ ▼ */
         @media (min-width: 768px) {
             #socialSidebar {
-                top: 50% !important; /* 縦のど真ん中 */
-                bottom: auto !important; /* スマホの下固定設定を解除 */
-                right: 0 !important; /* 画面右端にピタッとつける */
-                transform: translateY(-50%) !important; /* 縦中央揃えのおまじない */
-                gap: 5px !important; 
+                top: 50% !important;
+                bottom: auto !important;
+                right: 0 !important;
+                transform: translateY(-50%) !important;
+                background-color: rgba(255, 255, 255, 0.95) !important; /* 白背景 */
+                padding: 15px 10px !important; /* 上下左右の余白 */
+                border-radius: 10px 0 0 10px !important; /* 左側だけ丸くする */
+                box-shadow: -2px 0 10px rgba(0,0,0,0.15) !important; /* 軽い影 */
+                gap: 15px !important; 
             }
-            /* PC版は画面が広いので、常に隠れず表示させる設定 */
             #socialSidebar.is-hidden {
                 transform: translateY(-50%) !important;
                 opacity: 1 !important;
+            }
+            /* PC版はボタン自体の背景色を消して、アイコンを黒（ダークグレー）にする */
+            #socialSidebar .social-btn {
+                background-color: transparent !important;
+                color: #333333 !important;
+                box-shadow: none !important;
+                width: auto !important;
+                height: auto !important;
+                font-size: 1.5rem !important;
+                margin: 0 !important;
             }
         }
 
@@ -315,9 +328,104 @@
         #page_top, #page-top, .back-to-top, .scroll-top {
             display: none !important;
         }
+/* ▼ ハンバーガーボタンのデザイン ▼ */
+        .hamburger-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 2000;
+            background-color: transparent;
+            color: #ffffff;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
+        }
+
+        /* ▼ メニュー展開時の背景（画面を暗くする） ▼ */
+        .nav-menu {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            display: none; /* 最初は隠す */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .nav-menu.is-active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* ▼ ノートの切れ端デザイン ▼ */
+        .notebook-paper {
+            background-color: #fdf5e6; /* 少し黄ばんだ紙の色 */
+            width: 80%;
+            max-width: 400px;
+            padding: 40px 20px 30px;
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            /* CSSでノートの横線を描く */
+            background-image: repeating-linear-gradient(transparent, transparent 39px, #d2d2d2 39px, #d2d2d2 40px);
+            background-attachment: local;
+        }
+
+        /* 閉じる(X)ボタン */
+        .close-btn {
+            position: absolute; top: 10px; right: 15px;
+            background: none; border: none; font-size: 1.5rem; color: #333; cursor: pointer;
+        }
+
+        /* 目次の文字 */
+        .notebook-paper h2 { text-align: center; color: #333; margin-top: 0; margin-bottom: 20px; }
+        .notebook-paper ul { list-style: none; padding: 0; margin: 0; }
+        .notebook-paper li { margin-bottom: 15px; text-align: center; }
+        .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; display: block; }   
+// ▼ ハンバーガーメニューの開閉処理 ▼
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const navMenu = document.getElementById('navMenu');
+        const menuLinks = navMenu.querySelectorAll('a');
+
+        if(hamburgerBtn && navMenu) {
+            // ≡ボタンで開く
+            hamburgerBtn.addEventListener('click', () => {
+                navMenu.classList.add('is-active');
+            });
+            // Xボタンで閉じる
+            closeBtn.addEventListener('click', () => {
+                navMenu.classList.remove('is-active');
+            });
+            // 目次のリンクを押したら自動で閉じて移動する
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('is-active');
+                });
+            });
+        }
     </style>
 </head>
 <body class="is-locked">
+    <button id="hamburgerBtn" class="hamburger-btn">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div id="navMenu" class="nav-menu">
+        <div class="notebook-paper">
+            <button id="closeBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="font-family: 'Comic Sans MS', '丸ゴシック', sans-serif;">目次</h2>
+            <ul>
+                <li><a href="#video">ダイジェスト動画</a></li>
+                <li><a href="#schedule">当日の時間割</a></li>
+                <li><a href="#performers">出演者</a></li>
+                <li><a href="#guidelines">校則（注意事項）</a></li>
+                <li><a href="#access">通学路</a></li>
+            </ul>
+        </div>
+    </div>
 
     <div id="opening-layer" class="opening-layer">
         <div class="op-flyer">
