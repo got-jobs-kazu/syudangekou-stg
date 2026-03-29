@@ -327,13 +327,12 @@
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
             transition: transform 0.3s ease, color 0.3s ease; /* クルッと回る動き */
         }
-        /* メニューが開いている時（×の状態）のデザイン */
+/* メニューが開いている時（×の状態）のデザイン */
         .hamburger-btn.is-active {
-            color: #333333; /* ノートの背景に合わせて黒っぽくする */
-            transform: rotate(90deg); /* 90度回転させる */
-            filter: none; /* 開いている時は影を消す */
+            color: #ffffff; /* 白にして暗い背景の上で目立たせる！ */
+            transform: rotate(90deg) scale(1.1); /* 90度回転しつつ、少しだけ大きく(1.1倍)する */
+            filter: none;
         }
-
         .nav-menu {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-color: rgba(0, 0, 0, 0.7); z-index: 3000;
@@ -778,6 +777,18 @@
                         btnIcon.classList.add('fa-bars');
                     }
                 });
+                
+                // ▼ここから追加：暗い背景（ノートの外側）をタップしたら閉じる処理▼
+                navMenu.addEventListener('click', (e) => {
+                    // クリックした場所が「navMenu（暗い背景）そのもの」だった時だけ閉じる
+                    if (e.target === navMenu) {
+                        navMenu.classList.remove('is-active'); 
+                        hamburgerBtn.classList.remove('is-active');
+                        btnIcon.classList.remove('fa-xmark');
+                        btnIcon.classList.add('fa-bars');
+                    }
+                });
+                // ▲ここまで追加▲
                 
                 // リンクを押したら閉じる処理
                 menuLinks.forEach(link => { 
