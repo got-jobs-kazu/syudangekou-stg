@@ -354,7 +354,6 @@
     </button>
     <div id="navMenu" class="nav-menu">
         <div class="notebook-paper">
-            <button id="closeBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
             <h2>目次</h2>
             <ul>
                 <li><a href="#movie">ダイジェスト動画</a></li>
@@ -740,23 +739,39 @@
                 });
             }
 
-            // === ハンバーガーメニュー制御 ===
+// === ハンバーガーメニュー制御（アニメーション版） ===
             const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const closeBtn = document.getElementById('closeBtn');
             const navMenu = document.getElementById('navMenu');
             
             if(hamburgerBtn && navMenu) {
                 const menuLinks = navMenu.querySelectorAll('a');
-                // ≡ボタンで開く
-                hamburgerBtn.addEventListener('click', () => { navMenu.classList.add('is-active'); });
-                // Xボタンで閉じる
-                closeBtn.addEventListener('click', () => { navMenu.classList.remove('is-active'); });
-                // リンクを押したら閉じる
+                const btnIcon = hamburgerBtn.querySelector('i'); // ボタンの中のアイコン
+                
+                // ボタンを押した時の処理（開く・閉じるの切り替え）
+                hamburgerBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('is-active');
+                    hamburgerBtn.classList.toggle('is-active');
+                    
+                    // アイコンの ≡ と × を入れ替える
+                    if (navMenu.classList.contains('is-active')) {
+                        btnIcon.classList.remove('fa-bars');
+                        btnIcon.classList.add('fa-xmark');
+                    } else {
+                        btnIcon.classList.remove('fa-xmark');
+                        btnIcon.classList.add('fa-bars');
+                    }
+                });
+                
+                // リンクを押したら閉じる処理
                 menuLinks.forEach(link => { 
-                    link.addEventListener('click', () => { navMenu.classList.remove('is-active'); }); 
+                    link.addEventListener('click', () => { 
+                        navMenu.classList.remove('is-active'); 
+                        hamburgerBtn.classList.remove('is-active');
+                        btnIcon.classList.remove('fa-xmark');
+                        btnIcon.classList.add('fa-bars');
+                    }); 
                 });
             }
-        });
     </script>
 </body>
 </html>
