@@ -361,6 +361,54 @@
             text-shadow: 0 0 5px #fdf5e6, 0 0 8px #fdf5e6, 0 0 12px #fdf5e6;
         }
 
+        /* =======================================================
+           時間割ポップアップ（モーダル）のデザイン
+           ======================================================= */
+        /* 開くためのボタン */
+        .timetable-btn {
+            background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a;
+            padding: 10px 30px; font-size: 1.2rem; font-family: 'Kaisei Decol', serif;
+            border-radius: 5px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .timetable-btn:hover { transform: translateY(-2px); background-color: #a06b35; }
+
+        /* モーダルの背景（黒い半透明） */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8); z-index: 5000; /* 一番手前に */
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.is-active { display: flex; opacity: 1; }
+
+        /* モーダルの中身（黒板風） */
+        .timetable-board {
+            background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px;
+            width: 90%; max-width: 500px; padding: 30px 20px;
+            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        .modal-overlay.is-active .timetable-board { transform: translateY(0); }
+
+        .modal-close-btn {
+            position: absolute; top: -15px; right: -15px;
+            background-color: #e63946; color: #fff; border: 2px solid #fff;
+            width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem;
+            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        .timetable-title {
+            text-align: center; color: #fff; font-family: 'Yomogi', cursive;
+            font-size: 1.8rem; margin-top: 0; margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(255,255,255,0.5); padding-bottom: 10px;
+        }
+
+        /* 時間割の表組み */
+        .timetable-grid { display: flex; flex-direction: column; gap: 10px; }
+        .tt-row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        .tt-time { width: 30%; color: #f4d03f; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.1rem; }
+        .tt-desc { width: 70%; color: #fff; font-size: 1.1rem; }
     </style>
 </head>
 <body class="is-locked">
@@ -430,8 +478,8 @@
             </div>
         </section>
 
-        <section id="info">
-            <h2 class="section-title">時間割</h2>
+<section id="info">
+            <h2 class="section-title">当日の時間割</h2>
             <ul class="info-list">
                 <li class="info-item">
                     <span class="info-label">日時</span>
@@ -442,6 +490,25 @@
                     <span class="info-value">¥1,500（※当日現金払いのみ）</span>
                 </li>
             </ul>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="openTimetableBtn" class="timetable-btn">時間割を見る <i class="fa-solid fa-clock"></i></button>
+            </div>
+
+            <div id="timetableModal" class="modal-overlay">
+                <div class="modal-content timetable-board">
+                    <button id="closeTimetableBtn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+                    <h3 class="timetable-title">本日の時間割</h3>
+                    <div class="timetable-grid">
+                        <div class="tt-row"><div class="tt-time">朝の会</div><div class="tt-desc">オープニングトーク</div></div>
+                        <div class="tt-row"><div class="tt-time">1時間目</div><div class="tt-desc">前半組 ネタ</div></div>
+                        <div class="tt-row"><div class="tt-time">中休み</div><div class="tt-desc">前半組 トーク・コーナー</div></div>
+                        <div class="tt-row"><div class="tt-time">2時間目</div><div class="tt-desc">後半組 ネタ</div></div>
+                        <div class="tt-row"><div class="tt-time">昼休み</div><div class="tt-desc">後半組 トーク・コーナー</div></div>
+                        <div class="tt-row"><div class="tt-time">帰りの会</div><div class="tt-desc">エンディング</div></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="member">
@@ -755,6 +822,33 @@
                 });
             }
 
+            // === 時間割ポップアップ制御 ===
+            const openTimetableBtn = document.getElementById('openTimetableBtn');
+            const closeTimetableBtn = document.getElementById('closeTimetableBtn');
+            const timetableModal = document.getElementById('timetableModal');
+
+            if (openTimetableBtn && timetableModal) {
+                // 「時間割を見る」ボタンで開く
+                openTimetableBtn.addEventListener('click', () => {
+                    timetableModal.classList.add('is-active');
+                    // モーダルを開いた時は、背景のスクロールを一時的に止める（お好みで）
+                    document.body.style.overflow = 'hidden'; 
+                });
+
+                // Xボタンで閉じる
+                closeTimetableBtn.addEventListener('click', () => {
+                    timetableModal.classList.remove('is-active');
+                    document.body.style.overflow = ''; // スクロールを戻す
+                });
+
+                // モーダルの外側（黒い背景）をタップしても閉じる
+                timetableModal.addEventListener('click', (e) => {
+                    if (e.target === timetableModal) {
+                        timetableModal.classList.remove('is-active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
             // === ハンバーガーメニュー制御（アニメーション対応版） ===
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const navMenu = document.getElementById('navMenu');
