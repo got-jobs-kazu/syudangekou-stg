@@ -771,6 +771,82 @@
             チケットを予約する (¥1,500)
         </a>
     </div>
+    <div id="aiChatModal" class="chat-modal">
+        <div class="chat-container">
+            <div class="chat-header">
+                <span><i class="fa-solid fa-robot"></i> 集団下校 AIスタッフ</span>
+                <button id="closeChatBtn" class="chat-close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-bubble ai">
+                    こんにちは！集団下校AIスタッフです。<br>
+                    現在、5月の「vol.3」に向けて一生懸命ルールを学習中です！<br>
+                    <span style="font-size:0.8em; color:#888;">※本番ではここにGemini AIが連携されます</span>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" placeholder="メッセージを入力..." autocomplete="off">
+                <button id="chatSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+    ```
+
+#### ② CSSの追加（LINE風のデザイン）
+`<style>` と `</style>` の間の**一番下**に、以下のコードを追加してください。
+
+```css
+        /* =======================================================
+           AIチャットダミー画面のデザイン
+           ======================================================= */
+        .chat-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: rgba(0,0,0,0.5); z-index: 6000; /* メニューより手前 */
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .chat-modal.is-active { display: flex; opacity: 1; }
+
+        .chat-container {
+            background-color: #849b87; /* 黒板に合わせた少し落ち着いた緑背景 */
+            width: 90%; max-width: 400px; height: 70vh; max-height: 600px;
+            border-radius: 10px; display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(20px); transition: transform 0.3s;
+        }
+        .chat-modal.is-active .chat-container { transform: translateY(0); }
+
+        .chat-header {
+            background-color: #2E5D4B; color: #fff; padding: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+        .chat-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+        .chat-body {
+            flex: 1; padding: 15px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .chat-bubble {
+            max-width: 80%; padding: 10px 15px; border-radius: 15px;
+            font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; font-family: sans-serif;
+        }
+        .chat-bubble.ai { background-color: #fff; color: #333; align-self: flex-start; border-top-left-radius: 0; }
+        .chat-bubble.user { background-color: #f4d03f; color: #333; align-self: flex-end; border-top-right-radius: 0; }
+
+        .chat-footer {
+            background-color: #fff; padding: 10px; border-top: 1px solid #ddd;
+            display: flex; gap: 10px; align-items: center;
+        }
+        .chat-footer input {
+            flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px;
+            outline: none; font-size: 1rem;
+        }
+        .chat-footer button {
+            background-color: #2E5D4B; color: #fff; border: none;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            font-size: 1.2rem; display: flex; justify-content: center; align-items: center;
+        }
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -895,6 +971,63 @@
                 });
             }
         });
+        // === AIチャットダミー制御 ===
+            const chatBtns = document.querySelectorAll('#socialSidebar .social-btn');
+            const openChatBtn = chatBtns[1]; // 右下の2つ目のボタン（チャット）を取得
+            const chatModal = document.getElementById('aiChatModal');
+            
+            if (openChatBtn && chatModal) {
+                const closeChatBtn = document.getElementById('closeChatBtn');
+                const chatBody = document.getElementById('chatBody');
+                const chatInput = document.getElementById('chatInput');
+                const chatSendBtn = document.getElementById('chatSendBtn');
+
+                // チャットを開く
+                openChatBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // 元のリンク移動を防ぐ
+                    chatModal.classList.add('is-active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                // チャットを閉じる
+                const closeChat = () => {
+                    chatModal.classList.remove('is-active');
+                    document.body.style.overflow = '';
+                };
+                closeChatBtn.addEventListener('click', closeChat);
+                chatModal.addEventListener('click', (e) => {
+                    if(e.target === chatModal) closeChat();
+                });
+
+                // メッセージを送信する処理
+                const sendMessage = () => {
+                    const text = chatInput.value.trim();
+                    if(!text) return;
+
+                    // 1. 自分が打った文字を右側（黄色）に出す
+                    const userBubble = document.createElement('div');
+                    userBubble.className = 'chat-bubble user';
+                    userBubble.textContent = text;
+                    chatBody.appendChild(userBubble);
+                    chatInput.value = '';
+                    chatBody.scrollTop = chatBody.scrollHeight; // 一番下へスクロール
+
+                    // 2. 1秒後（考えてる風）にAIのダミー返答を出す
+                    setTimeout(() => {
+                        const aiBubble = document.createElement('div');
+                        aiBubble.className = 'chat-bubble ai';
+                        aiBubble.innerHTML = 'こんにちは！集団下校AIスタッフです。<br>現在vol.3に向けて一生懸命ルールを学習中です！<br><span style="font-size:0.8em; color:#888;">※本番ではここにGemini APIが連携され、自動回答します</span>';
+                        chatBody.appendChild(aiBubble);
+                        chatBody.scrollTop = chatBody.scrollHeight;
+                    }, 1000);
+                };
+
+                // 送信ボタンとEnterキーで送信
+                chatSendBtn.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', (e) => {
+                    if(e.key === 'Enter') sendMessage();
+                });
+            }
     </script>
 </body>
 </html>
