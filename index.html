@@ -355,7 +355,6 @@
 
         <div id="socialSidebar" class="social-sidebar">
             <a href="https://x.com/shuudangekou1" target="_blank" class="social-btn" title="公式X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#" target="_blank" class="social-btn" title="AIスタッフに質問する" style="background-color: #2E5D4B; margin-top: 5px;"><i class="fa-solid fa-comment-dots"></i></a>
         </div>
 
         <footer style="margin-top: 60px; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.6); border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 20px;">
@@ -363,25 +362,7 @@
         </footer>
     </div> <div class="sticky-ticket-bar"><a href="https://tiget.net/events/470950" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
 
-    <div id="aiChatModal" class="chat-modal">
-        <div class="chat-container">
-            <div class="chat-header">
-                <span><i class="fa-solid fa-robot"></i> 集団下校 AIスタッフ</span>
-                <button id="closeChatBtn" class="chat-close-btn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="chat-body" id="chatBody">
-                <div class="chat-bubble ai">
-                    こんにちは！集団下校AIスタッフです。
-                </div>
-            </div>
-            <div class="chat-footer">
-                <input type="text" id="chatInput" placeholder="メッセージを入力..." autocomplete="off">
-                <button id="chatSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<script>
         document.addEventListener('DOMContentLoaded', () => {
             // オープニング
             const openingLayer = document.getElementById('opening-layer');
@@ -433,83 +414,147 @@
                 closeTimetableBtn.addEventListener('click', () => { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; });
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
-
-            // === 本物のAIチャット（絶対に失敗しない結合プロンプト方式） ===
-            const chatBtns = document.querySelectorAll('#socialSidebar .social-btn');
-            const openChatBtn = chatBtns[1]; 
-            const chatModal = document.getElementById('aiChatModal');
-            
-            const API_KEY = 'AIzaSyCNZltzlq1b6BAte3aFjYgzET6LMfGMM9Y';
-            
-            const SYSTEM_PROMPT = `あなたは、お笑いライブ「集団下校」の公式AIスタッフです。
-以下の情報を元に、お客さんからの質問に親しみやすく短い文章で答えてください。
-- ライブ名: 集団下校 vol.2
-- 日時: 2026年3月26日(木) 開場18:45 / 開演19:00 / 終演20:30
-- 料金: 1,500円（当日現金払いのみ）
-- 場所: 池袋ムーブメントスタジオ
-- 出演者: ドゥドゥディダーダー、エコノート、フィッシュおさかな、最大パルプ、ファズ宮、悪趣味な色彩のカエル、ノースロード
-- 注意事項: 客席での飲食は禁止（水分補給のみ可）。ネタ中の撮影・録音は禁止。差し入れは開演前に受付へ。
-※上記以外のわからない質問には「申し訳ありません、その質問は人間のスタッフにお問い合わせください！」と答えること。`;
-
-            if (openChatBtn && chatModal) {
-                const closeChatBtn = document.getElementById('closeChatBtn'); 
-                const chatBody = document.getElementById('chatBody'); 
-                const chatInput = document.getElementById('chatInput'); 
-                const chatSendBtn = document.getElementById('chatSendBtn');
-                
-                openChatBtn.addEventListener('click', (e) => { e.preventDefault(); chatModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; });
-                const closeChat = () => { chatModal.classList.remove('is-active'); document.body.style.overflow = ''; };
-                closeChatBtn.addEventListener('click', closeChat);
-                chatModal.addEventListener('click', (e) => { if(e.target === chatModal) closeChat(); });
-                
-                const sendMessage = async () => {
-                    const text = chatInput.value.trim(); if(!text) return;
-                    
-                    // 1. ユーザーの質問を画面に出す
-                    const userBubble = document.createElement('div'); 
-                    userBubble.className = 'chat-bubble user'; 
-                    userBubble.textContent = text; 
-                    chatBody.appendChild(userBubble); 
-                    chatInput.value = ''; 
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                    
-                    // 2. 「考え中」のアニメーションを出す
-                    const aiBubble = document.createElement('div'); 
-                    aiBubble.className = 'chat-bubble ai'; 
-                    aiBubble.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 考え中...'; 
-                    chatBody.appendChild(aiBubble); 
-                    chatBody.scrollTop = chatBody.scrollHeight;
-
-                    // ★失敗しないように、指示書と質問を合体させてから投げる
-                    const combinedText = `【指示】\n${SYSTEM_PROMPT}\n\n【お客さんからの質問】\n${text}`;
-
-                    try {
-                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                contents: [{ parts: [{ text: combinedText }] }]
-                            })
-                        });
-                        
-                        if (!response.ok) throw new Error("API Error");
-                        
-                        const data = await response.json();
-                        const reply = data.candidates[0].content.parts[0].text;
-                        
-                        // 4. 考え中を消してAIの答えを出す
-                        aiBubble.innerHTML = reply.replace(/\n/g, '<br>');
-                    } catch (error) {
-                        aiBubble.innerHTML = 'ごめんなさい、通信エラーが発生しました。もう少し後で試してみてね！';
-                    }
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                };
-                
-                chatSendBtn.addEventListener('click', sendMessage); 
-                chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
-            }
         });
     </script>
+
+    <script>
+        // CSSとアイコンのリンクを追加する関数
+        function addStylesheet(href) {
+            let link = document.createElement('link');
+            link.href = href;
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+        }
+
+        // トグルボタンを作成し、追加する関数
+        function createToggleButton() {
+            const toggleBtn = document.createElement('div');
+            toggleBtn.id = 'chatbot-toggle_button';
+            const anchor = document.createElement('a');
+            anchor.id = 'chat-button';
+            anchor.href = '#';
+            anchor.addEventListener('click', event => {
+              event.preventDefault();
+              toggleChatbox();
+            });
+            const img = document.createElement('img');
+            img.src = 'https://firebasestorage.googleapis.com/v0/b/mabo-f1cc7.appspot.com/o/chaticon.png?alt=media&token=1777070f-a83c-403d-8c83-f387f68ecd52';
+            img.width = '100';
+            img.height = '100';
+            anchor.appendChild(img);
+            toggleBtn.appendChild(anchor);
+            document.body.appendChild(toggleBtn);
+        }
+
+        // チャットボックスのヘッダーを作成する関数
+        function createChatboxHeader() {
+            const header = document.createElement('div');
+            header.id = 'chatbot-header';
+            header.style.background = '#4169e1';
+            const logo = document.createElement('div');
+            logo.id = 'chatbot-logo';
+            logo.innerText = '集団下校AIスタッフ';
+            const closeIcon = document.createElement('i');
+            closeIcon.id = 'chatbot-close-icon';
+            closeIcon.className = 'material-icons material-symbols-outlined waves-light';
+            closeIcon.innerText = 'close';
+            closeIcon.addEventListener('click', event => {
+              event.preventDefault();
+              toggleChatbox();
+            });
+            header.appendChild(logo);
+            header.appendChild(closeIcon);
+            return header;
+        }
+
+        // チャットボックスを作成し、追加する関数
+        function createChatbox() {
+            const chatbox = document.createElement('div');
+            chatbox.id = 'chatbot';
+            chatbox.style.display = 'none';
+
+            const header = createChatboxHeader();
+            const body = document.createElement('div');
+            body.id = 'chatbot-body';
+            const iframe = document.createElement('iframe');
+            iframe.id = 'inline-frame';
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.dataSrc = 'https://miibo.jp/chat/4d39d5a0-15b2-47cc-872f-a531ca578e25?name=%E9%9B%86%E5%9B%A3%E4%B8%8B%E6%A0%A1AI%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95';
+            iframe.scrolling = 'no';
+            iframe.frameBorder = 'no';
+            body.appendChild(iframe);
+            chatbox.appendChild(header);
+            chatbox.appendChild(body);
+            document.body.appendChild(chatbox);
+        }
+
+        // チャットボックスの表示/非表示を切り替える関数
+        function toggleChatbox(utterance, ...states) {
+            var chatbox = document.getElementById('chatbot');
+            var iframe = document.getElementById('inline-frame');
+
+            // ここでイベントオブジェクトではなく、文字列または未定義の値が渡されることを確認します。
+            if (typeof utterance !== 'string') {
+                utterance = null;
+            }
+
+            if (chatbox.style.display === 'none' || utterance) {
+                chatbox.style.display = 'block';
+                var src = 'https://miibo.jp/chat/4d39d5a0-15b2-47cc-872f-a531ca578e25?name=%E9%9B%86%E5%9B%A3%E4%B8%8B%E6%A0%A1AI%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95';
+                // 可変引数からクエリパラメータを生成
+                states.forEach(state => {
+                    if (state.key && state.value) {
+                        src += src.includes('?') ? '&' : '?';
+                        src += `${encodeURIComponent(state.key)}=${encodeURIComponent(state.value)}`;
+                    }
+                });
+
+                // 以下の条件を追加して、再読み込みの必要性をチェック
+                if (!iframeLoaded || (utterance && lastUtterance !== utterance)) {
+                    if (utterance) {
+                        src += src.includes('?') ? '&' : '?';
+                        src += "utterance=" + encodeURIComponent(utterance);
+                    }
+                    iframe.src = src;
+                    iframeLoaded = true;
+                    lastUtterance = utterance;
+                }
+            } else {
+                chatbox.style.display = 'none';
+            }
+        }
+        // イベントリスナーを設定する関数
+        function setupEventListeners() {
+            document.querySelectorAll('.chatButton').forEach(button => {
+                button.addEventListener('click', event => {
+                    event.preventDefault();
+                    const utterance = button.getAttribute('data-utterance');
+                    const statesData = button.getAttribute('data-states');
+                    let states = [];
+                    try {
+                        // JSON 形式の文字列をオブジェクトに変換
+                        const statesObj = JSON.parse(statesData);
+                        // オブジェクトから key-value ペアの配列を生成
+                        states = Object.keys(statesObj).map(key => ({ key, value: statesObj[key] }));
+                    } catch (e) {
+                        console.error("Error parsing states data", e);
+                    }
+
+                    toggleChatbox(utterance, ...states);
+                });
+            });
+        }
+
+        // メイン実行部
+        addStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
+        addStylesheet('https://miibo.jp/chat3.css');
+        createToggleButton();
+        createChatbox();
+        setupEventListeners();
+
+        var iframeLoaded = false; // iframeがロードされたかどうかを追跡するフラグ
+        var lastUtterance = ""; // 最後に発話した内容を追跡するフラグ
+    </script>
 </body>
-</html>
 </html>
