@@ -230,6 +230,18 @@
         .chat-footer { background-color: #fff; padding: 10px; border-top: 1px solid #ddd; display: flex; gap: 10px; align-items: center; }
         .chat-footer input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; font-size: 1rem; }
         .chat-footer button { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
+   /* ▼ miiboチャットアイコンの位置調整（チケットボタン被り防止） ▼ */
+        #chatbot-toggle_button {
+            bottom: 90px !important; /* チケットボタンの高さ分、上にズラす */
+            right: 15px !important;  /* 右端からの隙間 */
+            z-index: 2000 !important; /* チケットボタンより手前に出す */
+        }
+        
+        /* チャット画面が開いた時も、少し上にズラす場合（任意） */
+        #chatbot {
+            bottom: 90px !important;
+            z-index: 2000 !important;
+        }
     </style>
 </head>
 <body class="is-locked">
