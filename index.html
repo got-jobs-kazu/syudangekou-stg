@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Yomogi&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         /* --- CSS Variables --- */
@@ -144,11 +144,11 @@
             .intro-text { font-size: 1.25rem; } 
         }
 
-        /* === ★修正3：右端固定アイコン (Xボタン) の位置修正 === */
+        /* === 右端固定アイコン (Xボタン) のデザイン修正 === */
         #socialSidebar { 
             position: fixed !important; 
-            bottom: 220px !important; /* AIチャットの完全に上（赤枠の位置）になるように大幅にズラしました！ */
-            right: 15px !important; 
+            bottom: 220px !important; /* スマホ版：AIチャットに被らない高さ */
+            right: 0px !important; 
             display: flex !important; 
             flex-direction: column !important; 
             gap: 10px !important; 
@@ -156,14 +156,18 @@
             transition: all 0.3s ease !important; 
             z-index: 1000 !important; 
         }
-        #socialSidebar.is-hidden { transform: translateX(40px) !important; opacity: 0.5 !important; }
-        .social-btn { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
-        .social-btn:hover { width: 55px; background-color: #222; }
+        #socialSidebar.is-hidden { transform: translateX(100%) !important; opacity: 0.5 !important; }
+        
+        /* スマホ版デザイン（黒背景・白文字） */
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
+        .social-btn:hover { width: 60px; background-color: #222; }
+
         @media (min-width: 768px) {
-            #socialSidebar { top: 50% !important; bottom: auto !important; right: 0 !important; transform: translateY(-50%) !important; background-color: rgba(255, 255, 255, 0.95) !important; padding: 15px 10px !important; border-radius: 10px 0 0 10px !important; box-shadow: -2px 0 10px rgba(0,0,0,0.15) !important; gap: 15px !important; }
-            #socialSidebar.is-hidden { transform: translateY(-50%) !important; opacity: 1 !important; }
-            #socialSidebar .social-btn { background-color: transparent !important; color: #333333 !important; box-shadow: none !important; width: auto !important; height: auto !important; font-size: 1.5rem !important; margin: 0 !important; }
-            #socialSidebar .social-btn:hover { width: auto !important; background-color: transparent !important; }
+            /* PC版デザイン（白背景・黒文字） */
+            #socialSidebar { top: 50% !important; bottom: auto !important; transform: translateY(-50%) !important; background-color: rgba(255, 255, 255, 0.95) !important; padding: 15px 15px 15px 20px !important; border-radius: 15px 0 0 15px !important; box-shadow: -2px 0 10px rgba(0,0,0,0.15) !important; }
+            #socialSidebar.is-hidden { transform: translateY(-50%) !important; opacity: 1 !important; } /* PCでは隠さない */
+            #socialSidebar .social-btn { background-color: transparent !important; color: #000 !important; box-shadow: none !important; width: auto !important; height: auto !important; font-size: 2rem !important; border-radius: 0 !important; }
+            #socialSidebar .social-btn:hover { width: auto !important; transform: scale(1.15); color: #555 !important; }
         }
 
         .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease; }
@@ -194,7 +198,7 @@
         #chatbot-toggle_button { bottom: 90px !important; right: 15px !important; z-index: 2000 !important; }
         #chatbot { bottom: 90px !important; z-index: 2000 !important; }
 
-        /* === ★修正2：横スワイプ＆矢印ボタン用CSS === */
+        /* === 横スワイプ＆矢印ボタン用CSS === */
         .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
         
         /* 矢印ボタンのデザイン */
@@ -202,13 +206,16 @@
         .carousel-nav:hover { background: #E6C445; color: #111; border-color: #E6C445; transform: translateY(-50%) scale(1.1); }
         .carousel-nav.prev { left: 5px; }
         .carousel-nav.next { right: 5px; }
-        @media (max-width: 599px) { .carousel-nav { width: 36px; height: 36px; font-size: 1rem; } }
+        
+        /* ★修正3：スマホ版（画面幅767px以下）の時は矢印ボタンを消す！ */
+        @media (max-width: 767px) { 
+            .carousel-nav { display: none !important; } 
+        }
 
         .video-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .video-carousel::-webkit-scrollbar { display: none; }
         .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; position: relative; }
         
-        /* ★修正1：ローカル動画用コンテナのデザイン調整 */
         .video-container { width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); background-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
         .video-container video { width: 100%; height: 100%; object-fit: contain; }
         
@@ -430,7 +437,7 @@
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
-            // ★修正2：動画カルーセルの動作（矢印ボタン＆インジケーター）
+            // 動画カルーセルの動作（矢印ボタン＆インジケーター）
             const videoCarousel = document.getElementById('videoCarousel');
             const dots = document.querySelectorAll('.carousel-indicators .dot');
             const prevBtn = document.getElementById('carouselPrev');
