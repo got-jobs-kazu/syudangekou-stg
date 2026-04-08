@@ -144,28 +144,15 @@
             .intro-text { font-size: 1.25rem; } 
         }
 
-        /* === 右端固定アイコン (Xボタン) のデザイン修正 === */
-        #socialSidebar { 
-            position: fixed !important; 
-            bottom: 220px !important; /* スマホ版：AIチャットに被らない高さ */
-            right: 0px !important; 
-            display: flex !important; 
-            flex-direction: column !important; 
-            gap: 10px !important; 
-            transform: translateX(0) !important; 
-            transition: all 0.3s ease !important; 
-            z-index: 1000 !important; 
-        }
+        /* === 右端固定アイコン (Xボタン) === */
+        #socialSidebar { position: fixed !important; bottom: 220px !important; right: 0px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
         #socialSidebar.is-hidden { transform: translateX(100%) !important; opacity: 0.5 !important; }
-        
-        /* スマホ版デザイン（黒背景・白文字） */
         .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
         .social-btn:hover { width: 60px; background-color: #222; }
 
         @media (min-width: 768px) {
-            /* PC版デザイン（白背景・黒文字） */
             #socialSidebar { top: 50% !important; bottom: auto !important; transform: translateY(-50%) !important; background-color: rgba(255, 255, 255, 0.95) !important; padding: 15px 15px 15px 20px !important; border-radius: 15px 0 0 15px !important; box-shadow: -2px 0 10px rgba(0,0,0,0.15) !important; }
-            #socialSidebar.is-hidden { transform: translateY(-50%) !important; opacity: 1 !important; } /* PCでは隠さない */
+            #socialSidebar.is-hidden { transform: translateY(-50%) !important; opacity: 1 !important; } 
             #socialSidebar .social-btn { background-color: transparent !important; color: #000 !important; box-shadow: none !important; width: auto !important; height: auto !important; font-size: 2rem !important; border-radius: 0 !important; }
             #socialSidebar .social-btn:hover { width: auto !important; transform: scale(1.15); color: #555 !important; }
         }
@@ -180,14 +167,16 @@
         .notebook-paper li { margin-bottom: 15px; text-align: center; }
         .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; display: block; text-shadow: 0 0 5px #fdf5e6, 0 0 8px #fdf5e6, 0 0 12px #fdf5e6; }
 
-        /* === 時間割ポップアップ（モーダル） === */
-        .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; font-family: 'Kaisei Decol', serif; border-radius: 5px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; }
-        .timetable-btn:hover { transform: translateY(-2px); background-color: #a06b35; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.8); z-index: 5000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        /* === ポップアップ（モーダル）共通設定 === */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.85); z-index: 5000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.is-active { display: flex; opacity: 1; }
+        .modal-close-btn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5001; }
+        
+        /* 時間割ボード用 */
         .timetable-board { background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.3s ease; }
         .modal-overlay.is-active .timetable-board { transform: translateY(0); }
-        .modal-close-btn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; font-family: 'Kaisei Decol', serif; border-radius: 5px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; }
+        .timetable-btn:hover { transform: translateY(-2px); background-color: #a06b35; }
         .timetable-title { text-align: center; color: #fff; font-family: 'Yomogi', cursive; font-size: 1.8rem; margin-top: 0; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.5); padding-bottom: 10px; }
         .timetable-grid { display: flex; flex-direction: column; gap: 10px; }
         .tt-row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
@@ -198,27 +187,29 @@
         #chatbot-toggle_button { bottom: 90px !important; right: 15px !important; z-index: 2000 !important; }
         #chatbot { bottom: 90px !important; z-index: 2000 !important; }
 
-        /* === 横スワイプ＆矢印ボタン用CSS === */
+        /* === 横スワイプ＆大画面動画モーダル用CSS === */
         .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
-        
-        /* 矢印ボタンのデザイン */
         .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: 2px solid rgba(255,255,255,0.3); width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 10; font-size: 1.2rem; transition: all 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .carousel-nav:hover { background: #E6C445; color: #111; border-color: #E6C445; transform: translateY(-50%) scale(1.1); }
-        .carousel-nav.prev { left: 5px; }
-        .carousel-nav.next { right: 5px; }
-        
-        /* ★修正3：スマホ版（画面幅767px以下）の時は矢印ボタンを消す！ */
-        @media (max-width: 767px) { 
-            .carousel-nav { display: none !important; } 
-        }
+        .carousel-nav.prev { left: 5px; } .carousel-nav.next { right: 5px; }
+        @media (max-width: 767px) { .carousel-nav { display: none !important; } } /* スマホでは矢印を消す */
 
         .video-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .video-carousel::-webkit-scrollbar { display: none; }
         .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; position: relative; }
         
-        .video-container { width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); background-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
-        .video-container video { width: 100%; height: 100%; object-fit: contain; }
+        /* ★修正：サムネイル（クリックできる見た目）のデザイン */
+        .video-thumbnail { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.2s, border-color 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .video-thumbnail:hover { transform: scale(1.02); border-color: #E6C445; }
+        .play-icon { font-size: 3.5rem; color: #E6C445; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
+        .play-text { color: #fff; font-weight: bold; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         
+        /* ★修正：大画面用ビデオモーダルのデザイン */
+        .video-modal-content { position: relative; background: transparent; border: none; box-shadow: none; width: 95%; max-width: 900px; padding: 0; transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.is-active .video-modal-content { transform: translateY(0); }
+        .video-wrapper { width: 100%; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 2px solid rgba(255,255,255,0.5); }
+        .video-wrapper video { width: 100%; height: auto; display: block; max-height: 85vh; }
+
         .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
         .coming-soon-slide i { font-size: 3rem; margin-bottom: 10px; color: #8F9D8D; }
         .carousel-indicators { text-align: center; margin-top: 10px; }
@@ -278,11 +269,9 @@
                 <div class="video-carousel" id="videoCarousel">
                     
                     <div class="video-slide">
-                        <div class="video-container">
-                            <video controls playsinline>
-                                <source src="./digest_movie.mp4#t=0.001" type="video/mp4">
-                                <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
-                            </video>
+                        <div class="video-thumbnail" id="openVideoBtn">
+                            <i class="fa-solid fa-circle-play play-icon"></i>
+                            <span class="play-text">タップして再生</span>
                         </div>
                         <p style="margin-top: 5px; font-size: 0.9rem; font-weight: bold; color: #fff;">第1回 ダイジェスト</p>
                     </div>
@@ -303,6 +292,19 @@
                     <span class="dot"></span>
                 </div>
             </div>
+
+            <div id="videoModal" class="modal-overlay">
+                <div class="video-modal-content">
+                    <button id="closeVideoBtn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="video-wrapper">
+                        <video id="modalVideoPlayer" controls playsinline>
+                            <source src="./digest_movie.mp4#t=0.001" type="video/mp4">
+                            <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
+                        </video>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <section id="info">
@@ -437,6 +439,33 @@
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
+            // ★アップデート：ビデオモーダル（大画面再生）の動作
+            const openVideoBtn = document.getElementById('openVideoBtn');
+            const closeVideoBtn = document.getElementById('closeVideoBtn');
+            const videoModal = document.getElementById('videoModal');
+            const modalVideoPlayer = document.getElementById('modalVideoPlayer');
+
+            if(openVideoBtn && videoModal && modalVideoPlayer) {
+                // サムネイルをタップしたらモーダルを開いて「自動再生」
+                openVideoBtn.addEventListener('click', () => {
+                    videoModal.classList.add('is-active');
+                    document.body.style.overflow = 'hidden'; // 背景のスクロールを止める
+                    modalVideoPlayer.play();
+                });
+                
+                // 閉じる時の処理（動画を一時停止する）
+                const closeVideo = () => {
+                    videoModal.classList.remove('is-active');
+                    document.body.style.overflow = '';
+                    modalVideoPlayer.pause();
+                };
+
+                closeVideoBtn.addEventListener('click', closeVideo);
+                videoModal.addEventListener('click', (e) => {
+                    if (e.target === videoModal) closeVideo(); // 黒い背景部分をタップしても閉じる
+                });
+            }
+
             // 動画カルーセルの動作（矢印ボタン＆インジケーター）
             const videoCarousel = document.getElementById('videoCarousel');
             const dots = document.querySelectorAll('.carousel-indicators .dot');
@@ -444,7 +473,6 @@
             const nextBtn = document.getElementById('carouselNext');
 
             if(videoCarousel && dots.length > 0) {
-                // スクロール時の「●」の切り替え
                 videoCarousel.addEventListener('scroll', () => {
                     const scrollLeft = videoCarousel.scrollLeft;
                     const slideWidth = videoCarousel.clientWidth;
@@ -454,22 +482,8 @@
                         else dot.classList.remove('active');
                     });
                 });
-
-                // 左矢印（＜）をクリックした時の動作
-                if(prevBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        const slideWidth = videoCarousel.clientWidth;
-                        videoCarousel.scrollBy({ left: -slideWidth, behavior: 'smooth' });
-                    });
-                }
-
-                // 右矢印（＞）をクリックした時の動作
-                if(nextBtn) {
-                    nextBtn.addEventListener('click', () => {
-                        const slideWidth = videoCarousel.clientWidth;
-                        videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' });
-                    });
-                }
+                if(prevBtn) { prevBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: -slideWidth, behavior: 'smooth' }); }); }
+                if(nextBtn) { nextBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' }); }); }
             }
         });
     </script>
