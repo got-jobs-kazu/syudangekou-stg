@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Yomogi&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         /* --- CSS Variables --- */
@@ -144,9 +144,18 @@
             .intro-text { font-size: 1.25rem; } 
         }
 
-        /* === 右端固定アイコン (Xのみ) & ハンバーガーメニュー === */
-        /* ★Xボタンの位置を「bottom: 160px」にしてAIチャットと被らないように修正 */
-        #socialSidebar { position: fixed !important; bottom: 160px !important; right: 15px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
+        /* === ★修正3：右端固定アイコン (Xボタン) の位置修正 === */
+        #socialSidebar { 
+            position: fixed !important; 
+            bottom: 220px !important; /* AIチャットの完全に上（赤枠の位置）になるように大幅にズラしました！ */
+            right: 15px !important; 
+            display: flex !important; 
+            flex-direction: column !important; 
+            gap: 10px !important; 
+            transform: translateX(0) !important; 
+            transition: all 0.3s ease !important; 
+            z-index: 1000 !important; 
+        }
         #socialSidebar.is-hidden { transform: translateX(40px) !important; opacity: 0.5 !important; }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
         .social-btn:hover { width: 55px; background-color: #222; }
@@ -185,13 +194,24 @@
         #chatbot-toggle_button { bottom: 90px !important; right: 15px !important; z-index: 2000 !important; }
         #chatbot { bottom: 90px !important; z-index: 2000 !important; }
 
-        /* === 横スワイプダイジェスト動画用CSS === */
+        /* === ★修正2：横スワイプ＆矢印ボタン用CSS === */
         .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
+        
+        /* 矢印ボタンのデザイン */
+        .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: 2px solid rgba(255,255,255,0.3); width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 10; font-size: 1.2rem; transition: all 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .carousel-nav:hover { background: #E6C445; color: #111; border-color: #E6C445; transform: translateY(-50%) scale(1.1); }
+        .carousel-nav.prev { left: 5px; }
+        .carousel-nav.next { right: 5px; }
+        @media (max-width: 599px) { .carousel-nav { width: 36px; height: 36px; font-size: 1rem; } }
+
         .video-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .video-carousel::-webkit-scrollbar { display: none; }
-        .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
-        .video-container { width: 100%; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); background-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 0; }
-        .video-container video { width: 100%; height: auto; display: block; }
+        .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; position: relative; }
+        
+        /* ★修正1：ローカル動画用コンテナのデザイン調整 */
+        .video-container { width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); background-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+        .video-container video { width: 100%; height: 100%; object-fit: contain; }
+        
         .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
         .coming-soon-slide i { font-size: 3rem; margin-bottom: 10px; color: #8F9D8D; }
         .carousel-indicators { text-align: center; margin-top: 10px; }
@@ -245,11 +265,14 @@
         <section id="movie">
             <h2 class="section-title">ダイジェスト動画</h2>
             <div class="video-carousel-wrapper">
+                
+                <button class="carousel-nav prev" id="carouselPrev" title="前の動画へ"><i class="fa-solid fa-chevron-left"></i></button>
+                
                 <div class="video-carousel" id="videoCarousel">
                     
                     <div class="video-slide">
                         <div class="video-container">
-                            <video controls preload="metadata" playsinline>
+                            <video controls playsinline>
                                 <source src="./digest_movie.mp4#t=0.001" type="video/mp4">
                                 <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
                             </video>
@@ -265,6 +288,9 @@
                     </div>
 
                 </div>
+
+                <button class="carousel-nav next" id="carouselNext" title="次の動画へ"><i class="fa-solid fa-chevron-right"></i></button>
+
                 <div class="carousel-indicators" id="carouselIndicators">
                     <span class="dot active"></span>
                     <span class="dot"></span>
@@ -404,9 +430,12 @@
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
-            // ★修正：ダイジェスト動画のインジケーター連動＆クリック移動（PC向け）
+            // ★修正2：動画カルーセルの動作（矢印ボタン＆インジケーター）
             const videoCarousel = document.getElementById('videoCarousel');
             const dots = document.querySelectorAll('.carousel-indicators .dot');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+
             if(videoCarousel && dots.length > 0) {
                 // スクロール時の「●」の切り替え
                 videoCarousel.addEventListener('scroll', () => {
@@ -419,17 +448,21 @@
                     });
                 });
 
-                // PC向け：●をクリックしたらその動画にスッと移動する機能を追加！
-                dots.forEach((dot, index) => {
-                    dot.style.cursor = 'pointer'; // マウスを乗せたら指マークにする
-                    dot.addEventListener('click', () => {
+                // 左矢印（＜）をクリックした時の動作
+                if(prevBtn) {
+                    prevBtn.addEventListener('click', () => {
                         const slideWidth = videoCarousel.clientWidth;
-                        videoCarousel.scrollTo({
-                            left: slideWidth * index,
-                            behavior: 'smooth'
-                        });
+                        videoCarousel.scrollBy({ left: -slideWidth, behavior: 'smooth' });
                     });
-                });
+                }
+
+                // 右矢印（＞）をクリックした時の動作
+                if(nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        const slideWidth = videoCarousel.clientWidth;
+                        videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' });
+                    });
+                }
             }
         });
     </script>
