@@ -145,7 +145,8 @@
         }
 
         /* === 右端固定アイコン (Xのみ) & ハンバーガーメニュー === */
-        #socialSidebar { position: fixed !important; bottom: 90px !important; right: 15px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
+        /* ★Xボタンの位置を「bottom: 160px」にしてAIチャットと被らないように修正 */
+        #socialSidebar { position: fixed !important; bottom: 160px !important; right: 15px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
         #socialSidebar.is-hidden { transform: translateX(40px) !important; opacity: 0.5 !important; }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
         .social-btn:hover { width: 55px; background-color: #222; }
@@ -189,7 +190,8 @@
         .video-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .video-carousel::-webkit-scrollbar { display: none; }
         .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
-        .video-slide iframe { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); }
+        .video-container { width: 100%; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); background-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 0; }
+        .video-container video { width: 100%; height: auto; display: block; }
         .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
         .coming-soon-slide i { font-size: 3rem; margin-bottom: 10px; color: #8F9D8D; }
         .carousel-indicators { text-align: center; margin-top: 10px; }
@@ -246,7 +248,12 @@
                 <div class="video-carousel" id="videoCarousel">
                     
                     <div class="video-slide">
-                        <iframe src="https://www.youtube.com/embed/実際の動画IDに変更してください" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <div class="video-container">
+                            <video controls preload="metadata" playsinline>
+                                <source src="./digest_movie.mp4#t=0.001" type="video/mp4">
+                                <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
+                            </video>
+                        </div>
                         <p style="margin-top: 5px; font-size: 0.9rem; font-weight: bold; color: #fff;">第1回 ダイジェスト</p>
                     </div>
 
@@ -397,10 +404,11 @@
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
-            // ダイジェスト動画のインジケーター連動
+            // ★修正：ダイジェスト動画のインジケーター連動＆クリック移動（PC向け）
             const videoCarousel = document.getElementById('videoCarousel');
             const dots = document.querySelectorAll('.carousel-indicators .dot');
             if(videoCarousel && dots.length > 0) {
+                // スクロール時の「●」の切り替え
                 videoCarousel.addEventListener('scroll', () => {
                     const scrollLeft = videoCarousel.scrollLeft;
                     const slideWidth = videoCarousel.clientWidth;
@@ -408,6 +416,18 @@
                     dots.forEach((dot, index) => {
                         if(index === activeIndex) dot.classList.add('active');
                         else dot.classList.remove('active');
+                    });
+                });
+
+                // PC向け：●をクリックしたらその動画にスッと移動する機能を追加！
+                dots.forEach((dot, index) => {
+                    dot.style.cursor = 'pointer'; // マウスを乗せたら指マークにする
+                    dot.addEventListener('click', () => {
+                        const slideWidth = videoCarousel.clientWidth;
+                        videoCarousel.scrollTo({
+                            left: slideWidth * index,
+                            behavior: 'smooth'
+                        });
                     });
                 });
             }
