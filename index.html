@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【テスト用】集団下校 vol.2 | ユニットライブ</title>
+    <title>集団下校 vol.2 | ユニットライブ</title>
     <meta name="description" content="お笑いユニットライブ「集団下校 vol.2」の公式サイトです。">
     
     <meta name="robots" content="noindex, nofollow" />
@@ -40,14 +40,8 @@
 
         body.is-locked { overflow: hidden; height: 100vh; }
 
-        /* =======================================================
-           オープニングアニメーション用レイヤー
-           ======================================================= */
-        .opening-layer {
-            position: fixed; inset: 0; background: var(--bg-board); z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.6s, background-color 0.6s;
-        }
+        /* === オープニングアニメーション用レイヤー === */
+        .opening-layer { position: fixed; inset: 0; background: var(--bg-board); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s, background-color 0.6s; }
         .op-flyer { position: relative; width: 100%; max-width: 700px; overflow: hidden; transform-origin: center center; }
         @media(max-width: 599px) { .op-flyer { height: 100vh; } }
         @media(min-width: 600px) { .op-flyer { aspect-ratio: 3/4; max-height: 90vh; box-shadow: 0 10px 30px rgba(0,0,0,0.8); } }
@@ -57,76 +51,52 @@
         .op-board { transform: translateY(-100%); }
         .op-title { opacity: 0; transform: translateX(-5%); }
         .op-stamp { opacity: 0; transform: scale(3) rotate(20deg); }
-
         .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         .is-animating .op-title { animation: showTitle 0.6s ease-out 0.5s forwards; }
         .is-animating .op-stamp { animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
         @media (max-width: 599px) { .is-animating .op-stamp { animation: pressStampSp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; } }
-
         @keyframes dropBoard { to { transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
         @keyframes pressStamp { 0% { opacity: 0; transform: scale(3) rotate(20deg); } 50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 100% { opacity: 1; transform: scale(1) rotate(-10deg) translate(30px, 40px); } }
         @keyframes pressStampSp { 0% { opacity: 0; transform: scale(3) rotate(20deg); } 50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 100% { opacity: 1; transform: scale(1) rotate(-10deg) translate(10px, 15px); } }
-
         .scroll-prompt { position: absolute; bottom: 40px; color: #fff; font-family: var(--font-serif); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bounce 2s infinite; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: opacity 0.3s; }
         .is-animating .scroll-prompt { opacity: 0; pointer-events: none; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
         .opening-layer.is-shrinking { background-color: transparent; pointer-events: none; }
         .is-shrinking .op-flyer { animation: paperFlutter 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes paperFlutter { 0% { transform: scale(1) translateY(0) rotate(0); filter: brightness(1); opacity: 1; } 40% { transform: scale(0.85) translateY(20px) rotate(-3deg); filter: brightness(1.2); opacity: 0.9; } 100% { transform: scale(0.7) translateY(40px) rotate(2deg); filter: brightness(0.9); opacity: 0; } }
 
-        /* =======================================================
-           本編（黒板コンテナ）のスタイル
-           ======================================================= */
-        .container {
-            max-width: 700px; margin: 0 auto; background-color: var(--bg-board);
-            border: 12px solid var(--accent-wood); border-radius: 4px; padding: 40px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative; opacity: 0; transition: opacity 0.8s ease-in-out;
-        }
+        /* === 本編（黒板コンテナ）のスタイル === */
+        .container { max-width: 700px; margin: 0 auto; background-color: var(--bg-board); border: 12px solid var(--accent-wood); border-radius: 4px; padding: 40px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative; opacity: 0; transition: opacity 0.8s ease-in-out; }
         .container.is-visible { opacity: 1; }
         .container::after { content: ''; display: block; width: calc(100% + 24px); height: 18px; background-color: var(--accent-wood); position: absolute; bottom: -24px; left: -12px; border-radius: 2px; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
-
-        .intro-text {
-            text-align: center; font-size: 1.15rem; font-weight: bold; margin: 20px 0 40px; padding: 15px;
-            border-top: 1px dashed rgba(255,255,255,0.3); border-bottom: 1px dashed rgba(255,255,255,0.3);
-            line-height: 1.8; background-color: rgba(0,0,0,0.1); border-radius: 4px; color: #F0F0F0;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.4), 0 0 4px rgba(255,255,255,0.2); 
-        }
-
-        .hero-anim-container {
-            position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; margin-bottom: 40px;
-            background-color: var(--bg-board); border: 8px solid rgba(255,255,255,0.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); opacity: 0; transform: scale(1.05) translateY(-10px);
-            transition: opacity 0.5s ease-in, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
+        .intro-text { text-align: center; font-size: 1.15rem; font-weight: bold; margin: 20px 0 40px; padding: 15px; border-top: 1px dashed rgba(255,255,255,0.3); border-bottom: 1px dashed rgba(255,255,255,0.3); line-height: 1.8; background-color: rgba(0,0,0,0.1); border-radius: 4px; color: #F0F0F0; text-shadow: 1px 1px 2px rgba(255,255,255,0.4), 0 0 4px rgba(255,255,255,0.2); }
+        .hero-anim-container { position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; margin-bottom: 40px; background-color: var(--bg-board); border: 8px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); opacity: 0; transform: scale(1.05) translateY(-10px); transition: opacity 0.5s ease-in, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
         .container.is-visible .hero-anim-container { opacity: 1; transform: scale(1) translateY(0); }
         .hero-anim-container img { position: absolute; top: 0; left: 0; width: 100%; height: auto; }
         .final-state.hero-board { transform: translateY(0); }
         .final-state.hero-title { opacity: 1; transform: translateX(0); }
         .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(-10deg) translate(30px, 40px); }
         @media (max-width: 599px) { .final-state.hero-stamp { transform: scale(1) rotate(-10deg) translate(10px, 15px); } }
-
         .flyer-magnet { position: absolute; top: 10px; width: 20px; height: 20px; background-color: #e63946; border-radius: 50%; box-shadow: 1px 3px 5px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4); z-index: 10; opacity: 0; transform: scale(3); }
         .flyer-magnet-left { left: 12px; } .flyer-magnet-right { right: 12px; }
         .container.is-magnet-attached .flyer-magnet { animation: magnetAttach 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .container.is-magnet-attached .flyer-magnet-right { animation-delay: 0.15s; }
         @keyframes magnetAttach { 0% { opacity: 0; transform: scale(3) translateZ(50px); } 100% { opacity: 1; transform: scale(1) translateZ(0); } }
-
         .sakura-container { opacity: 0; transition: opacity 1s; }
         .container.is-magnet-attached .sakura-container { opacity: 1; }
         .sakura-petal { position: absolute; top: -10%; width: 12px; height: 12px; background-color: #ffb7c5; border-radius: 50% 0 50% 50%; transform: rotate(45deg); z-index: 5; animation: fall 5s linear infinite; opacity: 0.8; }
         @keyframes fall { 0% { top: -10%; transform: translateX(0) rotate(45deg); opacity: 0; } 10% { opacity: 0.8; } 50% { transform: translateX(20px) rotate(90deg); } 90% { opacity: 0.8; } 100% { top: 110%; transform: translateX(-20px) rotate(135deg); opacity: 0; } }
 
+        /* === 汎用セクション === */
         section { margin-bottom: 50px; }
         .section-title { font-family: var(--font-hand); font-size: 1.8rem; text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px dashed rgba(255,255,255,0.3); display: block; }
-        .video-container { width: 100%; border: 4px solid rgba(255,255,255,0.1); background-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 0; }
-        video { width: 100%; height: auto; display: block; }
         .info-list { list-style: none; font-size: 1.05rem; }
         .info-item { display: flex; flex-direction: column; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
         .info-label { font-family: var(--font-hand); color: #ccc; font-size: 1.1rem; margin-bottom: 4px; }
         .info-value { padding-left: 10px; font-weight: 700; font-size: 1.2rem; }
 
+        /* === 出演者グリッド === */
         .grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; list-style: none; }
         .card-box { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; height: auto; padding-bottom: 15px; transition: transform 0.2s; }
         .card-box:hover { transform: translateY(-3px); }
@@ -146,19 +116,20 @@
         .sns-links a:hover { color: #000; transform: scale(1.1); }
         .sns-links i { font-size: 1.1rem; }
 
+        /* === ガイドライン＆マップ === */
         .guidelines-box { background-color: rgba(0,0,0,0.2); border: 2px solid rgba(255,255,255,0.1); padding: 20px; font-size: 0.9rem; }
         .guidelines-box ul { padding-left: 20px; margin-top: 10px; }
         .guidelines-box li { margin-bottom: 5px; }
         .map-wrapper { border: 4px solid #fff; line-height: 0; background-color: #eee; }
 
+        /* === 黒板の粉受け（チョーク等） === */
         .chalk-tray-items { position: absolute; bottom: -22px; left: 0; width: 100%; height: 20px; z-index: 20; pointer-events: none; }
         .eraser { position: absolute; bottom: 4px; left: 8%; width: 45px; height: 15px; background: linear-gradient(to bottom, #dcb889 40%, #2b579a 40%); border-radius: 2px; box-shadow: 2px 2px 4px rgba(0,0,0,0.6); transform: rotate(-3deg); }
         .eraser::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 8px; height: 40%; background-color: #222; box-shadow: 1px 0 1px rgba(0,0,0,0.2); }
         .chalk-white { position: absolute; bottom: 4px; right: 15%; width: 22px; height: 5px; background-color: #fff; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(15deg); }
         .chalk-yellow { position: absolute; bottom: 2px; right: 10%; width: 16px; height: 5px; background-color: #f4d03f; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(-25deg); }
 
-        footer { margin-top: 60px; text-align: center; font-size: 0.75rem; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
-
+        /* === チケット固定ボタン === */
         .sticky-ticket-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: linear-gradient(to top, #111, rgba(17,17,17,0.95)); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0 20px; }
         .btn-sticky { display: block; width: 100%; max-width: 500px; background-color: #f4d03f; color: #1a3c2c; text-align: center; padding: 12px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.5); transition: all 0.2s; }
         .btn-sticky:hover { filter: brightness(1.1); transform: translateY(-1px); }
@@ -173,14 +144,11 @@
             .intro-text { font-size: 1.25rem; } 
         }
 
-        /* -----------------------------------
-           右端固定アイコン (X & チャット) & ハンバーガーメニュー
-        ------------------------------------ */
+        /* === 右端固定アイコン (Xのみ) & ハンバーガーメニュー === */
         #socialSidebar { position: fixed !important; bottom: 90px !important; right: 15px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
         #socialSidebar.is-hidden { transform: translateX(40px) !important; opacity: 0.5 !important; }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
         .social-btn:hover { width: 55px; background-color: #222; }
-
         @media (min-width: 768px) {
             #socialSidebar { top: 50% !important; bottom: auto !important; right: 0 !important; transform: translateY(-50%) !important; background-color: rgba(255, 255, 255, 0.95) !important; padding: 15px 10px !important; border-radius: 10px 0 0 10px !important; box-shadow: -2px 0 10px rgba(0,0,0,0.15) !important; gap: 15px !important; }
             #socialSidebar.is-hidden { transform: translateY(-50%) !important; opacity: 1 !important; }
@@ -198,9 +166,7 @@
         .notebook-paper li { margin-bottom: 15px; text-align: center; }
         .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; display: block; text-shadow: 0 0 5px #fdf5e6, 0 0 8px #fdf5e6, 0 0 12px #fdf5e6; }
 
-        /* =======================================================
-           時間割ポップアップ（モーダル）のデザイン
-           ======================================================= */
+        /* === 時間割ポップアップ（モーダル） === */
         .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; font-family: 'Kaisei Decol', serif; border-radius: 5px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; }
         .timetable-btn:hover { transform: translateY(-2px); background-color: #a06b35; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.8); z-index: 5000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
@@ -214,34 +180,21 @@
         .tt-time { width: 30%; color: #f4d03f; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.1rem; }
         .tt-desc { width: 70%; color: #fff; font-size: 1.1rem; }
 
-        /* =======================================================
-           AIチャットダミー画面のデザイン
-           ======================================================= */
-        .chat-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.5); z-index: 6000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
-        .chat-modal.is-active { display: flex; opacity: 1; }
-        .chat-container { background-color: #849b87; width: 90%; max-width: 400px; height: 70vh; max-height: 600px; border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); transition: transform 0.3s; }
-        .chat-modal.is-active .chat-container { transform: translateY(0); }
-        .chat-header { background-color: #2E5D4B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-family: 'M PLUS Rounded 1c', sans-serif; }
-        .chat-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .chat-bubble { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; font-family: sans-serif; }
-        .chat-bubble.ai { background-color: #fff; color: #333; align-self: flex-start; border-top-left-radius: 0; }
-        .chat-bubble.user { background-color: #f4d03f; color: #333; align-self: flex-end; border-top-right-radius: 0; }
-        .chat-footer { background-color: #fff; padding: 10px; border-top: 1px solid #ddd; display: flex; gap: 10px; align-items: center; }
-        .chat-footer input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; font-size: 1rem; }
-        .chat-footer button { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
-   /* ▼ miiboチャットアイコンの位置調整（チケットボタン被り防止） ▼ */
-        #chatbot-toggle_button {
-            bottom: 90px !important; /* チケットボタンの高さ分、上にズラす */
-            right: 15px !important;  /* 右端からの隙間 */
-            z-index: 2000 !important; /* チケットボタンより手前に出す */
-        }
-        
-        /* チャット画面が開いた時も、少し上にズラす場合（任意） */
-        #chatbot {
-            bottom: 90px !important;
-            z-index: 2000 !important;
-        }
+        /* === miiboチャットアイコンの位置調整 === */
+        #chatbot-toggle_button { bottom: 90px !important; right: 15px !important; z-index: 2000 !important; }
+        #chatbot { bottom: 90px !important; z-index: 2000 !important; }
+
+        /* === 横スワイプダイジェスト動画用CSS === */
+        .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
+        .video-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .video-carousel::-webkit-scrollbar { display: none; }
+        .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+        .video-slide iframe { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); }
+        .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
+        .coming-soon-slide i { font-size: 3rem; margin-bottom: 10px; color: #8F9D8D; }
+        .carousel-indicators { text-align: center; margin-top: 10px; }
+        .carousel-indicators .dot { display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: rgba(255,255,255,0.3); border-radius: 50%; transition: background-color 0.3s; }
+        .carousel-indicators .dot.active { background-color: #E6C445; }
     </style>
 </head>
 <body class="is-locked">
@@ -288,10 +241,27 @@
         <div class="intro-text">吉本、ワタナベ、人力舎の<br>芸歴一年目が集う<br class="sp-br">同期ライブ｢集団下校｣🏫<br>ネタとコーナーで<br class="sp-br">バチバチの90分‼️</div>
 
         <section id="movie">
-            <h2 class="section-title">放送室</h2>
-            <p style="text-align: center; margin-bottom: 10px; font-size: 0.9rem;">第一回ダイジェスト映像</p>
-            <div class="video-container">
-                <video controls preload="metadata" playsinline><source src="./digest_movie.mp4#t=0.001" type="video/mp4"><p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p></video>
+            <h2 class="section-title">ダイジェスト動画</h2>
+            <div class="video-carousel-wrapper">
+                <div class="video-carousel" id="videoCarousel">
+                    
+                    <div class="video-slide">
+                        <iframe src="https://www.youtube.com/embed/実際の動画IDに変更してください" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <p style="margin-top: 5px; font-size: 0.9rem; font-weight: bold; color: #fff;">第1回 ダイジェスト</p>
+                    </div>
+
+                    <div class="video-slide">
+                        <div class="coming-soon-slide">
+                            <i class="fa-solid fa-film"></i>
+                            <p>第2回 ダイジェスト<br><span style="color: #E6C445; font-weight: bold;">Coming Soon...</span></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                </div>
             </div>
         </section>
 
@@ -363,18 +333,18 @@
             </div>
         </section>
 
-<div class="chalk-tray-items"><div class="eraser"></div><div class="chalk-yellow"></div><div class="chalk-white"></div></div>
-
-        <div id="socialSidebar" class="social-sidebar">
-            <a href="https://x.com/shuudangekou1" target="_blank" class="social-btn" title="公式X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-        </div>
+        <div class="chalk-tray-items"><div class="eraser"></div><div class="chalk-yellow"></div><div class="chalk-white"></div></div>
 
         <footer style="margin-top: 60px; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.6); border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 20px;">
             <p>© 2026 集団下校実行委員会</p>
         </footer>
-    </div> <div class="sticky-ticket-bar"><a href="https://tiget.net/events/470950" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
+    </div> <div id="socialSidebar" class="social-sidebar">
+        <a href="https://x.com/shuudangekou1" target="_blank" class="social-btn" title="公式X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
 
-<script>
+    <div class="sticky-ticket-bar"><a href="https://tiget.net/events/470950" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             // オープニング
             const openingLayer = document.getElementById('opening-layer');
@@ -426,19 +396,31 @@
                 closeTimetableBtn.addEventListener('click', () => { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; });
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
+
+            // ダイジェスト動画のインジケーター連動
+            const videoCarousel = document.getElementById('videoCarousel');
+            const dots = document.querySelectorAll('.carousel-indicators .dot');
+            if(videoCarousel && dots.length > 0) {
+                videoCarousel.addEventListener('scroll', () => {
+                    const scrollLeft = videoCarousel.scrollLeft;
+                    const slideWidth = videoCarousel.clientWidth;
+                    const activeIndex = Math.round(scrollLeft / slideWidth);
+                    dots.forEach((dot, index) => {
+                        if(index === activeIndex) dot.classList.add('active');
+                        else dot.classList.remove('active');
+                    });
+                });
+            }
         });
     </script>
 
     <script>
-        // CSSとアイコンのリンクを追加する関数
         function addStylesheet(href) {
             let link = document.createElement('link');
             link.href = href;
             link.rel = 'stylesheet';
             document.head.appendChild(link);
         }
-
-        // トグルボタンを作成し、追加する関数
         function createToggleButton() {
             const toggleBtn = document.createElement('div');
             toggleBtn.id = 'chatbot-toggle_button';
@@ -457,8 +439,6 @@
             toggleBtn.appendChild(anchor);
             document.body.appendChild(toggleBtn);
         }
-
-        // チャットボックスのヘッダーを作成する関数
         function createChatboxHeader() {
             const header = document.createElement('div');
             header.id = 'chatbot-header';
@@ -478,13 +458,10 @@
             header.appendChild(closeIcon);
             return header;
         }
-
-        // チャットボックスを作成し、追加する関数
         function createChatbox() {
             const chatbox = document.createElement('div');
             chatbox.id = 'chatbot';
             chatbox.style.display = 'none';
-
             const header = createChatboxHeader();
             const body = document.createElement('div');
             body.id = 'chatbot-body';
@@ -500,29 +477,19 @@
             chatbox.appendChild(body);
             document.body.appendChild(chatbox);
         }
-
-        // チャットボックスの表示/非表示を切り替える関数
         function toggleChatbox(utterance, ...states) {
             var chatbox = document.getElementById('chatbot');
             var iframe = document.getElementById('inline-frame');
-
-            // ここでイベントオブジェクトではなく、文字列または未定義の値が渡されることを確認します。
-            if (typeof utterance !== 'string') {
-                utterance = null;
-            }
-
+            if (typeof utterance !== 'string') { utterance = null; }
             if (chatbox.style.display === 'none' || utterance) {
                 chatbox.style.display = 'block';
                 var src = 'https://miibo.jp/chat/4d39d5a0-15b2-47cc-872f-a531ca578e25?name=%E9%9B%86%E5%9B%A3%E4%B8%8B%E6%A0%A1AI%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95';
-                // 可変引数からクエリパラメータを生成
                 states.forEach(state => {
                     if (state.key && state.value) {
                         src += src.includes('?') ? '&' : '?';
                         src += `${encodeURIComponent(state.key)}=${encodeURIComponent(state.value)}`;
                     }
                 });
-
-                // 以下の条件を追加して、再読み込みの必要性をチェック
                 if (!iframeLoaded || (utterance && lastUtterance !== utterance)) {
                     if (utterance) {
                         src += src.includes('?') ? '&' : '?';
@@ -536,7 +503,6 @@
                 chatbox.style.display = 'none';
             }
         }
-        // イベントリスナーを設定する関数
         function setupEventListeners() {
             document.querySelectorAll('.chatButton').forEach(button => {
                 button.addEventListener('click', event => {
@@ -545,28 +511,22 @@
                     const statesData = button.getAttribute('data-states');
                     let states = [];
                     try {
-                        // JSON 形式の文字列をオブジェクトに変換
                         const statesObj = JSON.parse(statesData);
-                        // オブジェクトから key-value ペアの配列を生成
                         states = Object.keys(statesObj).map(key => ({ key, value: statesObj[key] }));
                     } catch (e) {
                         console.error("Error parsing states data", e);
                     }
-
                     toggleChatbox(utterance, ...states);
                 });
             });
         }
-
-        // メイン実行部
         addStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
         addStylesheet('https://miibo.jp/chat3.css');
         createToggleButton();
         createChatbox();
         setupEventListeners();
-
-        var iframeLoaded = false; // iframeがロードされたかどうかを追跡するフラグ
-        var lastUtterance = ""; // 最後に発話した内容を追跡するフラグ
+        var iframeLoaded = false; 
+        var lastUtterance = ""; 
     </script>
 </body>
 </html>
