@@ -213,10 +213,14 @@
         .carousel-indicators .dot.active { background-color: #E6C445; }
 
         /* === ★完全自作 AIチャット UI用 CSS === */
-        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: linear-gradient(135deg, #3a6b52, #2E5D4B); color: #fff; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid rgba(255,255,255,0.2); }
+        /* ★修正：デザインを「チョーク・ホワイト（#F0F0F0）」に変更！ */
+        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid #ccc; }
         .custom-chat-btn:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
         .custom-chat-btn i { font-size: 1.8rem; margin-bottom: 3px; }
         .custom-chat-btn span { font-size: 0.7rem; font-weight: bold; font-family: sans-serif; }
+        
+        /* ★修正：スクロール時に隠すためのクラスを追加 */
+        #custom-chat-btn.is-hidden { transform: translateX(120px) !important; opacity: 0.5 !important; }
 
         .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; z-index: 2001; opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s ease; overflow: hidden; border: 2px solid #2E5D4B; font-family: sans-serif; }
         .custom-chat-window.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
@@ -447,13 +451,22 @@
                 triggerEvents.forEach(ev => { window.addEventListener(ev, startAnimation, { once: true }); });
             }
 
-            // スマホ版アイコン隠し
-            let scrollTimeout; const sidebar = document.getElementById('socialSidebar');
-            if (sidebar) {
+            // ★修正：スマホ版アイコン隠し（Xボタンとチャットボタン両方）
+            let scrollTimeout; 
+            const sidebar = document.getElementById('socialSidebar');
+            const floatingChatBtn = document.getElementById('custom-chat-btn');
+            if (sidebar || floatingChatBtn) {
                 window.addEventListener('scroll', () => {
                     if (!hasStarted || window.innerWidth >= 768) return;
-                    sidebar.classList.add('is-hidden'); clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => { sidebar.classList.remove('is-hidden'); }, 400); 
+                    
+                    if(sidebar) sidebar.classList.add('is-hidden');
+                    if(floatingChatBtn) floatingChatBtn.classList.add('is-hidden');
+                    
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => { 
+                        if(sidebar) sidebar.classList.remove('is-hidden'); 
+                        if(floatingChatBtn) floatingChatBtn.classList.remove('is-hidden'); 
+                    }, 400); 
                 });
             }
 
