@@ -544,9 +544,10 @@
                 if (typingDiv) typingDiv.remove();
             }
 
+            // ★修正ポイント：大文字小文字のミス（chatinput -> chatInput）を直しました
             // メッセージ送信処理
             async function sendMessage() {
-                const text = chatinput.value.trim();
+                const text = chatInput.value.trim();
                 if (!text) return;
 
                 // ユーザーの入力を画面に表示
