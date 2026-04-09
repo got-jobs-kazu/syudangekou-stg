@@ -182,10 +182,6 @@
         .tt-time { width: 30%; color: #f4d03f; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.1rem; }
         .tt-desc { width: 70%; color: #fff; font-size: 1.1rem; }
 
-        /* === miiboチャットアイコンの位置調整 === */
-        #chatbot-toggle_button { bottom: 90px !important; right: 15px !important; z-index: 2000 !important; }
-        #chatbot { bottom: 90px !important; z-index: 2000 !important; }
-
         /* === 横スワイプ＆大画面動画モーダル用CSS === */
         .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
         .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: 2px solid rgba(255,255,255,0.3); width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 10; font-size: 1.2rem; transition: all 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
@@ -197,7 +193,6 @@
         .video-carousel::-webkit-scrollbar { display: none; }
         .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; position: relative; }
         
-        /* ★修正3：シネマティック・サムネイル（背景に動画をうっすら表示） */
         .video-thumbnail { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.2s, border-color 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); overflow: hidden; }
         .video-thumbnail:hover { transform: scale(1.02); border-color: #E6C445; }
         .thumbnail-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: opacity 0.3s; z-index: 1; pointer-events: none; }
@@ -206,18 +201,7 @@
         .play-icon { font-size: 3.5rem; color: #E6C445; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
         .play-text { color: #fff; font-weight: bold; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         
-        /* ★修正1：大画面用ビデオモーダルの見切れ防止（アスペクト比固定の魔法） */
-        .video-modal-content { 
-            position: relative; 
-            width: 95%; 
-            max-width: calc(85vh * (16 / 9)); /* 16:9比率を保ちながら、高さ85vhを絶対に超えない横幅に制限！ */
-            max-height: 85vh; 
-            aspect-ratio: 16 / 9; 
-            margin: 0 auto; 
-            padding: 0; 
-            transform: translateY(20px); 
-            transition: transform 0.3s ease; 
-        }
+        .video-modal-content { position: relative; width: 95%; max-width: calc(85vh * (16 / 9)); max-height: 85vh; aspect-ratio: 16 / 9; margin: 0 auto; padding: 0; transform: translateY(20px); transition: transform 0.3s ease; }
         .modal-overlay.is-active .video-modal-content { transform: translateY(0); }
         .video-wrapper { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 2px solid rgba(255,255,255,0.5); }
         .video-wrapper video { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -227,6 +211,38 @@
         .carousel-indicators { text-align: center; margin-top: 10px; }
         .carousel-indicators .dot { display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: rgba(255,255,255,0.3); border-radius: 50%; transition: background-color 0.3s; }
         .carousel-indicators .dot.active { background-color: #E6C445; }
+
+        /* === ★完全自作 AIチャット UI用 CSS === */
+        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: linear-gradient(135deg, #3a6b52, #2E5D4B); color: #fff; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid rgba(255,255,255,0.2); }
+        .custom-chat-btn:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
+        .custom-chat-btn i { font-size: 1.8rem; margin-bottom: 3px; }
+        .custom-chat-btn span { font-size: 0.7rem; font-weight: bold; font-family: sans-serif; }
+
+        .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; z-index: 2001; opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s ease; overflow: hidden; border: 2px solid #2E5D4B; font-family: sans-serif; }
+        .custom-chat-window.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        
+        .chat-header { background-color: #2E5D4B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-bottom: 3px solid #8B5A2B; }
+        .chat-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s; }
+        .chat-close-btn:hover { transform: scale(1.2); }
+        
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background-color: #eef2f0; }
+        
+        .chat-msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+        .bot-msg { align-self: flex-start; background-color: #fff; color: #333; border: 1px solid #ccc; border-bottom-left-radius: 2px; }
+        .user-msg { align-self: flex-end; background-color: #8B5A2B; color: #fff; border-bottom-right-radius: 2px; }
+        
+        .chat-input-area { padding: 10px; background-color: #fff; border-top: 1px solid #ccc; display: flex; gap: 10px; align-items: center; }
+        .chat-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 0.95rem; outline: none; }
+        .chat-input:focus { border-color: #2E5D4B; }
+        .chat-send-btn { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: background-color 0.2s; }
+        .chat-send-btn:hover { background-color: #3e6b42; }
+        .chat-send-btn:disabled { background-color: #aaa; cursor: not-allowed; }
+
+        .typing-indicator { display: flex; gap: 5px; padding: 5px 10px; }
+        .typing-indicator span { width: 8px; height: 8px; background-color: #888; border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
 <body class="is-locked">
@@ -275,11 +291,8 @@
         <section id="movie">
             <h2 class="section-title">ダイジェスト動画</h2>
             <div class="video-carousel-wrapper">
-                
                 <button class="carousel-nav prev" id="carouselPrev" title="前の動画へ"><i class="fa-solid fa-chevron-left"></i></button>
-                
                 <div class="video-carousel" id="videoCarousel">
-                    
                     <div class="video-slide">
                         <div class="video-thumbnail" id="openVideoBtn">
                             <video class="thumbnail-bg-video" src="./digest_movie.mp4#t=0.001" muted playsinline preload="metadata"></video>
@@ -290,18 +303,14 @@
                         </div>
                         <p style="margin-top: 5px; font-size: 0.9rem; font-weight: bold; color: #fff;">第1回 ダイジェスト</p>
                     </div>
-
                     <div class="video-slide">
                         <div class="coming-soon-slide">
                             <i class="fa-solid fa-film"></i>
                             <p>第2回 ダイジェスト<br><span style="color: #E6C445; font-weight: bold;">Coming Soon...</span></p>
                         </div>
                     </div>
-
                 </div>
-
                 <button class="carousel-nav next" id="carouselNext" title="次の動画へ"><i class="fa-solid fa-chevron-right"></i></button>
-
                 <div class="carousel-indicators" id="carouselIndicators">
                     <span class="dot active"></span>
                     <span class="dot"></span>
@@ -319,7 +328,6 @@
                     </div>
                 </div>
             </div>
-
         </section>
 
         <section id="info">
@@ -350,8 +358,7 @@
             <h2 class="section-title">出演者</h2>
             <div class="grid-list">
                 <div class="card-box magnet-red"><div class="affiliation-tag">吉本</div><div class="combi-name-bar">ドゥドゥディダーダー</div><div class="card-img-box" style="background-image: url('./S__92733444_0.jpg'); background-size: cover; background-position: center;"></div><div class="card-info member-details"><div class="member-person"><span class="member-name">りゅーしょー伝説<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/legend_ryusho?s=20" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://stand.fm/channels/6925f8938ddb67b39644a013" target="_blank"><i class="fa-solid fa-radio"></i></a></div></div><div class="member-person"><span class="member-name">坂口拓也<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/dododedada_saka?s=20" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://instagram.com/dododedada_saka" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://stand.fm/channels/6925f8938ddb67b39644a013" target="_blank"><i class="fa-solid fa-radio"></i></a></div></div></div></div>
-                <div class="card-box magnet-red"><div class="affiliation-tag">吉本</div><div class="combi-name-bar">エコノート</div><div class="card-img-box" style="background-image: url('./S__92733445_0.jpg'); background-size: cover; background-position: center;"></div><div class="card-info member-details">
-                    <div class="member-person"><span class="member-name">福田幸人<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/kout_fkd" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://instagram.com/eco_fkd" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://stand.fm/channels/67ef7dc587fe90ae1753dc3e" target="_blank"><i class="fa-solid fa-radio"></i></a><a href="https://www.youtube.com/@e.co.channel" target="_blank"><i class="fa-brands fa-youtube"></i></a><a href="https://tiktok.com/@e.co.channel" target="_blank"><i class="fa-brands fa-tiktok"></i></a></div></div><div class="member-person"><span class="member-name">ヒデタカハシ<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/eco_hide" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://instagram.com/eco_hide" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://stand.fm/channels/67ef7dc587fe90ae1753dc3e" target="_blank"><i class="fa-solid fa-radio"></i></a><a href="https://www.youtube.com/@e.co.channel" target="_blank"><i class="fa-brands fa-youtube"></i></a><a href="https://tiktok.com/@e.co.channel" target="_blank"><i class="fa-brands fa-tiktok"></i></a></div></div></div></div>
+                <div class="card-box magnet-red"><div class="affiliation-tag">吉本</div><div class="combi-name-bar">エコノート</div><div class="card-img-box" style="background-image: url('./S__92733445_0.jpg'); background-size: cover; background-position: center;"></div><div class="card-info member-details"><div class="member-person"><span class="member-name">福田幸人<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/kout_fkd" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://instagram.com/eco_fkd" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://stand.fm/channels/67ef7dc587fe90ae1753dc3e" target="_blank"><i class="fa-solid fa-radio"></i></a><a href="https://www.youtube.com/@e.co.channel" target="_blank"><i class="fa-brands fa-youtube"></i></a><a href="https://tiktok.com/@e.co.channel" target="_blank"><i class="fa-brands fa-tiktok"></i></a></div></div><div class="member-person"><span class="member-name">ヒデタカハシ<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/eco_hide" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://instagram.com/eco_hide" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://stand.fm/channels/67ef7dc587fe90ae1753dc3e" target="_blank"><i class="fa-solid fa-radio"></i></a><a href="https://www.youtube.com/@e.co.channel" target="_blank"><i class="fa-brands fa-youtube"></i></a><a href="https://tiktok.com/@e.co.channel" target="_blank"><i class="fa-brands fa-tiktok"></i></a></div></div></div></div>
                 <div class="card-box magnet-red"><div class="affiliation-tag">吉本</div><div class="combi-name-bar">フィッシュおさかな</div><div class="card-img-box" style="background-image: url('./S__92733446_0.jpg'); background-size: cover; background-position: center;"></div><div class="card-info member-details"><div class="member-person"><span class="member-name">小山<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/wagon_nsc30?s=21" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.youtube.com/@フィッシュおさかなのチャンネル番組" target="_blank"><i class="fa-brands fa-youtube"></i></a></div></div><div class="member-person"><span class="member-name">カイト<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/howahowakibun?s=21" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.youtube.com/@フィッシュおさかなのチャンネル番組" target="_blank"><i class="fa-brands fa-youtube"></i></a></div></div></div></div>
                 <div class="card-box magnet-yellow"><div class="affiliation-tag">人力舎</div><div class="combi-name-bar">最大パルプ</div><div class="card-img-box" style="background-image: url('./S__92733448_0.jpg'); background-size: cover; background-position: center;"></div><div class="card-info member-details"><div class="member-person"><span class="member-name">平野<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/sidiplup_hrn" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.youtube.com/@SaidaiPulp" target="_blank"><i class="fa-brands fa-youtube"></i></a><a href="https://www.p-jinriki.com/sp/talent/saidaipulp/" target="_blank"><i class="fa-solid fa-link"></i></a></div></div><div class="member-person"><span class="member-name">堀井<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/saidaipulphorii" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.youtube.com/@SaidaiPulp" target="_blank"><i class="fa-brands fa-youtube"></i></a><a href="https://www.p-jinriki.com/sp/talent/saidaipulp/" target="_blank"><i class="fa-solid fa-link"></i></a></div></div></div></div>
                 <div class="card-box magnet-yellow"><div class="affiliation-tag">人力舎</div><div class="combi-name-bar">ファズ宮</div><div class="card-img-box" style="background-image: url('./S__92733449_0.jpg'); background-size: cover; background-position: center;"></div><div class="card-info member-details"><div class="member-person"><span class="member-name">花寺ビスク<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/hanadera_bisque" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.instagram.com/zgg_miel/" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://www.p-jinriki.com/talent/fazumiya/" target="_blank"><i class="fa-solid fa-link"></i></a></div></div><div class="member-person"><span class="member-name">ぴかぴか標識<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/C_nosaki" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.p-jinriki.com/talent/fazumiya/" target="_blank"><i class="fa-solid fa-link"></i></a></div></div></div></div>
@@ -401,6 +408,25 @@
     </div>
 
     <div class="sticky-ticket-bar"><a href="https://tiget.net/events/470950" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
+
+    <div id="custom-chat-btn" class="custom-chat-btn">
+        <i class="fa-solid fa-comment-dots"></i>
+        <span>相談する</span>
+    </div>
+
+    <div id="custom-chat-window" class="custom-chat-window">
+        <div class="chat-header">
+            <span>集団下校AIスタッフ</span>
+            <button id="chat-close-btn" class="chat-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="chat-body" class="chat-body">
+            <div class="chat-msg bot-msg">こんにちは！集団下校のAIスタッフです。何でも質問してくださいね！</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" class="chat-input" placeholder="メッセージを入力...">
+            <button id="chat-send-btn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -455,166 +481,112 @@
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
-            // ビデオモーダル（大画面再生）の動作
-            const openVideoBtn = document.getElementById('openVideoBtn');
-            const closeVideoBtn = document.getElementById('closeVideoBtn');
-            const videoModal = document.getElementById('videoModal');
-            const modalVideoPlayer = document.getElementById('modalVideoPlayer');
-
+            // ビデオモーダル
+            const openVideoBtn = document.getElementById('openVideoBtn'); const closeVideoBtn = document.getElementById('closeVideoBtn'); const videoModal = document.getElementById('videoModal'); const modalVideoPlayer = document.getElementById('modalVideoPlayer');
             if(openVideoBtn && videoModal && modalVideoPlayer) {
-                openVideoBtn.addEventListener('click', () => {
-                    videoModal.classList.add('is-active');
-                    document.body.style.overflow = 'hidden'; 
-                    modalVideoPlayer.play();
-                });
-                
-                const closeVideo = () => {
-                    videoModal.classList.remove('is-active');
-                    document.body.style.overflow = '';
-                    modalVideoPlayer.pause();
-                };
-
+                openVideoBtn.addEventListener('click', () => { videoModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; modalVideoPlayer.play(); });
+                const closeVideo = () => { videoModal.classList.remove('is-active'); document.body.style.overflow = ''; modalVideoPlayer.pause(); };
                 closeVideoBtn.addEventListener('click', closeVideo);
-                videoModal.addEventListener('click', (e) => {
-                    if (e.target === videoModal) closeVideo(); 
-                });
+                videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideo(); });
             }
 
-            // 動画カルーセルの動作（矢印ボタン＆インジケーター）
-            const videoCarousel = document.getElementById('videoCarousel');
-            const dots = document.querySelectorAll('.carousel-indicators .dot');
-            const prevBtn = document.getElementById('carouselPrev');
-            const nextBtn = document.getElementById('carouselNext');
-
+            // 動画カルーセル
+            const videoCarousel = document.getElementById('videoCarousel'); const dots = document.querySelectorAll('.carousel-indicators .dot'); const prevBtn = document.getElementById('carouselPrev'); const nextBtn = document.getElementById('carouselNext');
             if(videoCarousel && dots.length > 0) {
                 videoCarousel.addEventListener('scroll', () => {
-                    const scrollLeft = videoCarousel.scrollLeft;
-                    const slideWidth = videoCarousel.clientWidth;
-                    const activeIndex = Math.round(scrollLeft / slideWidth);
-                    dots.forEach((dot, index) => {
-                        if(index === activeIndex) dot.classList.add('active');
-                        else dot.classList.remove('active');
-                    });
+                    const scrollLeft = videoCarousel.scrollLeft; const slideWidth = videoCarousel.clientWidth; const activeIndex = Math.round(scrollLeft / slideWidth);
+                    dots.forEach((dot, index) => { if(index === activeIndex) dot.classList.add('active'); else dot.classList.remove('active'); });
                 });
                 if(prevBtn) { prevBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: -slideWidth, behavior: 'smooth' }); }); }
                 if(nextBtn) { nextBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' }); }); }
             }
-        });
-    </script>
 
-    <script>
-        function addStylesheet(href) {
-            let link = document.createElement('link');
-            link.href = href;
-            link.rel = 'stylesheet';
-            document.head.appendChild(link);
-        }
-        function createToggleButton() {
-            const toggleBtn = document.createElement('div');
-            toggleBtn.id = 'chatbot-toggle_button';
-            const anchor = document.createElement('a');
-            anchor.id = 'chat-button';
-            anchor.href = '#';
-            anchor.addEventListener('click', event => {
-              event.preventDefault();
-              toggleChatbox();
-            });
-            const img = document.createElement('img');
-            img.src = 'https://firebasestorage.googleapis.com/v0/b/mabo-f1cc7.appspot.com/o/chaticon.png?alt=media&token=1777070f-a83c-403d-8c83-f387f68ecd52';
-            img.width = '100';
-            img.height = '100';
-            anchor.appendChild(img);
-            toggleBtn.appendChild(anchor);
-            document.body.appendChild(toggleBtn);
-        }
-        function createChatboxHeader() {
-            const header = document.createElement('div');
-            header.id = 'chatbot-header';
-            header.style.background = '#4169e1';
-            const logo = document.createElement('div');
-            logo.id = 'chatbot-logo';
-            logo.innerText = '集団下校AIスタッフ';
-            const closeIcon = document.createElement('i');
-            closeIcon.id = 'chatbot-close-icon';
-            closeIcon.className = 'material-icons material-symbols-outlined waves-light';
-            closeIcon.innerText = 'close';
-            closeIcon.addEventListener('click', event => {
-              event.preventDefault();
-              toggleChatbox();
-            });
-            header.appendChild(logo);
-            header.appendChild(closeIcon);
-            return header;
-        }
-        function createChatbox() {
-            const chatbox = document.createElement('div');
-            chatbox.id = 'chatbot';
-            chatbox.style.display = 'none';
-            const header = createChatboxHeader();
-            const body = document.createElement('div');
-            body.id = 'chatbot-body';
-            const iframe = document.createElement('iframe');
-            iframe.id = 'inline-frame';
-            iframe.width = '100%';
-            iframe.height = '100%';
-            iframe.dataSrc = 'https://miibo.jp/chat/4d39d5a0-15b2-47cc-872f-a531ca578e25?name=%E9%9B%86%E5%9B%A3%E4%B8%8B%E6%A0%A1AI%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95';
-            iframe.scrolling = 'no';
-            iframe.frameBorder = 'no';
-            body.appendChild(iframe);
-            chatbox.appendChild(header);
-            chatbox.appendChild(body);
-            document.body.appendChild(chatbox);
-        }
-        function toggleChatbox(utterance, ...states) {
-            var chatbox = document.getElementById('chatbot');
-            var iframe = document.getElementById('inline-frame');
-            if (typeof utterance !== 'string') { utterance = null; }
-            if (chatbox.style.display === 'none' || utterance) {
-                chatbox.style.display = 'block';
-                var src = 'https://miibo.jp/chat/4d39d5a0-15b2-47cc-872f-a531ca578e25?name=%E9%9B%86%E5%9B%A3%E4%B8%8B%E6%A0%A1AI%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95';
-                states.forEach(state => {
-                    if (state.key && state.value) {
-                        src += src.includes('?') ? '&' : '?';
-                        src += `${encodeURIComponent(state.key)}=${encodeURIComponent(state.value)}`;
-                    }
-                });
-                if (!iframeLoaded || (utterance && lastUtterance !== utterance)) {
-                    if (utterance) {
-                        src += src.includes('?') ? '&' : '?';
-                        src += "utterance=" + encodeURIComponent(utterance);
-                    }
-                    iframe.src = src;
-                    iframeLoaded = true;
-                    lastUtterance = utterance;
-                }
-            } else {
-                chatbox.style.display = 'none';
+            // ==========================================
+            // ★ 自作AIチャットの動作プログラム ★
+            // ==========================================
+            const chatBtn = document.getElementById('custom-chat-btn');
+            const chatWindow = document.getElementById('custom-chat-window');
+            const chatCloseBtn = document.getElementById('chat-close-btn');
+            const chatBody = document.getElementById('chat-body');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send-btn');
+            
+            // 一真さんのGASのURLをここに設定！
+            const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyPT4dDcvB0BEfPF8vGbdEA9EJ-vPG91Q9Neb2dCSuDoI3kb8iyDnGLEUWWNrbF3HdcJg/exec';
+
+            // チャット窓を開く/閉じる
+            chatBtn.addEventListener('click', () => { chatWindow.classList.add('is-open'); });
+            chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('is-open'); });
+
+            // メッセージを画面に追加する関数
+            function addMessage(text, sender) {
+                const msgDiv = document.createElement('div');
+                msgDiv.classList.add('chat-msg');
+                msgDiv.classList.add(sender === 'user' ? 'user-msg' : 'bot-msg');
+                // URLが含まれていたらリンクに変換する処理
+                msgDiv.innerHTML = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:blue;">$1</a>').replace(/\n/g, '<br>');
+                chatBody.appendChild(msgDiv);
+                chatBody.scrollTop = chatBody.scrollHeight; // 一番下までスクロール
             }
-        }
-        function setupEventListeners() {
-            document.querySelectorAll('.chatButton').forEach(button => {
-                button.addEventListener('click', event => {
-                    event.preventDefault();
-                    const utterance = button.getAttribute('data-utterance');
-                    const statesData = button.getAttribute('data-states');
-                    let states = [];
-                    try {
-                        const statesObj = JSON.parse(statesData);
-                        states = Object.keys(statesObj).map(key => ({ key, value: statesObj[key] }));
-                    } catch (e) {
-                        console.error("Error parsing states data", e);
-                    }
-                    toggleChatbox(utterance, ...states);
-                });
+
+            // 「入力中...」のアニメーションを表示する関数
+            function showTyping() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.classList.add('chat-msg', 'bot-msg', 'typing-indicator');
+                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                chatBody.appendChild(typingDiv);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            function removeTyping() {
+                const typingDiv = document.getElementById('typing-indicator');
+                if (typingDiv) typingDiv.remove();
+            }
+
+            // メッセージ送信処理
+            async function sendMessage() {
+                const text = chatinput.value.trim();
+                if (!text) return;
+
+                // ユーザーの入力を画面に表示
+                addMessage(text, 'user');
+                chatInput.value = '';
+                chatSendBtn.disabled = true;
+
+                // AIの返答待ちアニメーションを表示
+                showTyping();
+
+                try {
+                    // GASにデータを送信
+                    const response = await fetch(GAS_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain' }, // GAS側のCORSエラー回避のためtext/plain
+                        body: JSON.stringify({ message: text })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    removeTyping();
+                    // GASから返ってきた返答を画面に表示
+                    addMessage(data.reply, 'bot');
+
+                } catch (error) {
+                    removeTyping();
+                    addMessage('通信エラーが発生しました。時間を置いてもう一度お試しください。', 'bot');
+                    console.error('Chat Error:', error);
+                } finally {
+                    chatSendBtn.disabled = false;
+                    chatInput.focus();
+                }
+            }
+
+            // 送信ボタンクリックとEnterキー対応
+            chatSendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
             });
-        }
-        addStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
-        addStylesheet('https://miibo.jp/chat3.css');
-        createToggleButton();
-        createChatbox();
-        setupEventListeners();
-        var iframeLoaded = false; 
-        var lastUtterance = ""; 
+        });
     </script>
 </body>
 </html>
