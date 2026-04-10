@@ -375,12 +375,26 @@
         // ここには、先ほど「新バージョン」でデプロイしたGASの新しいURLを貼り付けてください！
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyPT4dDcvB0BEfPF8vGbdEA9EJ-vPG91Q9Neb2dCSuDoI3kb8iyDnGLEUWWNrbF3HdcJg/exec';
 
-        document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
             const openingLayer = document.getElementById('opening-layer');
             const mainBoard = document.getElementById('main-board');
             let hasStarted = false;
-            if (sessionStorage.getItem('hasSeenOpening')) {
-                openingLayer.style.display = 'none'; mainBoard.classList.add('is-visible', 'is-magnet-attached'); document.body.classList.remove('is-locked'); hasStarted = true; 
+
+            // ★修正：URLに「#」が含まれている場合はアニメーションをスキップする！
+            if (sessionStorage.getItem('hasSeenOpening') || window.location.hash) {
+                openingLayer.style.display = 'none'; 
+                mainBoard.classList.add('is-visible', 'is-magnet-attached'); 
+                document.body.classList.remove('is-locked'); 
+                hasStarted = true; 
+                sessionStorage.setItem('hasSeenOpening', 'true'); // 直リンクで来た場合も次回以降スキップ
+
+                // アンカーリンクがある場合は、少し遅らせて該当箇所へスムーズにスクロール
+                if (window.location.hash) {
+                    setTimeout(() => {
+                        const target = document.querySelector(window.location.hash);
+                        if(target) target.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                }
             } else {
                 const startAnimation = () => {
                     if (hasStarted) return;
