@@ -11,13 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Yomogi&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- CSS Variables --- */
         :root { --bg-board: #2E5D4B; --text-chalk: #F0F0F0; --logo-green: #3e6b42; --gold-btn: #b4963c; --accent-wood: #8B5A2B; --font-hand: 'Yomogi', cursive; --font-serif: 'Kaisei Decol', serif; --footer-height: 80px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #111; color: var(--text-chalk); font-family: var(--font-serif); line-height: 1.8; padding: 20px 20px calc(var(--footer-height) + 40px) 20px; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
         body.is-locked { overflow: hidden; height: 100vh; }
-        
-        /* === オープニングアニメーション用レイヤー === */
         .opening-layer { position: fixed; inset: 0; background: var(--bg-board); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s, background-color 0.6s; }
         .op-flyer { position: relative; width: 100%; max-width: 700px; overflow: hidden; transform-origin: center center; }
         @media(max-width: 599px) { .op-flyer { height: 100vh; } }
@@ -43,7 +40,6 @@
         .is-shrinking .op-flyer { animation: paperFlutter 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes paperFlutter { 0% { transform: scale(1) translateY(0) rotate(0); filter: brightness(1); opacity: 1; } 40% { transform: scale(0.85) translateY(20px) rotate(-3deg); filter: brightness(1.2); opacity: 0.9; } 100% { transform: scale(0.7) translateY(40px) rotate(2deg); filter: brightness(0.9); opacity: 0; } }
 
-        /* === 本編（黒板コンテナ）のスタイル === */
         .container { max-width: 700px; margin: 0 auto; background-color: var(--bg-board); border: 12px solid var(--accent-wood); border-radius: 4px; padding: 40px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative; opacity: 0; transition: opacity 0.8s ease-in-out; }
         .container.is-visible { opacity: 1; }
         .container::after { content: ''; display: block; width: calc(100% + 24px); height: 18px; background-color: var(--accent-wood); position: absolute; bottom: -24px; left: -12px; border-radius: 2px; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
@@ -65,7 +61,6 @@
         .sakura-petal { position: absolute; top: -10%; width: 12px; height: 12px; background-color: #ffb7c5; border-radius: 50% 0 50% 50%; transform: rotate(45deg); z-index: 5; animation: fall 5s linear infinite; opacity: 0.8; }
         @keyframes fall { 0% { top: -10%; transform: translateX(0) rotate(45deg); opacity: 0; } 10% { opacity: 0.8; } 50% { transform: translateX(20px) rotate(90deg); } 90% { opacity: 0.8; } 100% { top: 110%; transform: translateX(-20px) rotate(135deg); opacity: 0; } }
 
-        /* === 汎用セクション === */
         section { margin-bottom: 50px; }
         .section-title { font-family: var(--font-hand); font-size: 1.8rem; text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px dashed rgba(255,255,255,0.3); display: block; }
         .info-list { list-style: none; font-size: 1.05rem; }
@@ -73,15 +68,12 @@
         .info-label { font-family: var(--font-hand); color: #ccc; font-size: 1.1rem; margin-bottom: 4px; }
         .info-value { padding-left: 10px; font-weight: 700; font-size: 1.2rem; }
 
-        /* === 出演者グリッド === */
         .grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; list-style: none; }
         .card-box { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; height: auto; padding-bottom: 15px; transition: transform 0.2s; }
         .card-box:hover { transform: translateY(-3px); }
-        /* ★修正①：横棒磁石のデザインを復元（丸磁石を削除し、タグデザインのみに） */
         .affiliation-tag { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 120px; height: 20px; border-radius: 3px; box-shadow: 1px 3px 4px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5); letter-spacing: 2px; font-family: 'M PLUS Rounded 1c', sans-serif; }
         .magnet-red .affiliation-tag { background-color: #e63946; } .magnet-blue .affiliation-tag { background-color: #457b9d; } .magnet-yellow .affiliation-tag { background-color: #e9c46a; }
         
-        /* 職員室だけ丸磁石を使用（以前の仕様通り） */
         #staff .card-box::before, #staff .card-box::after { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; box-shadow: 1px 2px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5); z-index: 10; top: 10px; }
         #staff .card-box::before { left: 10px; } #staff .card-box::after { right: 10px; }
         #staff .magnet-blue::before, #staff .magnet-blue::after { background-color: #457b9d; } 
@@ -99,20 +91,17 @@
         .sns-links a:hover { color: #000; transform: scale(1.1); }
         .sns-links i { font-size: 1.1rem; }
 
-        /* === ガイドライン＆マップ === */
         .guidelines-box { background-color: rgba(0,0,0,0.2); border: 2px solid rgba(255,255,255,0.1); padding: 20px; font-size: 0.9rem; }
         .guidelines-box ul { padding-left: 20px; margin-top: 10px; }
         .guidelines-box li { margin-bottom: 5px; }
         .map-wrapper { border: 4px solid #fff; line-height: 0; background-color: #eee; }
 
-        /* === 黒板の粉受け（チョーク等） === */
         .chalk-tray-items { position: absolute; bottom: -22px; left: 0; width: 100%; height: 20px; z-index: 20; pointer-events: none; }
         .eraser { position: absolute; bottom: 4px; left: 8%; width: 45px; height: 15px; background: linear-gradient(to bottom, #dcb889 40%, #2b579a 40%); border-radius: 2px; box-shadow: 2px 2px 4px rgba(0,0,0,0.6); transform: rotate(-3deg); }
         .eraser::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 8px; height: 40%; background-color: #222; box-shadow: 1px 0 1px rgba(0,0,0,0.2); }
         .chalk-white { position: absolute; bottom: 4px; right: 15%; width: 22px; height: 5px; background-color: #fff; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(15deg); }
         .chalk-yellow { position: absolute; bottom: 2px; right: 10%; width: 16px; height: 5px; background-color: #f4d03f; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(-25deg); }
 
-        /* === チケット固定ボタン === */
         .sticky-ticket-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: linear-gradient(to top, #111, rgba(17,17,17,0.95)); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0 20px; }
         .btn-sticky { display: block; width: 100%; max-width: 500px; background-color: #f4d03f; color: #1a3c2c; text-align: center; padding: 12px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.5); transition: all 0.2s; }
         .btn-sticky:hover { filter: brightness(1.1); transform: translateY(-1px); }
@@ -127,7 +116,6 @@
             .intro-text { font-size: 1.25rem; } 
         }
 
-        /* === 右端固定アイコン === */
         #socialSidebar { position: fixed !important; bottom: 220px !important; right: 0px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
         #socialSidebar.is-hidden { transform: translateX(100%) !important; opacity: 0.5 !important; }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
@@ -139,7 +127,6 @@
             #socialSidebar .social-btn:hover { width: auto !important; transform: scale(1.15); color: #555 !important; }
         }
 
-        /* ハンバーガーメニューとモーダル関連 */
         .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease; }
         .hamburger-btn.is-active { color: #ffffff; transform: rotate(90deg) scale(1.1); filter: none; }
         .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.7); z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
@@ -154,7 +141,6 @@
         .modal-overlay.is-active { display: flex; opacity: 1; }
         .modal-close-btn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5001; }
         
-        /* ★修正④：時間割ポップアップ用のCSSを復元 */
         .timetable-board { background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.3s ease; }
         .modal-overlay.is-active .timetable-board { transform: translateY(0); }
         .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; font-family: 'Kaisei Decol', serif; border-radius: 5px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; display: inline-block; margin-top: 20px;}
@@ -165,7 +151,6 @@
         .tt-time { width: 30%; color: #f4d03f; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.1rem; }
         .tt-desc { width: 70%; color: #fff; font-size: 1.1rem; }
 
-        /* ビデオモーダル等 */
         .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
         .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: 2px solid rgba(255,255,255,0.3); width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 10; font-size: 1.2rem; transition: all 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .carousel-nav:hover { background: #E6C445; color: #111; border-color: #E6C445; transform: translateY(-50%) scale(1.1); }
@@ -184,8 +169,10 @@
         .video-wrapper { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 2px solid rgba(255,255,255,0.5); }
         .video-wrapper video { width: 100%; height: 100%; object-fit: contain; display: block; }
         .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
+        .carousel-indicators { text-align: center; margin-top: 10px; }
+        .carousel-indicators .dot { display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: rgba(255,255,255,0.3); border-radius: 50%; transition: background-color 0.3s; }
+        .carousel-indicators .dot.active { background-color: #E6C445; }
 
-        /* チャットUI */
         .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid #ccc; }
         .custom-chat-btn:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
         .custom-chat-btn i { font-size: 1.8rem; margin-bottom: 3px; }
@@ -218,8 +205,8 @@
         <div class="notebook-paper">
             <h2>目次</h2>
             <ul>
-                <li><a href="#movie">ダイジェスト動画</a></li>
-                <li><a href="#info">当日の時間割</a></li>
+                <li><a href="#movie">放送室</a></li>
+                <li><a href="#info">時間割</a></li>
                 <li><a href="#member">出演者</a></li>
                 <li><a href="#guidelines">校則（注意事項）</a></li>
                 <li><a href="#access">通学路</a></li>
@@ -242,7 +229,7 @@
         <div class="intro-text">吉本、ワタナベ、人力舎の<br>芸歴一年目が集う<br class="sp-br">同期ライブ｢集団下校｣🏫<br>ネタとコーナーで<br class="sp-br">バチバチの90分‼️</div>
 
         <section id="movie">
-            <h2 class="section-title">ダイジェスト動画</h2>
+            <h2 class="section-title">放送室</h2>
             <div class="video-carousel-wrapper">
                 <button class="carousel-nav prev" id="carouselPrev"><i class="fa-solid fa-chevron-left"></i></button>
                 <div class="video-carousel" id="videoCarousel">
@@ -260,6 +247,11 @@
                         </div>
                     </div>
                 </div>
+                <button class="carousel-nav next" id="carouselNext"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                </div>
             </div>
             <div id="videoModal" class="modal-overlay">
                 <div class="video-modal-content">
@@ -270,7 +262,7 @@
         </section>
 
         <section id="info">
-            <h2 class="section-title">当日の時間割</h2>
+            <h2 class="section-title">時間割</h2>
             <ul class="info-list">
                 <li class="info-item"><span class="info-label">日時</span><span class="info-value">2026年03月26日(木)<br>開場 18:45 / 開演 19:00 / 終演 20:30</span></li>
                 <li class="info-item"><span class="info-label">料金</span><span class="info-value">¥1,500（※当日現金払いのみ）</span></li>
@@ -403,13 +395,23 @@
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
-            // ビデオモーダル
+            // ビデオモーダルとカルーセル
             const openVideoBtn = document.getElementById('openVideoBtn'); const closeVideoBtn = document.getElementById('closeVideoBtn'); const videoModal = document.getElementById('videoModal'); const modalVideoPlayer = document.getElementById('modalVideoPlayer');
             if(openVideoBtn && videoModal && modalVideoPlayer) {
                 openVideoBtn.addEventListener('click', () => { videoModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; modalVideoPlayer.play(); });
                 const closeVideo = () => { videoModal.classList.remove('is-active'); document.body.style.overflow = ''; modalVideoPlayer.pause(); };
                 closeVideoBtn.addEventListener('click', closeVideo);
                 videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideo(); });
+            }
+
+            const videoCarousel = document.getElementById('videoCarousel'); const dots = document.querySelectorAll('.carousel-indicators .dot'); const prevBtn = document.getElementById('carouselPrev'); const nextBtn = document.getElementById('carouselNext');
+            if(videoCarousel && dots.length > 0) {
+                videoCarousel.addEventListener('scroll', () => {
+                    const scrollLeft = videoCarousel.scrollLeft; const slideWidth = videoCarousel.clientWidth; const activeIndex = Math.round(scrollLeft / slideWidth);
+                    dots.forEach((dot, index) => { if(index === activeIndex) dot.classList.add('active'); else dot.classList.remove('active'); });
+                });
+                if(prevBtn) { prevBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: -slideWidth, behavior: 'smooth' }); }); }
+                if(nextBtn) { nextBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' }); }); }
             }
 
             // 出演者自動読み込み
@@ -433,7 +435,8 @@
                         let combiSnsHtml = '';
                         if (member.combiYT) combiSnsHtml += `<a href="${member.combiYT}" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>`;
                         if (member.combiHP) combiSnsHtml += `<a href="${member.combiHP}" target="_blank" title="公式HP"><i class="fa-solid fa-link"></i></a>`;
-                        if (member.combiRadio) combiSnsHtml += `<a href="${member.combiRadio}" target="_blank" title="ラジオ/Podcast"><i class="fa-solid fa-podcast"></i></a>`;
+                        // ★ ラジオアイコンを修正
+                        if (member.combiRadio) combiSnsHtml += `<a href="${member.combiRadio}" target="_blank" title="ラジオ/Podcast"><i class="fa-solid fa-radio"></i></a>`;
 
                         let leftSnsHtml = '';
                         if (member.leftX) leftSnsHtml += `<a href="${member.leftX}" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a>`;
