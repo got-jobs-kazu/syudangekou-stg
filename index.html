@@ -197,35 +197,36 @@
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         
-        /* === 出演者ローディングアニメーション === */
+        /* === 出演者ローディングアニメーション（出席確認） === */
         .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            margin: 0 auto;
-            max-width: 400px;
-            width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px 20px; background-color: rgba(255, 255, 255, 0.05); border: 2px dashed rgba(255, 255, 255, 0.3); border-radius: 8px;
+            margin: 0 auto; max-width: 500px; width: 100%;
         }
-        .loading-text {
-            color: #F0F0F0;
-            font-family: var(--font-hand);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-        }
-        .loading-eraser {
-            font-size: 2rem;
-            color: #dcb889; 
-            animation: erase 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes erase {
-            0% { transform: translateX(-30px) rotate(-10deg); }
-            100% { transform: translateX(30px) rotate(10deg); }
+        .loading-text { color: #F0F0F0; font-family: var(--font-hand); font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px; }
+        .loading-dots::after { content: ''; animation: dot-blink 1.5s infinite steps(4, end); }
+        @keyframes dot-blink { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: '...'; } }
+
+        .attendance-students { display: flex; gap: 30px; justify-content: center; align-items: flex-end; height: 90px; }
+        .student-box { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .student-body { font-size: 3rem; color: #ccc; }
+        .student-name { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 0.75rem; font-weight: bold; margin-top: 8px; padding: 3px 10px; border-radius: 3px; color: #fff; box-shadow: 1px 2px 3px rgba(0,0,0,0.5); }
+        .s-red .student-name { background-color: #e63946; }
+        .s-yellow .student-name { background-color: #e9c46a; color: #333; }
+        .s-blue .student-name { background-color: #457b9d; }
+
+        /* 手を挙げるアニメーション */
+        .student-hand { position: absolute; top: -15px; right: -20px; font-size: 1.8rem; color: #f4d03f; opacity: 0; transform: translateY(15px) rotate(15deg); filter: drop-shadow(2px 4px 2px rgba(0,0,0,0.5)); }
+        
+        /* 1秒ずつズレて順番に手が挙がる */
+        .s-red .student-hand { animation: raise-hand 3s infinite 0s; }
+        .s-yellow .student-hand { animation: raise-hand 3s infinite 1s; }
+        .s-blue .student-hand { animation: raise-hand 3s infinite 2s; }
+
+        @keyframes raise-hand {
+            0%, 10% { opacity: 0; transform: translateY(15px) rotate(15deg); }
+            15%, 40% { opacity: 1; transform: translateY(-15px) rotate(-5deg); }
+            45%, 100% { opacity: 0; transform: translateY(15px) rotate(15deg); }
         }
     </style>
 </head>
@@ -320,8 +321,24 @@
             <h2 class="section-title">出演者</h2>
             <div class="grid-list" id="member-grid">
                 <div class="loading-container" style="grid-column: 1 / -1;">
-                    <p class="loading-text">職員室に問い合わせ中...🏫</p>
-                    <i class="fa-solid fa-eraser loading-eraser"></i>
+                    <p class="loading-text">出席確認中<span class="loading-dots"></span></p>
+                    <div class="attendance-students">
+                        <div class="student-box s-red">
+                            <i class="fa-solid fa-hand student-hand"></i>
+                            <i class="fa-solid fa-child student-body"></i>
+                            <span class="student-name">吉本</span>
+                        </div>
+                        <div class="student-box s-yellow">
+                            <i class="fa-solid fa-hand student-hand"></i>
+                            <i class="fa-solid fa-child student-body"></i>
+                            <span class="student-name">人力舎</span>
+                        </div>
+                        <div class="student-box s-blue">
+                            <i class="fa-solid fa-hand student-hand"></i>
+                            <i class="fa-solid fa-child student-body"></i>
+                            <span class="student-name">ワタナベ</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
