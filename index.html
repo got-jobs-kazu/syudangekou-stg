@@ -197,15 +197,32 @@
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         
-/* === パターン①：シンプルテキスト === */
+        /* === パターン③：横棒タグ磁石 === */
         .loading-container {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 40px 20px; background-color: rgba(255, 255, 255, 0.05); border: 2px dashed rgba(255, 255, 255, 0.3); border-radius: 8px;
-            margin: 0 auto; max-width: 500px; width: 100%; min-height: 150px;
+            padding: 30px 20px; background-color: rgba(255, 255, 255, 0.05); border: 2px dashed rgba(255, 255, 255, 0.3); border-radius: 8px;
+            margin: 0 auto; max-width: 500px; width: 100%; min-height: 180px;
         }
-        .loading-text { color: #F0F0F0; font-family: var(--font-hand); font-size: 1.5rem; margin: 0; letter-spacing: 2px; }
-        .loading-dots::after { content: ''; animation: dot-blink 1.5s infinite steps(4, end); }
-        @keyframes dot-blink { 0% { content: ''; } 25% { content: '・'; } 50% { content: '・・'; } 75% { content: '・・・'; } 100% { content: '・・・'; } }
+        .loading-text { color: #F0F0F0; font-family: var(--font-hand); font-size: 1.5rem; margin-bottom: 20px; letter-spacing: 2px; }
+        
+        .loading-tags-stack { display: flex; flex-direction: column; gap: 10px; align-items: center; height: 90px; justify-content: flex-start;}
+        .loading-tag {
+            width: 120px; height: 24px; border-radius: 3px;
+            box-shadow: 1px 3px 4px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: bold; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+            letter-spacing: 2px; font-family: 'M PLUS Rounded 1c', sans-serif;
+            opacity: 0; transform: translateY(-10px);
+        }
+        .lt-red { background-color: #e63946; animation: tag-stack 3s infinite 0s; }
+        .lt-yellow { background-color: #e9c46a; animation: tag-stack 3s infinite 1s; }
+        .lt-blue { background-color: #457b9d; animation: tag-stack 3s infinite 2s; }
+
+        @keyframes tag-stack {
+            0%, 5% { opacity: 0; transform: translateY(-10px); }
+            10%, 95% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
     </style>
 </head>
 <body class="is-locked">
@@ -295,9 +312,18 @@
             </div>
         </section>
 
-<div class="loading-container" style="grid-column: 1 / -1;">
-                    <p class="loading-text">出席確認中<span class="loading-dots"></span></p>
+        <section id="member">
+            <h2 class="section-title">出演者</h2>
+            <div class="grid-list" id="member-grid">
+                <div class="loading-container" style="grid-column: 1 / -1;">
+                    <p class="loading-text">出席確認中</p>
+                    <div class="loading-tags-stack">
+                        <div class="loading-tag lt-red">吉本</div>
+                        <div class="loading-tag lt-yellow">人力舎</div>
+                        <div class="loading-tag lt-blue">ワタナベ</div>
+                    </div>
                 </div>
+            </div>
         </section>
 
         <section id="staff">
@@ -345,24 +371,20 @@
     </div>
 
     <script>
-        // ★★★重要★★★ 
-        // ここには、先ほど「新バージョン」でデプロイしたGASの新しいURLを貼り付けてください！
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyPT4dDcvB0BEfPF8vGbdEA9EJ-vPG91Q9Neb2dCSuDoI3kb8iyDnGLEUWWNrbF3HdcJg/exec';
 
-document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
             const openingLayer = document.getElementById('opening-layer');
             const mainBoard = document.getElementById('main-board');
             let hasStarted = false;
 
-            // ★修正：URLに「#」が含まれている場合はアニメーションをスキップする！
             if (sessionStorage.getItem('hasSeenOpening') || window.location.hash) {
                 openingLayer.style.display = 'none'; 
                 mainBoard.classList.add('is-visible', 'is-magnet-attached'); 
                 document.body.classList.remove('is-locked'); 
                 hasStarted = true; 
-                sessionStorage.setItem('hasSeenOpening', 'true'); // 直リンクで来た場合も次回以降スキップ
+                sessionStorage.setItem('hasSeenOpening', 'true');
 
-                // アンカーリンクがある場合は、少し遅らせて該当箇所へスムーズにスクロール
                 if (window.location.hash) {
                     setTimeout(() => {
                         const target = document.querySelector(window.location.hash);
@@ -395,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // ハンバーガーメニュー
             const hamburgerBtn = document.getElementById('hamburgerBtn'); const navMenu = document.getElementById('navMenu');
             if(hamburgerBtn && navMenu) {
                 const menuLinks = navMenu.querySelectorAll('a'); const btnIcon = hamburgerBtn.querySelector('i');
@@ -411,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // 時間割ポップアップ
             const openTimetableBtn = document.getElementById('openTimetableBtn'); const closeTimetableBtn = document.getElementById('closeTimetableBtn'); const timetableModal = document.getElementById('timetableModal');
             if (openTimetableBtn && timetableModal) {
                 openTimetableBtn.addEventListener('click', () => { timetableModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; });
@@ -419,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 timetableModal.addEventListener('click', (e) => { if (e.target === timetableModal) { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; } });
             }
 
-            // ビデオモーダルとカルーセル
             const openVideoBtn = document.getElementById('openVideoBtn'); const closeVideoBtn = document.getElementById('closeVideoBtn'); const videoModal = document.getElementById('videoModal'); const modalVideoPlayer = document.getElementById('modalVideoPlayer');
             if(openVideoBtn && videoModal && modalVideoPlayer) {
                 openVideoBtn.addEventListener('click', () => { videoModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; modalVideoPlayer.play(); });
@@ -438,18 +457,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(nextBtn) { nextBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' }); }); }
             }
 
-            // ★出演者自動読み込み（修正版）
             async function loadMembers() {
                 const memberGrid = document.getElementById('member-grid');
                 try {
-                    // JSONを取得（fetchのオプションに気をつける）
                     const response = await fetch(GAS_API_URL);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const members = await response.json();
                     
-                    // データを取得できたら、ローディング表示（黒板消し等の中身）を空にする
                     memberGrid.innerHTML = ''; 
 
                     if (members.length === 0 || members.error) {
@@ -501,7 +515,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                         `;
-                        // カードを追加
                         memberGrid.insertAdjacentHTML('beforeend', cardHtml);
                     });
                 } catch (error) {
@@ -511,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             loadMembers(); 
 
-            // チャット機能
             const chatBtn = document.getElementById('custom-chat-btn');
             const chatWindow = document.getElementById('custom-chat-window');
             const chatCloseBtn = document.getElementById('chat-close-btn');
@@ -554,16 +566,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 showTyping();
 
                 try {
-                    // ★チャット送信のfetchオプションを修正（CORS対策）
                     const response = await fetch(GAS_API_URL, {
                         method: 'POST',
-                        // headers: { 'Content-Type': 'text/plain' }, <- ここを消すか、無難なものにするのがGASのコツ
                         body: JSON.stringify({ message: text })
                     });
                     
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const data = await response.json();
                     
                     removeTyping();
