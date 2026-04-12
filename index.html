@@ -312,18 +312,20 @@
             </div>
         </section>
 
-        <section id="member">
+<section id="member">
             <h2 class="section-title">出演者</h2>
-            <div class="grid-list" id="member-grid">
-                <div class="loading-container" style="grid-column: 1 / -1;">
-                    <p class="loading-text">出席確認中</p>
-                    <div class="loading-tags-stack">
-                        <div class="loading-tag lt-red">吉本</div>
-                        <div class="loading-tag lt-yellow">人力舎</div>
-                        <div class="loading-tag lt-blue">ワタナベ</div>
-                    </div>
+            
+            <div id="fake-loading" class="loading-container" style="grid-column: 1 / -1;">
+                <p class="loading-text">出席確認中</p>
+                <div class="loading-tags-stack">
+                    <div class="loading-tag lt-red">吉本</div>
+                    <div class="loading-tag lt-yellow">人力舎</div>
+                    <div class="loading-tag lt-blue">ワタナベ</div>
                 </div>
             </div>
+
+            <div class="grid-list" id="member-grid" style="display: none;">
+</div>
         </section>
 
         <section id="staff">
@@ -370,7 +372,7 @@
         <div class="chat-input-area"><input type="text" id="chat-input" class="chat-input" placeholder="メッセージを入力..."><button id="chat-send-btn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button></div>
     </div>
 
-    <script>
+<script>
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyPT4dDcvB0BEfPF8vGbdEA9EJ-vPG91Q9Neb2dCSuDoI3kb8iyDnGLEUWWNrbF3HdcJg/exec';
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -457,73 +459,34 @@
                 if(nextBtn) { nextBtn.addEventListener('click', () => { const slideWidth = videoCarousel.clientWidth; videoCarousel.scrollBy({ left: slideWidth, behavior: 'smooth' }); }); }
             }
 
-            async function loadMembers() {
-                const memberGrid = document.getElementById('member-grid');
-                try {
-                    const response = await fetch(GAS_API_URL);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    const members = await response.json();
-                    
-                    memberGrid.innerHTML = ''; 
+            // =====================================
+            // ★ 新機能：スクロール連動 フェイクローディング演出
+            // =====================================
+            const memberSection = document.getElementById('member');
+            const fakeLoading = document.getElementById('fake-loading');
+            const memberGrid = document.getElementById('member-grid');
 
-                    if (members.length === 0 || members.error) {
-                        memberGrid.innerHTML = '<p style="text-align: center; width: 100%; color:#F0F0F0;">出演者データがありません。</p>';
-                        return;
+            if (memberSection && fakeLoading && memberGrid) {
+                // 画面に「memberSection」が入ってきたかを監視するセンサー
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        // 画面に入ってきた！ 2.5秒（2500ミリ秒）待ってからカードを出す
+                        setTimeout(() => {
+                            fakeLoading.style.display = 'none';
+                            memberGrid.style.display = 'grid'; 
+                        }, 2500); 
+                        
+                        // 1回見せたら監視を終了する（上にスクロールして戻っても再度出ないように）
+                        observer.disconnect(); 
                     }
-
-                    members.forEach(member => {
-                        let magnetClass = 'magnet-red';
-                        if (member.agency === '人力舎') magnetClass = 'magnet-yellow';
-                        if (member.agency === 'ワタナベ') magnetClass = 'magnet-blue';
-
-                        let combiSnsHtml = '';
-                        if (member.combiYT) combiSnsHtml += `<a href="${member.combiYT}" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>`;
-                        if (member.combiHP) combiSnsHtml += `<a href="${member.combiHP}" target="_blank" title="公式HP"><i class="fa-solid fa-link"></i></a>`;
-                        if (member.combiRadio) combiSnsHtml += `<a href="${member.combiRadio}" target="_blank" title="ラジオ/Podcast"><i class="fa-solid fa-radio"></i></a>`;
-
-                        let leftSnsHtml = '';
-                        if (member.leftX) leftSnsHtml += `<a href="${member.leftX}" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a>`;
-                        if (member.leftIG) leftSnsHtml += `<a href="${member.leftIG}" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>`;
-
-                        let rightSnsHtml = '';
-                        if (member.rightX) rightSnsHtml += `<a href="${member.rightX}" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a>`;
-                        if (member.rightIG) rightSnsHtml += `<a href="${member.rightIG}" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>`;
-                        if (member.rightYT) rightSnsHtml += `<a href="${member.rightYT}" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>`;
-
-                        const combiBlock = combiSnsHtml ? `
-                            <div class="member-person" style="padding-bottom: 10px;">
-                                <span class="member-name" style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">コンビ公式</span>
-                                <div class="sns-links">${combiSnsHtml}</div>
-                            </div>
-                        ` : '';
-
-                        const cardHtml = `
-                        <div class="card-box ${magnetClass}">
-                            <div class="affiliation-tag">${member.agency}</div>
-                            <div class="combi-name-bar">${member.combi}</div>
-                            <div class="card-img-box" style="background-image: url('${member.image}'); background-size: cover; background-position: center;"></div>
-                            <div class="card-info member-details">
-                                ${combiBlock}
-                                <div class="member-person">
-                                    <span class="member-name">${member.leftName}<span class="member-pos">（写真・左）</span></span>
-                                    <div class="sns-links">${leftSnsHtml}</div>
-                                </div>
-                                <div class="member-person">
-                                    <span class="member-name">${member.rightName}<span class="member-pos">（写真・右）</span></span>
-                                    <div class="sns-links">${rightSnsHtml}</div>
-                                </div>
-                            </div>
-                        </div>
-                        `;
-                        memberGrid.insertAdjacentHTML('beforeend', cardHtml);
-                    });
-                } catch (error) {
-                    console.error('Member load error:', error);
-                    memberGrid.innerHTML = '<p style="text-align: center; width: 100%; color: #e63946;">データの読み込みに失敗しました。時間をおいて再読み込みしてください。</p>';
-                }
+                }, { threshold: 0.2 }); // セクションが20%くらい見えたら発動
+                
+                observer.observe(memberSection);
             }
-            loadMembers(); 
 
+            // =====================================
+            // ★ 相談チャット機能
+            // =====================================
             const chatBtn = document.getElementById('custom-chat-btn');
             const chatWindow = document.getElementById('custom-chat-window');
             const chatCloseBtn = document.getElementById('chat-close-btn');
