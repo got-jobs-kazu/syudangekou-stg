@@ -653,10 +653,22 @@
             chatBtn.addEventListener('click', () => { chatWindow.classList.add('is-open'); });
             chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('is-open'); });
 
-function addMessage(text, sender) {
+　　　　　　　/* === ここから追加：無害化（サニタイズ）機能 === */
+            function escapeHTML(str) {
+                return str.replace(/[&<>'"]/g, function(match) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[match];
+                });
+            }
+            /* === ここまで追加 === */
+
+            function addMessage(text, sender) {
                 const msgDiv = document.createElement('div');
                 msgDiv.classList.add('chat-msg', sender === 'user' ? 'user-msg' : 'bot-msg');
-                msgDiv.innerHTML = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:blue;">$1</a>').replace(/\n/g, '<br>');
+                
+                // ★修正：先に悪意のある記号を無害化してから、リンクと改行を変換する
+                const safeText = escapeHTML(text);
+                msgDiv.innerHTML = safeText.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:blue;">$1</a>').replace(/\n/g, '<br>');
+                
                 chatBody.appendChild(msgDiv);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
