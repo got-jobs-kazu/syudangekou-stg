@@ -604,7 +604,28 @@
                 const closeVideo = () => { videoModal.classList.remove('is-active'); document.body.style.overflow = ''; modalVideoPlayer.pause(); };
                 closeVideoBtn.addEventListener('click', closeVideo);
             }
+/* === 放送室のスライド（カルーセル）操作 === */
+            const videoCarousel = document.getElementById('videoCarousel');
+            const carouselPrev = document.getElementById('carouselPrev');
+            const carouselNext = document.getElementById('carouselNext');
+            const carouselDots = document.querySelectorAll('.carousel-indicators .dot');
 
+            if (videoCarousel && carouselPrev && carouselNext) {
+                carouselPrev.addEventListener('click', () => {
+                    videoCarousel.scrollBy({ left: -videoCarousel.clientWidth, behavior: 'smooth' });
+                });
+                carouselNext.addEventListener('click', () => {
+                    videoCarousel.scrollBy({ left: videoCarousel.clientWidth, behavior: 'smooth' });
+                });
+                videoCarousel.addEventListener('scroll', () => {
+                    const scrollIndex = Math.round(videoCarousel.scrollLeft / videoCarousel.clientWidth);
+                    if (carouselDots) {
+                        carouselDots.forEach((dot, index) => {
+                            dot.classList.toggle('active', index === scrollIndex);
+                        });
+                    }
+                });
+            }
             const memberSection = document.getElementById('member');
             const fakeLoading = document.getElementById('fake-loading');
             const memberGrid = document.getElementById('member-grid');
