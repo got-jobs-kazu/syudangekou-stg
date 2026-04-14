@@ -632,7 +632,7 @@
             chatBtn.addEventListener('click', () => { chatWindow.classList.add('is-open'); });
             chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('is-open'); });
 
-            function addMessage(text, sender) {
+function addMessage(text, sender) {
                 const msgDiv = document.createElement('div');
                 msgDiv.classList.add('chat-msg', sender === 'user' ? 'user-msg' : 'bot-msg');
                 msgDiv.innerHTML = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:blue;">$1</a>').replace(/\n/g, '<br>');
@@ -640,17 +640,38 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
 
+            /* === ここから追加：ローディングを出す・消す命令 === */
+            function showTyping() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.classList.add('chat-msg', 'bot-msg', 'typing-indicator');
+                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                chatBody.appendChild(typingDiv);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            function removeTyping() {
+                const typingDiv = document.getElementById('typing-indicator');
+                if (typingDiv) typingDiv.remove();
+            }
+            /* === ここまで追加 === */
+
             async function sendMessage() {
                 const text = chatInput.value.trim();
                 if (!text) return;
                 addMessage(text, 'user');
                 chatInput.value = '';
                 chatSendBtn.disabled = true;
+                
+                showTyping(); // ←質問を送った瞬間にアニメーションを出す！
+
                 try {
                     const response = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ message: text }) });
                     const data = await response.json();
+                    removeTyping(); // ←返事が来たらアニメーションを消す！
                     addMessage(data.reply, 'bot');
                 } catch (error) {
+                    removeTyping(); // ←エラーの時もアニメーションを消す！
                     addMessage('通信エラーが発生しました。', 'bot');
                 } finally {
                     chatSendBtn.disabled = false;
