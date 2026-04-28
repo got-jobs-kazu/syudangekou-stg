@@ -73,20 +73,10 @@
         .card-box { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; height: auto; padding-bottom: 15px; transition: transform 0.2s; }
         .card-box:hover { transform: translateY(-3px); }
         .affiliation-tag { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 120px; height: 20px; border-radius: 3px; box-shadow: 1px 3px 4px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5); letter-spacing: 2px; font-family: 'M PLUS Rounded 1c', sans-serif; }
-        
-        /* マグネットカラー設定 */
-        .magnet-red .affiliation-tag { background-color: #e63946; } 
-        .magnet-blue .affiliation-tag { background-color: #457b9d; } 
-        .magnet-yellow .affiliation-tag { background-color: #e9c46a; }
-        .magnet-green .affiliation-tag { background-color: #2a9d8f; }
+        .magnet-red .affiliation-tag { background-color: #e63946; } .magnet-blue .affiliation-tag { background-color: #457b9d; } .magnet-yellow .affiliation-tag { background-color: #e9c46a; } .magnet-green .affiliation-tag { background-color: #2a9d8f; }
 
-        #staff .card-box::before, #staff .card-box::after { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; box-shadow: 1px 2px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5); z-index: 10; top: 10px; }
-        #staff .card-box::before { left: 10px; } #staff .card-box::after { right: 10px; }
-        #staff .magnet-blue::before, #staff .magnet-blue::after { background-color: #457b9d; } 
-        #staff .magnet-yellow::before, #staff .magnet-yellow::after { background-color: #e9c46a; }
-        
         .combi-name-bar { background-color: transparent; color: #333; font-family: var(--font-serif); font-weight: bold; font-size: 0.95rem; padding: 30px 5px 8px; border-bottom: 2px dashed #ccc; text-align: center; }
-        .card-img-box { width: 100%; aspect-ratio: 1 / 1; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #888; font-size: 0.8rem; }
+        .card-img-box { width: 100%; aspect-ratio: 1 / 1; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #888; font-size: 0.8rem; background-size: cover; background-position: center; }
         .member-details { display: flex; flex-direction: column; gap: 16px; padding: 15px 10px 0; }
         .member-person { display: flex; flex-direction: column; align-items: center; border-bottom: 1px dashed #ccc; padding-bottom: 15px; }
         .member-person:last-child { border-bottom: none; padding-bottom: 0; }
@@ -97,6 +87,21 @@
         .sns-links a:hover { color: #000; transform: scale(1.1); }
         .sns-links i { font-size: 1.1rem; }
 
+        /* === 掲示板（帰りの会）のCSS === */
+        .vol-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .vol-btn { background: #3E6B42; color: #fff; border: 2px solid #fff; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.2rem; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: all 0.2s; }
+        .vol-btn:hover { background: #fff; color: #2E5D4B; transform: translateY(-2px); }
+        .notice-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; justify-content: center; align-items: center; }
+        .overlay-bg { position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
+        .notice-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 40px; cursor: pointer; z-index: 10002; }
+        .notice-slider-container { position: relative; z-index: 10001; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 90%; max-width: 400px; gap: 20px; padding: 20px 0; }
+        .notice-slider-container::-webkit-scrollbar { display: none; }
+        .notice-card { min-width: 100%; background: #D5E8D4; border: 4px solid #2E5D4B; border-radius: 15px; padding: 20px; scroll-snap-align: center; box-sizing: border-box; color: #333; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .notice-card h3 { color: #2E5D4B; border-bottom: 2px dashed #2E5D4B; margin-bottom: 10px; font-size: 1.2rem; padding-bottom: 5px; }
+        .notice-card .combi-name { font-size: 0.9rem; color: #666; margin-bottom: 10px; display: block; font-weight: bold; }
+        .notice-card .detail { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; }
+        .notice-link { display: inline-block; background: #2E5D4B; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
         .guidelines-box { background-color: rgba(0,0,0,0.2); border: 2px solid rgba(255,255,255,0.1); padding: 20px; font-size: 0.9rem; }
         .guidelines-box ul { padding-left: 20px; margin-top: 10px; }
         .guidelines-box li { margin-bottom: 5px; }
@@ -106,153 +111,63 @@
         .eraser { position: absolute; bottom: 4px; left: 8%; width: 45px; height: 15px; background: linear-gradient(to bottom, #dcb889 40%, #2b579a 40%); border-radius: 2px; box-shadow: 2px 2px 4px rgba(0,0,0,0.6); transform: rotate(-3deg); }
         .eraser::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 8px; height: 40%; background-color: #222; box-shadow: 1px 0 1px rgba(0,0,0,0.2); }
         .chalk-white { position: absolute; bottom: 4px; right: 15%; width: 22px; height: 5px; background-color: #fff; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(15deg); }
-        .chalk-yellow { position: absolute; bottom: 2px; right: 10%; width: 16px; height: 5px; background-color: #f4d03f; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(-25deg); }
+        .chalk-yellow { position: absolute; bottom: 2px; right: 10%; width: 16px; height: 5px; background-color: #f4d03f; border-radius: 3px; box-shadow: 1px 黄1px 3px rgba(0,0,0,0.5); transform: rotate(-25deg); }
 
         .sticky-ticket-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: linear-gradient(to top, #111, rgba(17,17,17,0.95)); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0 20px; }
         .btn-sticky { display: block; width: 100%; max-width: 500px; background-color: #f4d03f; color: #1a3c2c; text-align: center; padding: 12px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.5); transition: all 0.2s; }
-        .btn-sticky:hover { filter: brightness(1.1); transform: translateY(-1px); }
-        .btn-sticky:active { transform: translateY(1px); }
 
         .pc-br { display: none; }
-        @media (min-width: 600px) {
-            .container { padding: 60px 50px; } .section-title { text-align: left; }
-            .info-item { flex-direction: row; align-items: baseline; } .info-label { width: 100px; flex-shrink: 0; }
-            .pc-br { display: inline; } .sp-br { display: none; }
-            .flyer-magnet { top: 15px; width: 24px; height: 24px; } .flyer-magnet-left { left: 20px; } .flyer-magnet-right { right: 20px; }
-            .intro-text { font-size: 1.25rem; } 
-        }
-
-        #socialSidebar { position: fixed !important; bottom: 220px !important; right: 0px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; transform: translateX(0) !important; transition: all 0.3s ease !important; z-index: 1000 !important; }
-        #socialSidebar.is-hidden { transform: translateX(100%) !important; opacity: 0.5 !important; }
-        .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; box-shadow: -2px 2px 6px rgba(0,0,0,0.5); font-size: 1.6rem; text-decoration: none; transition: transform 0.2s, width 0.2s; }
-        .social-btn:hover { width: 60px; background-color: #222; }
-        @media (min-width: 768px) {
-            #socialSidebar { top: 50% !important; bottom: auto !important; transform: translateY(-50%) !important; background-color: rgba(255, 255, 255, 0.95) !important; padding: 15px 15px 15px 20px !important; border-radius: 15px 0 0 15px !important; box-shadow: -2px 0 10px rgba(0,0,0,0.15) !important; }
-            #socialSidebar.is-hidden { transform: translateY(-50%) !important; opacity: 1 !important; } 
-            #socialSidebar .social-btn { background-color: transparent !important; color: #000 !important; box-shadow: none !important; width: auto !important; height: auto !important; font-size: 2rem !important; border-radius: 0 !important; }
-            #socialSidebar .social-btn:hover { width: auto !important; transform: scale(1.15); color: #555 !important; }
-        }
+        @media (min-width: 600px) { .container { padding: 60px 50px; } .section-title { text-align: left; } .info-item { flex-direction: row; align-items: baseline; } .info-label { width: 100px; flex-shrink: 0; } .pc-br { display: inline; } .sp-br { display: none; } .flyer-magnet { top: 15px; width: 24px; height: 24px; } .flyer-magnet-left { left: 20px; } .flyer-magnet-right { right: 20px; } .intro-text { font-size: 1.25rem; } }
 
         .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease; }
         .hamburger-btn.is-active { color: #ffffff; transform: rotate(90deg) scale(1.1); filter: none; }
         .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.7); z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .nav-menu.is-active { display: flex !important; opacity: 1 !important; }
         .notebook-paper { background-color: #fdf5e6; width: 80%; max-width: 400px; padding: 40px 20px 30px; position: relative; border-radius: 5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); background-image: repeating-linear-gradient(transparent, transparent 39px, #d2d2d2 39px, #d2d2d2 40px); background-attachment: local; }
-        .notebook-paper h2 { text-align: center; color: #333; margin-top: 0; margin-bottom: 20px; font-family: 'Comic Sans MS', '丸ゴシック', sans-serif; text-shadow: 0 0 8px #fdf5e6, 0 0 12px #fdf5e6, 0 0 15px #fdf5e6; }
-        .notebook-paper ul { list-style: none; padding: 0; margin: 0; }
+        .notebook-paper h2 { text-align: center; color: #333; margin-bottom: 20px; font-family: 'Comic Sans MS', sans-serif; }
+        .notebook-paper ul { list-style: none; padding: 0; }
         .notebook-paper li { margin-bottom: 15px; text-align: center; }
-        .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; display: block; text-shadow: 0 0 5px #fdf5e6, 0 0 8px #fdf5e6, 0 0 12px #fdf5e6; }
+        .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.85); z-index: 5000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.is-active { display: flex; opacity: 1; }
         .modal-close-btn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5001; }
-        
-        .timetable-board { background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.3s ease; }
-        .modal-overlay.is-active .timetable-board { transform: translateY(0); }
-        .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; font-family: 'Kaisei Decol', serif; border-radius: 5px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; display: inline-block; margin-top: 20px;}
-        .timetable-btn:hover { transform: translateY(-2px); background-color: #a06b35; }
-        .timetable-title { text-align: center; color: #fff; font-family: 'Yomogi', cursive; font-size: 1.8rem; margin-top: 0; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.5); padding-bottom: 10px; }
-        .timetable-grid { display: flex; flex-direction: column; gap: 10px; }
-        .tt-row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-        .tt-time { width: 30%; color: #f4d03f; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.1rem; }
-        .tt-desc { width: 70%; color: #fff; font-size: 1.1rem; }
+        .timetable-board { background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 20px;}
 
-        .video-carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
-        .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: 2px solid rgba(255,255,255,0.3); width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 10; font-size: 1.2rem; transition: all 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .carousel-nav:hover { background: #E6C445; color: #111; border-color: #E6C445; transform: translateY(-50%) scale(1.1); }
-        .carousel-nav.prev { left: 5px; } .carousel-nav.next { right: 5px; }
-        @media (max-width: 767px) { .carousel-nav { display: none !important; } }
-        .video-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .video-carousel::-webkit-scrollbar { display: none; }
-        .video-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .video-thumbnail { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.2s, border-color 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); overflow: hidden; }
-        .thumbnail-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: opacity 0.3s; z-index: 1; pointer-events: none; }
-        .thumbnail-overlay { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
-        .play-icon { font-size: 3.5rem; color: #E6C445; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
-        .play-text { color: #fff; font-weight: bold; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .video-modal-content { position: relative; width: 95%; max-width: calc(85vh * (16 / 9)); max-height: 85vh; aspect-ratio: 16 / 9; margin: 0 auto; padding: 0; transform: translateY(20px); transition: transform 0.3s ease; }
-        .modal-overlay.is-active .video-modal-content { transform: translateY(0); }
-        .video-wrapper { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 2px solid rgba(255,255,255,0.5); }
-        .video-wrapper video { width: 100%; height: 100%; object-fit: contain; display: block; }
-        .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
-        .carousel-indicators { text-align: center; margin-top: 10px; }
-        .carousel-indicators .dot { display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: rgba(255,255,255,0.3); border-radius: 50%; transition: background-color 0.3s; }
-        .carousel-indicators .dot.active { background-color: #E6C445; }
+        .video-slide { flex: 0 0 100%; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; }
+        .video-thumbnail { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 8px; cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center;}
+        .thumbnail-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+        .play-icon { font-size: 3.5rem; color: #E6C445; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); position: relative; z-index: 2; }
+        .video-wrapper { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; background: #000; }
+        .video-wrapper video { width: 100%; height: 100%; }
 
-        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid #ccc; }
-        .custom-chat-btn:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
-        .custom-chat-btn i { font-size: 1.8rem; margin-bottom: 3px; }
-        .custom-chat-btn span { font-size: 0.7rem; font-weight: bold; font-family: sans-serif; }
-        #custom-chat-btn.is-hidden { transform: translateX(120px) !important; opacity: 0.5 !important; }
-
-        .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; z-index: 2001; opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s ease; overflow: hidden; border: 2px solid #2E5D4B; font-family: sans-serif; }
-        .custom-chat-window.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .chat-header { background-color: #2E5D4B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-bottom: 3px solid #8B5A2B; }
-        .chat-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s; }
-        .chat-close-btn:hover { transform: scale(1.2); }
+        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s; border: 2px solid #ccc; }
+        .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 2001; border: 2px solid #2E5D4B; overflow: hidden; }
+        .custom-chat-window.is-open { display: flex; }
+        .chat-header { background-color: #2E5D4B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background-color: #eef2f0; }
         .chat-msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
         .bot-msg { align-self: flex-start; background-color: #fff; color: #333; border: 1px solid #ccc; border-bottom-left-radius: 2px; }
         .user-msg { align-self: flex-end; background-color: #8B5A2B; color: #fff; border-bottom-right-radius: 2px; }
-        .chat-input-area { padding: 10px; background-color: #fff; border-top: 1px solid #ccc; display: flex; gap: 10px; align-items: center; }
+        .chat-input-area { padding: 10px; background-color: #fff; border-top: 1px solid #ccc; display: flex; gap: 10px; }
         .chat-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 0.95rem; outline: none; }
-        .chat-send-btn { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: background-color 0.2s; }
+        .chat-send-btn { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
         .typing-indicator { display: flex; gap: 5px; padding: 5px 10px; }
         .typing-indicator span { width: 8px; height: 8px; background-color: #888; border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         
-        .loading-container {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 30px 20px; background-color: rgba(255, 255, 255, 0.05); border: 2px dashed rgba(255, 255, 255, 0.3); border-radius: 8px;
-            margin: 0 auto; max-width: 500px; width: 100%; min-height: 180px;
-        }
-        .loading-text { color: #F0F0F0; font-family: var(--font-hand); font-size: 1.5rem; margin-bottom: 20px; letter-spacing: 2px; }
-        
-        .loading-tags-stack { display: flex; flex-direction: column; gap: 10px; align-items: center; height: 90px; justify-content: flex-start;}
-        .loading-tag {
-            width: 120px; height: 24px; border-radius: 3px;
-            box-shadow: 1px 3px 4px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; font-weight: bold; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5);
-            letter-spacing: 2px; font-family: 'M PLUS Rounded 1c', sans-serif;
-            opacity: 0; transform: translateY(-10px);
-        }
+        .loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; background-color: rgba(255, 255, 255, 0.05); border: 2px dashed rgba(255, 255, 255, 0.3); border-radius: 8px; margin: 0 auto; max-width: 500px; width: 100%; min-height: 180px; }
+        .loading-text { color: #F0F0F0; font-family: var(--font-hand); font-size: 1.5rem; margin-bottom: 20px; }
+        .loading-tags-stack { display: flex; flex-direction: column; gap: 10px; align-items: center; height: 90px; }
+        .loading-tag { width: 120px; height: 24px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: #fff; opacity: 0; transform: translateY(-10px); }
         .lt-red { background-color: #e63946; animation: tag-stack 3s infinite 0s; }
         .lt-yellow { background-color: #e9c46a; animation: tag-stack 3s infinite 1s; }
         .lt-blue { background-color: #457b9d; animation: tag-stack 3s infinite 2s; }
+        @keyframes tag-stack { 0%, 5% { opacity: 0; transform: translateY(-10px); } 10%, 95% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
 
-        @keyframes tag-stack {
-            0%, 5% { opacity: 0; transform: translateY(-10px); }
-            10%, 95% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-10px); }
-        }
-        
-        /* === 掲示板（帰りの会）のCSS === */
-        .vol-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-        .vol-btn { background: #3E6B42; color: #fff; border: 2px solid #fff; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.2rem; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: all 0.2s; }
-        .vol-btn:hover { background: #fff; color: #2E5D4B; transform: translateY(-2px); }
-
-        .notice-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; justify-content: center; align-items: center; }
-        .overlay-bg { position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
-        .close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 40px; cursor: pointer; z-index: 10002; }
-
-        .notice-slider-container {
-            position: relative; z-index: 10001; display: flex; overflow-x: auto;
-            scroll-snap-type: x mandatory; width: 90%; max-width: 400px; gap: 20px; padding: 20px 0;
-        }
-        .notice-slider-container::-webkit-scrollbar { display: none; }
-
-        .notice-card {
-            min-width: 100%; background: #D5E8D4; border: 4px solid #2E5D4B; border-radius: 15px;
-            padding: 20px; scroll-snap-align: center; box-sizing: border-box; color: #333; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .notice-card h3 { color: #2E5D4B; border-bottom: 2px dashed #2E5D4B; margin-bottom: 10px; font-size: 1.2rem; padding-bottom: 5px; }
-        .notice-card .combi-name { font-size: 0.9rem; color: #666; margin-bottom: 10px; display: block; font-weight: bold; }
-        .notice-card .detail { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; }
-        .notice-link { display: inline-block; background: #2E5D4B; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        
+        #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; font-size: 1.6rem; text-decoration: none; }
     </style>
 </head>
 <body class="is-locked">
@@ -265,8 +180,10 @@
                 <li><a href="#movie">放送室</a></li>
                 <li><a href="#info">時間割</a></li>
                 <li><a href="#member">出演者</a></li>
-                <li><a href="#notice-board">帰りの会（掲示板）</a></li> <li><a href="#guidelines">校則（注意事項）</a></li>
+                <li><a href="#notice-board">帰りの会（掲示板）</a></li>
+                <li><a href="#guidelines">校則（注意事項）</a></li>
                 <li><a href="#access">通学路</a></li>
+                <li><a href="#staff">職員室</a></li>
             </ul>
         </div>
     </div>
@@ -283,35 +200,19 @@
             <img src="./bg_base.jpg" class="hero-bg" style="opacity: 1;"><img src="./board.png" class="hero-board final-state"><img src="./title.png" class="hero-title final-state"><img src="./stamp.png" class="hero-stamp final-state">
         </div>
 
-        <div class="intro-text">吉本、人力舎、フリーの<br>芸歴二年目が集う<br class="sp-br">同期ライブ「集団下校」🏫<br>ネタとコーナーで<br class="sp-br">バチバチの90分‼️</div> <section id="movie">
+        <div class="intro-text">吉本、人力舎、フリーの<br>芸歴二年目が集う<br class="sp-br">同期ライブ「集団下校」🏫<br>ネタとコーナーで<br class="sp-br">バチバチの90分‼️</div>
+
+        <section id="movie">
             <h2 class="section-title">放送室</h2>
             <div class="video-carousel-wrapper">
-                <button class="carousel-nav prev" id="carouselPrev"><i class="fa-solid fa-chevron-left"></i></button>
                 <div class="video-carousel" id="videoCarousel">
                     <div class="video-slide">
                         <div class="video-thumbnail" id="openVideoBtn">
                             <video class="thumbnail-bg-video" src="./digest_movie.mp4#t=0.001" muted playsinline preload="metadata"></video>
-                            <div class="thumbnail-overlay"><i class="fa-solid fa-circle-play play-icon"></i><span class="play-text">タップして再生</span></div>
+                            <div class="thumbnail-overlay"><i class="fa-solid fa-circle-play play-icon"></i></div>
                         </div>
                         <p style="margin-top: 5px; font-size: 0.9rem; font-weight: bold; color: #fff;">第1回 ダイジェスト</p>
                     </div>
-                    <div class="video-slide">
-                        <div class="coming-soon-slide">
-                            <i class="fa-solid fa-film"></i>
-                            <p>第2回 ダイジェスト<br><span style="color: #E6C445; font-weight: bold;">Coming Soon...</span></p>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-nav next" id="carouselNext"><i class="fa-solid fa-chevron-right"></i></button>
-                <div class="carousel-indicators" id="carouselIndicators">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
-            <div id="videoModal" class="modal-overlay">
-                <div class="video-modal-content">
-                    <button id="closeVideoBtn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
-                    <div class="video-wrapper"><video id="modalVideoPlayer" controls playsinline><source src="./digest_movie.mp4#t=0.001" type="video/mp4"></video></div>
                 </div>
             </div>
         </section>
@@ -319,115 +220,28 @@
         <section id="info">
             <h2 class="section-title">時間割</h2>
             <ul class="info-list">
-                <li class="info-item"><span class="info-label">日時</span><span class="info-value">2026年05月21日(木)<br>開場 18:45 / 開演 19:00 / 終演 20:30</span></li> <li class="info-item"><span class="info-label">料金</span><span class="info-value">¥1,500（※当日現金払いのみ）</span></li>
+                <li class="info-item"><span class="info-label">日時</span><span class="info-value">2026年05月21日(木)<br>開場 18:45 / 開演 19:00 / 終演 20:30</span></li>
+                <li class="info-item"><span class="info-label">料金</span><span class="info-value">¥1,500（※当日現金払いのみ）</span></li>
             </ul>
             <div style="text-align: center;"><button id="openTimetableBtn" class="timetable-btn">時間割を見る <i class="fa-solid fa-clock"></i></button></div>
-
-            <div id="timetableModal" class="modal-overlay">
-                <div class="modal-content timetable-board">
-                    <button id="closeTimetableBtn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
-                    <h3 class="timetable-title">本日の時間割</h3>
-                    <div class="timetable-grid">
-                        <div class="tt-row"><div class="tt-time">朝の会</div><div class="tt-desc">オープニングトーク</div></div>
-                        <div class="tt-row"><div class="tt-time">1時間目</div><div class="tt-desc">前半組 ネタ</div></div>
-                        <div class="tt-row"><div class="tt-time">中休み</div><div class="tt-desc">前半組 トーク・コーナー</div></div>
-                        <div class="tt-row"><div class="tt-time">2時間目</div><div class="tt-desc">後半組 ネタ</div></div>
-                        <div class="tt-row"><div class="tt-time">昼休み</div><div class="tt-desc">後半組 トーク・コーナー</div></div>
-                        <div class="tt-row"><div class="tt-time">帰りの会</div><div class="tt-desc">エンディング</div></div>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section id="member">
             <h2 class="section-title">出演者</h2>
-            
             <div id="fake-loading" class="loading-container" style="grid-column: 1 / -1;">
                 <p class="loading-text">出席確認中</p>
                 <div class="loading-tags-stack">
                     <div class="loading-tag lt-red">吉本</div>
                     <div class="loading-tag lt-yellow">人力舎</div>
-                    <div class="loading-tag lt-blue">ワタナベ</div>
                 </div>
             </div>
-<span id="MEMBERS_START"></span>
-<div class="grid-list" id="member-grid" style="display: none;">
-
-      <div class="card-box magnet-red">
-          <div class="affiliation-tag">吉本</div>
-          <div class="combi-name-bar">ドゥドゥディダーダー</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1YJkD70xxvvU5oiFEnKyYDGxiTaATxBzD&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              
-              <div class="member-person"><span class="member-name">りゅーしょー伝説<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/legend_ryusho" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-              <div class="member-person"><span class="member-name">坂口拓也<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/dododedada_saka" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.instagram.com/dododedada_saka" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a></div></div>
-          </div>
-      </div>
-      <div class="card-box magnet-red">
-          <div class="affiliation-tag">吉本</div>
-          <div class="combi-name-bar">エコノート</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1-9YeVeeFzdyDLIPAgH6JqtH1-NKGk5jH&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              <div class="member-person" style="padding-bottom: 10px;"><span class="member-name" style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">コンビ公式</span><div class="sns-links"><a href="https://www.youtube.com/@e.co.channel" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
-              <div class="member-person"><span class="member-name">福田幸人<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/kout_fkd" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.instagram.com/eco_fkd" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a></div></div>
-              <div class="member-person"><span class="member-name">ヒデタカハシ<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/eco_hide" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.instagram.com/eco_hide" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="https://www.youtube.com/@ゲームタカヒデ" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
-          </div>
-      </div>
-      <div class="card-box magnet-red">
-          <div class="affiliation-tag">吉本</div>
-          <div class="combi-name-bar">フィッシュおさかな</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1yPVR4N94c4f3UFvUkZ0blQMatanibm5d&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              <div class="member-person" style="padding-bottom: 10px;"><span class="member-name" style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">コンビ公式</span><div class="sns-links"><a href="https://www.youtube.com/@フィッシュおさかなのチャンネル番組" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
-              <div class="member-person"><span class="member-name">小山<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/wagon_nsc30" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-              <div class="member-person"><span class="member-name">カイト<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/howahowakibun" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-          </div>
-      </div>
-      <div class="card-box magnet-yellow">
-          <div class="affiliation-tag">人力舎</div>
-          <div class="combi-name-bar">最大パルプ</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1ptLWGLbrSCXmDPpqMhlFzXEkFxwRWk56&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              <div class="member-person" style="padding-bottom: 10px;"><span class="member-name" style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">コンビ公式</span><div class="sns-links"><a href="https://www.youtube.com/@SaidaiPulp" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
-              <div class="member-person"><span class="member-name">平野<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/sidiplup_hrn" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-              <div class="member-person"><span class="member-name">堀井<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/saidaipulphorii" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-          </div>
-      </div>
-      <div class="card-box magnet-yellow">
-          <div class="affiliation-tag">人力舎</div>
-          <div class="combi-name-bar">ファズ宮</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1baWR6ghCh0SS4jcdgmARG7-YGiPeoYz0&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              
-              <div class="member-person"><span class="member-name">花寺ビスク<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://x.com/hanadera_bisque" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.instagram.com/zgg_miel" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a></div></div>
-              <div class="member-person"><span class="member-name">ぴかぴか標識<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/C_nosaki" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-          </div>
-      </div>
-      <div class="card-box magnet-yellow">
-          <div class="affiliation-tag">人力舎</div>
-          <div class="combi-name-bar">悪趣味な色彩のカエル</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1JIkZhfvMxDw2dXDr_kQ9M7X2i9gu2y0K&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              <div class="member-person" style="padding-bottom: 10px;"><span class="member-name" style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">コンビ公式</span><div class="sns-links"><a href="https://www.youtube.com/@悪趣味な色彩のカエル" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
-              <div class="member-person"><span class="member-name">えじき<span class="member-pos">（写真・左）</span></span><div class="sns-links"><a href="https://www.instagram.com/khysf._" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a></div></div>
-              <div class="member-person"><span class="member-name">羽立<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/yuyu_rinchi6633" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.instagram.com/hanehane_138" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a></div></div>
-          </div>
-      </div>
-      <div class="card-box magnet-blue">
-          <div class="affiliation-tag">フリー</div>
-          <div class="combi-name-bar">内山夏木</div>
-          <div class="card-img-box" style="background-image: url('https://drive.google.com/thumbnail?id=1DCCNiOmWNpreETgtY1CMqyYzeJrt26B5&sz=w1000'); background-size: cover; background-position: center;"></div>
-          <div class="card-info member-details">
-              
-              <div class="member-person"><span class="member-name">内山<span class="member-pos">（写真・左）</span></span><div class="sns-links"></div></div>
-              <div class="member-person"><span class="member-name">夏木<span class="member-pos">（写真・右）</span></span><div class="sns-links"><a href="https://x.com/natsukiuchiya" target="_blank" title="X(Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div></div>
-          </div>
-      </div>
-</div>
-<span id="MEMBERS_END"></span>
+            <span id="MEMBERS_START"></span>
+            <div class="grid-list" id="member-grid" style="display: none;">
+                </div>
+            <span id="MEMBERS_END"></span>
         </section>
 
-        <section id="notice-board" class="container" style="padding: 0; box-shadow: none; border: none;">
+        <section id="notice-board">
             <h2 class="section-title">帰りの会（掲示板）</h2>
             <p style="text-align: center; color: #F0F0F0; margin-bottom: 20px;">演者からのお知らせをチェック！</p>
             <div class="vol-buttons">
@@ -436,6 +250,7 @@
                 <button class="vol-btn" onclick="openNotice('vol.3')">vol.3</button>
             </div>
         </section>
+
         <section id="guidelines">
             <h2 class="section-title">校則（注意事項）</h2>
             <div class="guidelines-box">
@@ -452,23 +267,18 @@
         <section id="access">
             <h2 class="section-title">通学路</h2>
             <div class="map-wrapper"><iframe src="https://maps.google.co.jp/maps?output=embed&q=池袋ムーブメントスタジオ" width="100%" height="300" style="border:0;" loading="lazy"></iframe></div>
-            <div class="guidelines-box" style="margin-top: 15px; text-align: center;">
-                <p style="margin: 0; font-weight: bold; font-size: 1.1em;">池袋ムーブメントスタジオ</p>
-                <p style="margin: 8px 0 0 0; font-size: 0.9em; line-height: 1.4;">〒171-0014<br>東京都豊島区池袋2丁目11番5号 アユミビル 2階</p>
-                <p style="margin: 8px 0 0 0; font-size: 0.95em; color: #ffeb3b; font-weight: bold;">「池袋駅」C1a出口から徒歩3分</p>
+        </section>
+
+        <section id="staff">
+            <h2 class="section-title">職員室</h2>
+            <div class="grid-list" style="grid-template-columns: repeat(2, 1fr);">
+                <a href="https://tiget.net/users/1482915" target="_blank" style="text-decoration:none;"><div class="card-box magnet-blue"><div class="combi-name-bar" style="border-bottom: none;">主催</div><div class="card-info"><div class="member-person"><span class="member-name">西野</span></div></div></div></a>
+                <a href="#" target="_blank" style="text-decoration:none;"><div class="card-box magnet-yellow"><div class="combi-name-bar" style="border-bottom: none;">Web制作</div><div class="card-info"><div class="member-person"><span class="member-name">関根</span></div></div></div></a>
             </div>
         </section>
 
         <div class="chalk-tray-items"><div class="eraser"></div><div class="chalk-yellow"></div><div class="chalk-white"></div></div>
     </div>
-
-    <section id="staff" class="container" style="margin-top: 50px; background-color: transparent; border: none; box-shadow: none;">
-        <h2 class="section-title" style="text-align: center; border-bottom: none;">職員室</h2>
-        <div class="grid-list" style="grid-template-columns: repeat(2, 1fr); max-width: 400px; margin: 0 auto;">
-            <a href="https://tiget.net/users/1482915" target="_blank" style="text-decoration:none;"><div class="card-box magnet-blue"><div class="combi-name-bar" style="border-bottom: none; padding-bottom: 5px;">主催</div><div class="card-info member-details" style="padding-top: 5px;"><div class="member-person"><span class="member-name">西野</span></div></div></div></a>
-            <a href="#" target="_blank" style="text-decoration:none;"><div class="card-box magnet-yellow"><div class="combi-name-bar" style="border-bottom: none; padding-bottom: 5px;">Web制作</div><div class="card-info member-details" style="padding-top: 5px;"><div class="member-person"><span class="member-name">関根</span></div></div></div></a>
-        </div>
-    </section>
 
     <div id="socialSidebar" class="social-sidebar"><a href="https://x.com/shuudangekou1" target="_blank" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a></div>
     <div class="sticky-ticket-bar"><a href="https://tiget.net/events/470950" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
@@ -482,220 +292,135 @@
 
     <div id="notice-overlay" class="notice-overlay">
         <div class="overlay-bg" onclick="closeNotice()"></div>
-        <button class="close-btn" onclick="closeNotice()">✕</button>
-        <div id="notice-slider-container" class="notice-slider-container">
-            </div>
+        <button class="notice-close-btn" onclick="closeNotice()">✕</button>
+        <div id="notice-slider-container" class="notice-slider-container"></div>
     </div>
 
-    <script id="NOTICE_DATA">
-const notices = [["vol.3","ドゥドゥディダーダー","パークカーニバル in TAMA 2026","場所：多摩中央公園\r\n日時：5/30(土)、13:30〜14:00\r\n※雨天時は5月31日(日)に延期。","https://tama-central-park.jp/event/entry-375.html"],["vol.3","エコノート","","",""],["vol.3","フィッシュおさかな","","",""],["vol.3","最大パルプ","","",""],["vol.3","ファズ宮","","",""],["vol.3","悪趣味な色彩のカエル","","",""],["vol.3","内山夏木","","",""]];
-</script>
+    <div id="timetableModal" class="modal-overlay">
+        <div class="modal-content timetable-board">
+            <button id="closeTimetableBtn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="timetable-title">本日の時間割</h3>
+            <div class="timetable-grid">
+                <div class="tt-row"><div class="tt-time">朝の会</div><div class="tt-desc">オープニングトーク</div></div>
+                <div class="tt-row"><div class="tt-time">1時間目</div><div class="tt-desc">前半組 ネタ</div></div>
+                <div class="tt-row"><div class="tt-time">中休み</div><div class="tt-desc">前半組 トーク・コーナー</div></div>
+                <div class="tt-row"><div class="tt-time">2時間目</div><div class="tt-desc">後半組 ネタ</div></div>
+                <div class="tt-row"><div class="tt-time">昼休み</div><div class="tt-desc">後半組 トーク・コーナー</div></div>
+                <div class="tt-row"><div class="tt-time">帰りの会</div><div class="tt-desc">エンディング</div></div>
+            </div>
+        </div>
+    </div>
 
+    <div id="videoModal" class="modal-overlay">
+        <div class="video-modal-content">
+            <button id="closeVideoBtn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+            <div class="video-wrapper"><video id="modalVideoPlayer" controls playsinline><source src="./digest_movie.mp4" type="video/mp4"></video></div>
+        </div>
+    </div>
+
+    <script id="NOTICE_DATA">const notices = [];</script>
     <script>
+        // ★ 最新のデプロイURLに差し替え済み
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzIbsTOefGax4luP6szyhB3wKpNxUR1pu6BEdSv6OyHy12ZFBJlwlA-fJ7BIWP-iKs5PQ/exec';
 
         document.addEventListener('DOMContentLoaded', () => {
-            const openingLayer = document.getElementById('opening-layer');
             const mainBoard = document.getElementById('main-board');
+            const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
 
-            if (sessionStorage.getItem('hasSeenOpening') || window.location.hash) {
-                openingLayer.style.display = 'none'; 
-                mainBoard.classList.add('is-visible', 'is-magnet-attached'); 
-                document.body.classList.remove('is-locked'); 
-                hasStarted = true; 
-                sessionStorage.setItem('hasSeenOpening', 'true');
-                if (window.location.hash) {
-                    setTimeout(() => {
-                        const target = document.querySelector(window.location.hash);
-                        if(target) target.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                }
-            } else {
-                const startAnimation = () => {
-                    if (hasStarted) return;
-                    hasStarted = true; openingLayer.classList.add('is-animating');
-                    setTimeout(() => { openingLayer.classList.add('is-shrinking'); mainBoard.classList.add('is-visible'); }, 1800);
-                    setTimeout(() => { mainBoard.classList.add('is-magnet-attached'); document.body.classList.remove('is-locked'); sessionStorage.setItem('hasSeenOpening', 'true'); setTimeout(() => { openingLayer.style.display = 'none'; }, 1000); }, 3000);
-                };
-                ['scroll', 'touchstart', 'click'].forEach(ev => window.addEventListener(ev, startAnimation, { once: true }));
-            }
+            const startApp = () => {
+                if(hasStarted) return;
+                hasStarted = true;
+                openingLayer.classList.add('is-animating');
+                setTimeout(() => { openingLayer.classList.add('is-shrinking'); mainBoard.classList.add('is-visible'); }, 1500);
+                setTimeout(() => { mainBoard.classList.add('is-magnet-attached'); document.body.classList.remove('is-locked'); openingLayer.style.display = 'none'; }, 2500);
+            };
+            ['scroll', 'click', 'touchstart'].forEach(ev => window.addEventListener(ev, startApp, {once:true}));
 
-            let scrollTimeout; 
-            const sidebar = document.getElementById('socialSidebar');
-            const floatingChatBtn = document.getElementById('custom-chat-btn');
-            window.addEventListener('scroll', () => {
-                if (!hasStarted || window.innerWidth >= 768) return;
-                if(sidebar) sidebar.classList.add('is-hidden');
-                if(floatingChatBtn) floatingChatBtn.classList.add('is-hidden');
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => { 
-                    if(sidebar) sidebar.classList.remove('is-hidden'); 
-                    if(floatingChatBtn) floatingChatBtn.classList.remove('is-hidden'); 
-                }, 400); 
-            });
+            // ハンバーガーメニュー
+            const btn = document.getElementById('hamburgerBtn');
+            const menu = document.getElementById('navMenu');
+            btn.onclick = () => { btn.classList.toggle('is-active'); menu.classList.toggle('is-active'); };
+            menu.onclick = (e) => { if(e.target.tagName === 'A' || e.target === menu) { btn.classList.remove('is-active'); menu.classList.remove('is-active'); }};
 
-            const hamburgerBtn = document.getElementById('hamburgerBtn'); const navMenu = document.getElementById('navMenu');
-            if(hamburgerBtn && navMenu) {
-                const menuLinks = navMenu.querySelectorAll('a'); const btnIcon = hamburgerBtn.querySelector('i');
-                hamburgerBtn.addEventListener('click', () => {
-                    navMenu.classList.toggle('is-active'); hamburgerBtn.classList.toggle('is-active');
-                    if (navMenu.classList.contains('is-active')) { btnIcon.classList.remove('fa-bars'); btnIcon.classList.add('fa-xmark'); } else { btnIcon.classList.remove('fa-xmark'); btnIcon.classList.add('fa-bars'); }
-                });
-                navMenu.addEventListener('click', (e) => {
-                    if (e.target === navMenu) { navMenu.classList.remove('is-active'); hamburgerBtn.classList.remove('is-active'); btnIcon.classList.remove('fa-xmark'); btnIcon.classList.add('fa-bars'); }
-                });
-                menuLinks.forEach(link => { 
-                    link.addEventListener('click', () => { navMenu.classList.remove('is-active'); hamburgerBtn.classList.remove('is-active'); btnIcon.classList.remove('fa-xmark'); btnIcon.classList.add('fa-bars'); }); 
-                });
-            }
+            // モーダル操作
+            document.getElementById('openTimetableBtn').onclick = () => document.getElementById('timetableModal').classList.add('is-active');
+            document.getElementById('closeTimetableBtn').onclick = () => document.getElementById('timetableModal').classList.remove('is-active');
+            document.getElementById('openVideoBtn').onclick = () => { document.getElementById('videoModal').classList.add('is-active'); document.getElementById('modalVideoPlayer').play(); };
+            document.getElementById('closeVideoBtn').onclick = () => { document.getElementById('videoModal').classList.remove('is-active'); document.getElementById('modalVideoPlayer').pause(); };
 
-            const openTimetableBtn = document.getElementById('openTimetableBtn'); const closeTimetableBtn = document.getElementById('closeTimetableBtn'); const timetableModal = document.getElementById('timetableModal');
-            if (openTimetableBtn && timetableModal) {
-                openTimetableBtn.addEventListener('click', () => { timetableModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; });
-                closeTimetableBtn.addEventListener('click', () => { timetableModal.classList.remove('is-active'); document.body.style.overflow = ''; });
-            }
-            const openVideoBtn = document.getElementById('openVideoBtn'); const closeVideoBtn = document.getElementById('closeVideoBtn'); const videoModal = document.getElementById('videoModal'); const modalVideoPlayer = document.getElementById('modalVideoPlayer');
-            if(openVideoBtn && videoModal && modalVideoPlayer) {
-                openVideoBtn.addEventListener('click', () => { videoModal.classList.add('is-active'); document.body.style.overflow = 'hidden'; modalVideoPlayer.play(); });
-                const closeVideo = () => { videoModal.classList.remove('is-active'); document.body.style.overflow = ''; modalVideoPlayer.pause(); };
-                closeVideoBtn.addEventListener('click', closeVideo);
-            }
-/* === 放送室のスライド（カルーセル）操作 === */
-            const videoCarousel = document.getElementById('videoCarousel');
-            const carouselPrev = document.getElementById('carouselPrev');
-            const carouselNext = document.getElementById('carouselNext');
-            const carouselDots = document.querySelectorAll('.carousel-indicators .dot');
-
-            if (videoCarousel && carouselPrev && carouselNext) {
-                carouselPrev.addEventListener('click', () => {
-                    videoCarousel.scrollBy({ left: -videoCarousel.clientWidth, behavior: 'smooth' });
-                });
-                carouselNext.addEventListener('click', () => {
-                    videoCarousel.scrollBy({ left: videoCarousel.clientWidth, behavior: 'smooth' });
-                });
-                videoCarousel.addEventListener('scroll', () => {
-                    const scrollIndex = Math.round(videoCarousel.scrollLeft / videoCarousel.clientWidth);
-                    if (carouselDots) {
-                        carouselDots.forEach((dot, index) => {
-                            dot.classList.toggle('active', index === scrollIndex);
-                        });
-                    }
-                });
-            }
+            // 出演者ローディング
             const memberSection = document.getElementById('member');
-            const fakeLoading = document.getElementById('fake-loading');
-            const memberGrid = document.getElementById('member-grid');
+            const observer = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting) {
+                    setTimeout(() => { document.getElementById('fake-loading').style.display = 'none'; document.getElementById('member-grid').style.display = 'grid'; }, 2000);
+                    observer.disconnect();
+                }
+            }, {threshold: 0.1});
+            observer.observe(memberSection);
 
-            if (memberSection && fakeLoading && memberGrid) {
-                const observer = new IntersectionObserver((entries) => {
-                    if (entries[0].isIntersecting) {
-                        setTimeout(() => {
-                            fakeLoading.style.display = 'none'; 
-                            memberGrid.style.display = 'grid';  
-                        }, 2500); 
-                        observer.disconnect(); 
-                    }
-                }, { threshold: 0.2 }); 
-                observer.observe(memberSection);
-            }
-
+            // チャット機能
             const chatBtn = document.getElementById('custom-chat-btn');
-            const chatWindow = document.getElementById('custom-chat-window');
-            const chatCloseBtn = document.getElementById('chat-close-btn');
-            const chatBody = document.getElementById('chat-body');
-            const chatInput = document.getElementById('chat-input');
-            const chatSendBtn = document.getElementById('chat-send-btn');
-            
-            chatBtn.addEventListener('click', () => { chatWindow.classList.add('is-open'); });
-            chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('is-open'); });
-
-            /* === ここから追加：無害化（サニタイズ）機能 === */
-            function escapeHTML(str) {
-                return str.replace(/[&<>'"]/g, function(match) {
-                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[match];
-                });
-            }
-
-            function addMessage(text, sender) {
-                const msgDiv = document.createElement('div');
-                msgDiv.classList.add('chat-msg', sender === 'user' ? 'user-msg' : 'bot-msg');
-                
-                const safeText = escapeHTML(text);
-                msgDiv.innerHTML = safeText.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:blue;">$1</a>').replace(/\n/g, '<br>');
-                
-                chatBody.appendChild(msgDiv);
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }
-
-            function showTyping() {
-                const typingDiv = document.createElement('div');
-                typingDiv.id = 'typing-indicator';
-                typingDiv.classList.add('chat-msg', 'bot-msg', 'typing-indicator');
-                typingDiv.innerHTML = '<span></span><span></span><span></span>';
-                chatBody.appendChild(typingDiv);
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }
-
-            function removeTyping() {
-                const typingDiv = document.getElementById('typing-indicator');
-                if (typingDiv) typingDiv.remove();
-            }
+            const chatWin = document.getElementById('custom-chat-window');
+            chatBtn.onclick = () => chatWin.classList.toggle('is-open');
+            document.getElementById('chat-close-btn').onclick = () => chatWin.classList.remove('is-open');
 
             async function sendMessage() {
-                const text = chatInput.value.trim();
-                if (!text) return;
-                addMessage(text, 'user');
-                chatInput.value = '';
-                chatSendBtn.disabled = true;
-                
-                showTyping(); 
-
+                const input = document.getElementById('chat-input');
+                const text = input.value.trim();
+                if(!text) return;
+                appendMsg(text, 'user');
+                input.value = '';
+                const indicator = showTyping();
                 try {
-                    const response = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ message: text }) });
-                    const data = await response.json();
-                    removeTyping(); 
-                    addMessage(data.reply, 'bot');
-                } catch (error) {
-                    removeTyping(); 
-                    addMessage('通信エラーが発生しました。', 'bot');
-                } finally {
-                    chatSendBtn.disabled = false;
-                }
+                    const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ message: text }) });
+                    const data = await res.json();
+                    indicator.remove();
+                    appendMsg(data.reply, 'bot');
+                } catch(e) { indicator.remove(); appendMsg('エラーが発生しました。', 'bot'); }
             }
-            chatSendBtn.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+            document.getElementById('chat-send-btn').onclick = sendMessage;
+            document.getElementById('chat-input').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+
+            function appendMsg(text, sender) {
+                const b = document.getElementById('chat-body');
+                const d = document.createElement('div');
+                d.className = 'chat-msg ' + (sender === 'user' ? 'user-msg' : 'bot-msg');
+                d.innerText = text;
+                b.appendChild(d);
+                b.scrollTop = b.scrollHeight;
+            }
+            function showTyping() {
+                const b = document.getElementById('chat-body');
+                const d = document.createElement('div');
+                d.className = 'chat-msg bot-msg typing-indicator';
+                d.innerHTML = '<span></span><span></span><span></span>';
+                b.appendChild(d);
+                b.scrollTop = b.scrollHeight;
+                return d;
+            }
         });
 
-        // === 追加：掲示板の機能 ===
         function openNotice(vol) {
             const container = document.getElementById('notice-slider-container');
-            container.innerHTML = ''; 
-
+            container.innerHTML = '';
             const filtered = notices.filter(row => row[0] === vol);
-
             if (filtered.length === 0) {
-                container.innerHTML = '<div class="notice-card"><h3>準備中</h3><p>この回のお知らせはまだありません。</p></div>';
+                container.innerHTML = '<div class="notice-card"><h3>準備中</h3><p>お知らせはまだありません。</p></div>';
             } else {
                 filtered.forEach(row => {
                     const card = document.createElement('div');
                     card.className = 'notice-card';
-                    card.innerHTML = `
-                        <span class="combi-name">${row[1]} からのお知らせ</span>
-                        <h3>${row[2]}</h3>
-                        <div class="detail">${row[3]}</div>
-                        ${row[4] ? `<a href="${row[4]}" target="_blank" class="notice-link">詳しく見る</a>` : ''}
-                    `;
-                    container.innerHTML += card.outerHTML;
+                    card.innerHTML = `<span class="combi-name">${row[1]}</span><h3>${row[2]}</h3><div class="detail">${row[3]}</div>${row[4] ? `<a href="${row[4]}" target="_blank" class="notice-link">詳しく見る</a>` : ''}`;
+                    container.appendChild(card);
                 });
             }
             document.getElementById('notice-overlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
         }
-
         function closeNotice() {
             document.getElementById('notice-overlay').style.display = 'none';
-            document.body.style.overflow = 'auto'; 
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>
