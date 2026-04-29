@@ -784,17 +784,7 @@ function openNotice(vol) {
             
             setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
         }
-                    
-                    const dot = document.createElement('span');
-                    dot.className = 'dot' + (i === 0 ? ' active' : '');
-                    indCont.appendChild(dot);
-                });
-            }
-            document.getElementById('notice-overlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            
-            setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
-        }
+
         function closeNotice() {
             document.getElementById('notice-overlay').style.display = 'none';
             document.body.style.overflow = 'auto';
