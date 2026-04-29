@@ -209,7 +209,7 @@
         .modal-overlay.is-active { display: flex; opacity: 1; }
         .modal-close-btn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5001; }
         
-        /* === 時間割モーダル専用デザイン（タグ風メリハリ完全版） === */
+　　　　/* === 時間割モーダル専用デザイン（タグ風メリハリ完全版） === */
         .timetable-board { background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 20px;}
         .timetable-title { font-family: var(--font-hand); font-size: 1.8rem; text-align: center; margin-bottom: 20px; color: #fff; border-bottom: 2px dashed rgba(255,255,255,0.3); padding-bottom: 10px;}
@@ -218,6 +218,11 @@
         .tt-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .tt-time { background-color: #e9c46a; color: #2E5D4B; font-weight: 900; font-family: 'M PLUS Rounded 1c', sans-serif; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-right: 15px; min-width: 80px; text-align: center; box-shadow: 1px 2px 4px rgba(0,0,0,0.3); }
         .tt-desc { color: #F0F0F0; font-size: 1.1rem; font-weight: bold; font-family: var(--font-serif); }
+        @media (max-width: 599px) {
+            .timetable-board { padding: 25px 15px; } /* モーダル内の左右の窮屈さを少し緩和 */
+            .tt-time { min-width: 70px; padding: 3px 8px; margin-right: 10px; font-size: 0.8rem; } /* タグを少しスリムに */
+            .tt-desc { font-size: 0.95rem; white-space: nowrap; letter-spacing: -0.5px; } /* 文字を微調整し、絶対に改行させない */
+        }
 
         .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s; border: 2px solid #ccc; }
         .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 2001; border: 2px solid #2E5D4B; overflow: hidden; }
