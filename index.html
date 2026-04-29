@@ -87,7 +87,7 @@
         .sns-links a:hover { color: #000; transform: scale(1.1); }
         .sns-links i { font-size: 1.1rem; }
 
-        /* === カルーセル（スライダー）共通 === */
+        /* === カルーセル（スライダー）の共通CSS === */
         .carousel-wrapper { width: 100%; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
         .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: 2px solid rgba(255,255,255,0.3); width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 10; font-size: 1.2rem; transition: all 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .carousel-nav:hover { background: #E6C445; color: #111; border-color: #E6C445; transform: translateY(-50%) scale(1.1); }
@@ -99,18 +99,52 @@
         .carousel-indicators .dot { display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: rgba(255,255,255,0.3); border-radius: 50%; transition: background-color 0.3s; }
         .carousel-indicators .dot.active { background-color: #E6C445; }
 
-        /* === 放送室専用 === */
+        /* === 放送室専用CSS === */
         .video-thumbnail { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 8px; cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.2); }
         .thumbnail-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
         .play-icon { font-size: 3.5rem; color: #E6C445; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); position: relative; z-index: 2; }
         .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
 
-        /* === 動画モーダル専用デザイン（枠・角丸・×ボタン） === */
-        .video-modal-content { position: relative; width: 90%; max-width: 800px; margin: auto; background-color: #fff; padding: 8px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .video-wrapper { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; background: #000; aspect-ratio: 16/9; }
-        #closeVideoBtn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5002; }
+        /* === 動画モーダル専用デザイン（枠＆×ボタン完全修正版） === */
+        .video-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff; /* 白い枠線 */
+            padding: 8px; /* 枠の太さ */
+            border-radius: 12px; /* 枠の角丸 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .video-wrapper { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 8px; /* 動画自体の角丸 */
+            overflow: hidden; 
+            background: #000; 
+            aspect-ratio: 16/9;
+        }
+        .video-wrapper video { 
+            width: 100%; 
+            height: 100%; 
+        }
+        #closeVideoBtn {
+            position: absolute; /* 枠に対しての絶対配置 */
+            top: -15px; /* 右上に飛び出すように配置 */
+            right: -15px;
+            background-color: #e63946;
+            color: #fff;
+            border: 2px solid #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            z-index: 5002;
+        }
 
-        /* === 掲示板（帰りの会） === */
+        /* === 掲示板（帰りの会）のCSS === */
         .vol-buttons-wrapper { display: flex; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
         .vol-buttons-wrapper::-webkit-scrollbar { display: none; }
         .vol-buttons { display: flex; gap: 10px; margin: 0 auto; }
@@ -125,7 +159,7 @@
         .notice-card .detail { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; }
         .notice-link { display: inline-block; background: #2E5D4B; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        /* === 職員室 === */
+        /* === 職員室カードデザイン === */
         .staff-card { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; padding: 25px 10px 20px; text-decoration: none; display: block; color: #222; text-align: center; transition: transform 0.2s; }
         .staff-card:hover { transform: translateY(-3px); }
         .card-magnet { position: absolute; width: 20px; height: 20px; border-radius: 50%; box-shadow: 1px 3px 5px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4); z-index: 10; }
@@ -139,39 +173,56 @@
         @media (max-width: 599px) { .staff-grid { grid-template-columns: 1fr; } }
         @media (min-width: 600px) { .staff-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
 
-        /* === 時間割（黒板・タグ風） === */
-        .timetable-board { background-color: var(--bg-board); border: 8px solid var(--accent-wood); border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); margin: auto; }
-        .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .timetable-title { font-family: var(--font-hand); font-size: 1.8rem; text-align: center; margin-bottom: 20px; color: #fff; border-bottom: 2px dashed rgba(255,255,255,0.3); padding-bottom: 10px;}
-        .tt-row { display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 12px; }
-        .tt-row:last-child { border-bottom: none; }
-        .tt-time { background-color: #e9c46a; color: #2E5D4B; font-weight: 900; font-family: 'M PLUS Rounded 1c', sans-serif; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-right: 15px; min-width: 80px; text-align: center; }
-        .tt-desc { color: #F0F0F0; font-size: 1.1rem; font-weight: bold; font-family: var(--font-serif); }
+        .guidelines-box { background-color: rgba(0,0,0,0.2); border: 2px solid rgba(255,255,255,0.1); padding: 20px; font-size: 0.9rem; }
+        .guidelines-box ul { padding-left: 20px; margin-top: 10px; }
+        .guidelines-box li { margin-bottom: 5px; }
+        .map-wrapper { border: 4px solid #fff; line-height: 0; background-color: #eee; }
 
+        .chalk-tray-items { position: absolute; bottom: -22px; left: 0; width: 100%; height: 20px; z-index: 20; pointer-events: none; }
+        .eraser { position: absolute; bottom: 4px; left: 8%; width: 45px; height: 15px; background: linear-gradient(to bottom, #dcb889 40%, #2b579a 40%); border-radius: 2px; box-shadow: 2px 2px 4px rgba(0,0,0,0.6); transform: rotate(-3deg); }
+        .eraser::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 8px; height: 40%; background-color: #222; box-shadow: 1px 0 1px rgba(0,0,0,0.2); }
+        .chalk-white { position: absolute; bottom: 4px; right: 15%; width: 22px; height: 5px; background-color: #fff; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(15deg); }
+        .chalk-yellow { position: absolute; bottom: 2px; right: 10%; width: 16px; height: 5px; background-color: #f4d03f; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(-25deg); }
+
+        .sticky-ticket-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: linear-gradient(to top, #111, rgba(17,17,17,0.95)); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0 20px; }
+        .btn-sticky { display: block; width: 100%; max-width: 500px; background-color: #f4d03f; color: #1a3c2c; text-align: center; padding: 12px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.5); transition: all 0.2s; }
+
+        .pc-br { display: none; }
+        @media (min-width: 600px) { .container { padding: 60px 50px; } .section-title { text-align: left; } .info-item { flex-direction: row; align-items: baseline; } .info-label { width: 100px; flex-shrink: 0; } .pc-br { display: inline; } .sp-br { display: none; } .flyer-magnet { top: 15px; width: 24px; height: 24px; } .flyer-magnet-left { left: 20px; } .flyer-magnet-right { right: 20px; } .intro-text { font-size: 1.25rem; } }
+
+        /* スマホ用ボタン非表示 */
         @media (max-width: 599px) {
             .carousel-nav { display: none !important; }
-            .timetable-board { padding: 25px 15px; width: 95%; }
-            .tt-time { min-width: 70px; padding: 3px 8px; margin-right: 10px; font-size: 0.75rem; }
-            .tt-desc { font-size: 0.9rem; white-space: nowrap; letter-spacing: -0.5px; }
-            /* モーダルの×ボタンを絶対に見切れない位置に固定 */
-            .modal-close-btn { top: -15px !important; right: -10px !important; position: absolute !important; }
         }
 
-        /* === 公式Xボタン（PC版のみ白黒反転） === */
-        #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; font-size: 1.6rem; text-decoration: none; }
-        @media (min-width: 600px) {
-            .social-btn { background-color: #fff; color: #000; border: 2px solid #000; border-right: none; }
-            .social-btn:hover { background-color: #f4d03f; }
-        }
+        .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease; }
+        .hamburger-btn.is-active { color: #ffffff; transform: rotate(90deg) scale(1.1); filter: none; }
+        .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.7); z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .nav-menu.is-active { display: flex !important; opacity: 1 !important; }
+        .notebook-paper { background-color: #fdf5e6; width: 80%; max-width: 400px; padding: 40px 20px 30px; position: relative; border-radius: 5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); background-image: repeating-linear-gradient(transparent, transparent 39px, #d2d2d2 39px, #d2d2d2 40px); background-attachment: local; }
+        .notebook-paper h2 { text-align: center; color: #333; margin-bottom: 20px; font-family: 'Comic Sans MS', sans-serif; }
+        .notebook-paper ul { list-style: none; padding: 0; }
+        .notebook-paper li { margin-bottom: 15px; text-align: center; }
+        .notebook-paper a { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: bold; }
 
-        /* === 相談チャットボタン（デザイン復活） === */
-        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s; border: 2px solid #ccc; font-weight: bold; }
-        .custom-chat-btn span { font-size: 0.7rem; margin-top: 2px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.85); z-index: 5000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.is-active { display: flex; opacity: 1; }
+        .modal-close-btn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5001; }
+        
+        /* === 時間割モーダル専用デザイン（タグ風メリハリ完全版） === */
+        .timetable-board { background-color: #2E5D4B; border: 8px solid #8B5A2B; border-radius: 4px; width: 90%; max-width: 500px; padding: 30px 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .timetable-btn { background-color: #8B5A2B; color: #fff; border: 2px solid #5c3a1a; padding: 10px 30px; font-size: 1.2rem; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 20px;}
+        .timetable-title { font-family: var(--font-hand); font-size: 1.8rem; text-align: center; margin-bottom: 20px; color: #fff; border-bottom: 2px dashed rgba(255,255,255,0.3); padding-bottom: 10px;}
+        .timetable-grid { margin-top: 10px; }
+        .tt-row { display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 12px; }
+        .tt-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .tt-time { background-color: #e9c46a; color: #2E5D4B; font-weight: 900; font-family: 'M PLUS Rounded 1c', sans-serif; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-right: 15px; min-width: 80px; text-align: center; box-shadow: 1px 2px 4px rgba(0,0,0,0.3); }
+        .tt-desc { color: #F0F0F0; font-size: 1.1rem; font-weight: bold; font-family: var(--font-serif); }
+
+        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s; border: 2px solid #ccc; }
         .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 2001; border: 2px solid #2E5D4B; overflow: hidden; }
         .custom-chat-window.is-open { display: flex; }
         .chat-header { background-color: #2E5D4B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .chat-close-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 1.2rem; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background-color: #eef2f0; }
         .chat-msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
         .bot-msg { align-self: flex-start; background-color: #fff; color: #333; border: 1px solid #ccc; border-bottom-left-radius: 2px; }
@@ -179,8 +230,10 @@
         .chat-input-area { padding: 10px; background-color: #fff; border-top: 1px solid #ccc; display: flex; gap: 10px; }
         .chat-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 0.95rem; outline: none; }
         .chat-send-btn { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+        .typing-indicator { display: flex; gap: 5px; padding: 5px 10px; }
+        .typing-indicator span { width: 8px; height: 8px; background-color: #888; border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         
-        /* === 出演者ローディング === */
         .loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; background-color: rgba(255, 255, 255, 0.05); border: 2px dashed rgba(255, 255, 255, 0.3); border-radius: 8px; margin: 0 auto; max-width: 500px; width: 100%; min-height: 180px; }
         .loading-text { color: #F0F0F0; font-family: var(--font-hand); font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
         .loading-tags-stack { display: flex; flex-direction: column; gap: 10px; align-items: center; height: 100px; }
@@ -191,6 +244,9 @@
         @keyframes stack-red { 0%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
         @keyframes stack-yellow { 0%, 33.2% { opacity: 0; } 33.3%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
         @keyframes stack-blue { 0%, 66.5% { opacity: 0; } 66.6%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
+
+        #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; font-size: 1.6rem; text-decoration: none; }
     </style>
 </head>
 <body class="is-locked">
@@ -416,6 +472,7 @@
     <div id="notice-overlay" class="notice-overlay">
         <div class="overlay-bg" onclick="closeNotice()"></div>
         <button class="notice-close-btn" onclick="closeNotice()">✕</button>
+        
         <div class="carousel-wrapper" style="width: 100%; position: relative; z-index: 10001; margin-top: 10vh;">
             <button class="carousel-nav prev" id="noticePrev" style="left: 10px;"><i class="fa-solid fa-chevron-left"></i></button>
             <div id="notice-slider-container" class="carousel-container"></div>
@@ -443,7 +500,9 @@
         <div class="video-modal-content">
             <button id="closeVideoBtn"><i class="fa-solid fa-xmark"></i></button>
             <div class="video-wrapper">
-                <video id="modalVideoPlayer" controls playsinline><source src="./digest_movie.mp4" type="video/mp4"></video>
+                <video id="modalVideoPlayer" controls playsinline>
+                    <source src="./digest_movie.mp4" type="video/mp4">
+                </video>
             </div>
         </div>
     </div>
@@ -460,12 +519,14 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
             const next = document.getElementById(nextBtnId);
             const indCont = document.getElementById(indicatorContainerId);
             if(!container) return;
+
             const updateDots = () => {
                 if(!indCont) return;
                 const index = Math.round(container.scrollLeft / container.clientWidth);
                 const dots = indCont.querySelectorAll('.dot');
                 dots.forEach((d, i) => d.classList.toggle('active', i === index));
             };
+
             if(prev) prev.onclick = () => container.scrollBy({left: -container.clientWidth, behavior: 'smooth'});
             if(next) next.onclick = () => container.scrollBy({left: container.clientWidth, behavior: 'smooth'});
             container.addEventListener('scroll', updateDots);
@@ -476,6 +537,7 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
             const mainBoard = document.getElementById('main-board');
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
+
             const startApp = () => {
                 if(hasStarted) return;
                 hasStarted = true;
@@ -540,7 +602,12 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
                     const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ message: text }) });
                     const data = await res.json();
                     indicator.remove();
-                    appendMsg(data.reply, 'bot');
+                    
+                    if (data.reply && data.reply.includes("エラー")) {
+                         appendMsg('【システムエラー】\n' + data.reply + '\n※運営までご連絡ください。', 'bot');
+                    } else {
+                         appendMsg(data.reply, 'bot');
+                    }
                 } catch(e) { indicator.remove(); appendMsg('通信エラーが発生しました。', 'bot'); }
             }
             document.getElementById('chat-send-btn').onclick = sendMessage;
@@ -568,23 +635,33 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
         function openNotice(vol) {
             const container = document.getElementById('notice-slider-container');
             const indCont = document.getElementById('noticeIndicators');
-            container.innerHTML = ''; indCont.innerHTML = '';
+            container.innerHTML = '';
+            indCont.innerHTML = '';
+
             const filtered = notices.filter(row => row[0] === vol);
             if (filtered.length === 0) {
                 container.innerHTML = '<div class="carousel-slide"><div class="notice-card"><h3>準備中</h3><p>お知らせはまだありません。</p></div></div>';
             } else {
                 filtered.forEach((row, i) => {
-                    const slide = document.createElement('div'); slide.className = 'carousel-slide';
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
                     slide.innerHTML = `<div class="notice-card"><span class="combi-name">${row[1]}</span><h3>${row[2]}</h3><div class="detail">${row[3]}</div>${row[4] ? `<a href="${row[4]}" target="_blank" class="notice-link">詳しく見る</a>` : ''}</div>`;
                     container.appendChild(slide);
-                    const dot = document.createElement('span'); dot.className = 'dot' + (i === 0 ? ' active' : ''); indCont.appendChild(dot);
+                    
+                    const dot = document.createElement('span');
+                    dot.className = 'dot' + (i === 0 ? ' active' : '');
+                    indCont.appendChild(dot);
                 });
             }
             document.getElementById('notice-overlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            
             setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
         }
-        function closeNotice() { document.getElementById('notice-overlay').style.display = 'none'; document.body.style.overflow = 'auto'; }
+        function closeNotice() {
+            document.getElementById('notice-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
