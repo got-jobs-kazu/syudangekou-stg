@@ -317,6 +317,46 @@
         @keyframes stack-red { 0%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
         @keyframes stack-yellow { 0%, 33.2% { opacity: 0; } 33.3%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
         @keyframes stack-blue { 0%, 66.5% { opacity: 0; } 66.6%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
+
+        /* ==========================================
+           ★ PC版専用：ワイド黒板スタイル（案A）
+           ※スマホ（横幅768px未満）には一切影響しません
+           ========================================== */
+        @media (min-width: 768px) {
+            /* ① 黒板（コンテナ）とオープニングの最大幅を700pxから1050pxへ大幅アップ */
+            .container, .op-flyer { 
+                max-width: 1050px !important; 
+            }
+            
+            /* ② カードの横幅が広がるため、文字やアイコンも少し大きくしてリッチに */
+            .combi-name-bar { 
+                font-size: 1.25rem !important; 
+                padding-top: 35px !important; 
+                padding-bottom: 15px !important;
+            }
+            .member-name { 
+                font-size: 1.05rem !important; 
+                margin-bottom: 12px !important;
+            }
+            .member-pos { 
+                font-size: 0.8rem !important; 
+            }
+            .sns-links i { 
+                font-size: 1.5rem !important; 
+            }
+            .sns-links a {
+                margin: 0 8px !important; /* アイコン同士の間隔を少し広げる */
+            }
+
+            /* ③ 職員室カードや時間割のバランスが間延びしないよう中央寄せに調整 */
+            .staff-grid { 
+                max-width: 800px !important; 
+                margin: 0 auto !important; 
+            }
+            .timetable-board { 
+                max-width: 700px !important; 
+            }
+        }
         
     </style>
 </head>
