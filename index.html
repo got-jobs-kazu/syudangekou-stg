@@ -754,14 +754,15 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
 
-            const startApp = () => {
+           const startApp = () => {
                 if(hasStarted) return;
                 hasStarted = true;
                 openingLayer.classList.add('is-animating');
                 setTimeout(() => { openingLayer.classList.add('is-shrinking'); mainBoard.classList.add('is-visible'); }, 1500);
                 setTimeout(() => { mainBoard.classList.add('is-magnet-attached'); document.body.classList.remove('is-locked'); openingLayer.style.display = 'none'; }, 2500);
             };
-            ['scroll', 'click', 'touchstart'].forEach(ev => window.addEventListener(ev, startApp, {once:true}));
+            // ▼ 'wheel'（マウスホイールの回転）を追加
+            ['scroll', 'wheel', 'click', 'touchstart'].forEach(ev => window.addEventListener(ev, startApp, {once:true}));
 
             const btn = document.getElementById('hamburgerBtn');
             const burgerIcon = btn.querySelector('i'); // アイコンを取得
