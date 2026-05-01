@@ -387,12 +387,17 @@
                 margin-bottom: 25px !important;
             }
 
-            /* ＜＞ボタンをカードの外側（画面の端寄り）に逃がす */
+　　　　　　 /* 掲示板のスライダー領域（透明な枠）を広げてボタンの居場所を作る */
+            #notice-overlay .carousel-wrapper {
+                max-width: 850px !important; /* PC用に枠を大きく広げる */
+            }
+
+            /* ＜＞ボタンを広げた枠の左右の端に配置し、カードから完全に離す */
             #notice-overlay .carousel-nav.prev {
-                left: 5% !important; 
+                left: 0 !important; 
             }
             #notice-overlay .carousel-nav.next {
-                right: 5% !important; 
+                right: 0 !important; 
             }
 
             /* お知らせタイトル */
