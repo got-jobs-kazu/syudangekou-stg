@@ -318,8 +318,8 @@
         @keyframes stack-yellow { 0%, 33.2% { opacity: 0; } 33.3%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
         @keyframes stack-blue { 0%, 66.5% { opacity: 0; } 66.6%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
 
-        /* ==========================================
-           ★ PC版専用：ワイド黒板スタイル（案A）
+     /* ==========================================
+           ★ PC版専用：ワイド黒板スタイル（案A）文字サイズ最適化版
            ※スマホ（横幅768px未満）には一切影響しません
            ========================================== */
         @media (min-width: 768px) {
@@ -328,24 +328,46 @@
                 max-width: 1050px !important; 
             }
             
-            /* ② カードの横幅が広がるため、文字やアイコンも少し大きくしてリッチに */
+            /* ② カードの横幅が広がるため、文字やアイコンも大きく、太くしてリッチに */
+            /* 全体的なベースフォントサイズを少し上げる */
+            body {
+                font-size: 1.1rem !important; 
+            }
+            
+            /* コンビ名バー：太く、大きく */
             .combi-name-bar { 
-                font-size: 1.25rem !important; 
+                font-size: 1.4rem !important; 
+                font-weight: 800 !important; /* ★より太字に */
                 padding-top: 35px !important; 
                 padding-bottom: 15px !important;
             }
+            
+            /* 演者名：大きく、太く */
             .member-name { 
-                font-size: 1.05rem !important; 
+                font-size: 1.2rem !important; 
+                font-weight: 800 !important; /* ★より太字に */
                 margin-bottom: 12px !important;
             }
+            
+            /* 演者名のポジション（写真・左など）：少し大きく */
             .member-pos { 
-                font-size: 0.8rem !important; 
+                font-size: 0.9rem !important; 
+                font-weight: normal !important;
             }
+            
+            /* 所属タグ（吉本、人力舎など）：少し大きく */
+            .affiliation-tag {
+                font-size: 0.9rem !important;
+                width: 140px !important; /* ★タグ自体の幅も広げる */
+                height: 24px !important;
+            }
+
+            /* SNS・リンクアイコン：大きく、間隔を広げる */
             .sns-links i { 
-                font-size: 1.5rem !important; 
+                font-size: 1.6rem !important; 
             }
             .sns-links a {
-                margin: 0 8px !important; /* アイコン同士の間隔を少し広げる */
+                margin: 0 10px !important; 
             }
 
             /* ③ 職員室カードや時間割のバランスが間延びしないよう中央寄せに調整 */
@@ -356,6 +378,9 @@
             .timetable-board { 
                 max-width: 700px !important; 
             }
+            /* 職員室の役割名と名前も大きく */
+            .staff-role { font-size: 0.9rem !important; }
+            .staff-name { font-size: 1.3rem !important; font-weight: 800 !important; /* ★より太字に */}
         }
         
     </style>
