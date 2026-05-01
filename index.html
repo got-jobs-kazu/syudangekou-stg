@@ -156,7 +156,18 @@
         .notice-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 40px; cursor: pointer; z-index: 10002; }
         .notice-card { width: 90%; max-width: 400px; margin: 20px auto; background: #D5E8D4; border: 4px solid #2E5D4B; border-radius: 15px; padding: 20px; color: #333; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .notice-card h3 { color: #2E5D4B; border-bottom: 2px dashed #2E5D4B; margin-bottom: 10px; font-size: 1.2rem; padding-bottom: 5px; }
-        .notice-card .combi-name { font-size: 0.9rem; color: #666; margin-bottom: 10px; display: block; font-weight: bold; }
+        /* ▼ コンビ名をバッジ風に目立たせる（スマホ・PC共通） */
+        .notice-card .combi-name { 
+            display: inline-block !important;
+            background-color: #2E5D4B !important; 
+            color: #F0F0F0 !important;            
+            font-size: 1.15rem !important;
+            font-weight: 800 !important;
+            padding: 8px 18px !important;
+            border-radius: 20px !important;       
+            margin-bottom: 15px !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important; 
+        }
         .notice-card .detail { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; }
         .notice-link { display: inline-block; background: #2E5D4B; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
@@ -369,10 +380,19 @@
                 padding: 30px !important;
             }
 
-            /* コンビ名（上部） */
+/* コンビ名のバッジをPC用に少し大きく */
             .notice-card .combi-name {
-                font-size: 1.1rem !important;
-                margin-bottom: 15px !important;
+                font-size: 1.3rem !important;
+                padding: 10px 24px !important;
+                margin-bottom: 25px !important;
+            }
+
+            /* ＜＞ボタンをカードの外側（画面の端寄り）に逃がす */
+            #notice-overlay .carousel-nav.prev {
+                left: 5% !important; 
+            }
+            #notice-overlay .carousel-nav.next {
+                right: 5% !important; 
             }
 
             /* お知らせタイトル */
