@@ -155,22 +155,52 @@
         .overlay-bg { position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
         .notice-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 40px; cursor: pointer; z-index: 10002; }
         .notice-card { width: 90%; max-width: 400px; margin: 20px auto; background: #D5E8D4; border: 4px solid #2E5D4B; border-radius: 15px; padding: 20px; color: #333; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .notice-card h3 { color: #2E5D4B; border-bottom: 2px dashed #2E5D4B; margin-bottom: 10px; font-size: 1.2rem; padding-bottom: 5px; }
-        /* ▼ コンビ名をバッジ風に目立たせる（スマホ・PC共通） */
+　　　　/* ▼ イベント名（タイトル）を一番目立たせる */
+        .notice-card h3 { 
+            color: #2E5D4B !important; 
+            border-bottom: 2px solid #2E5D4B !important; /* 直線にして力強く */
+            margin-bottom: 15px !important; 
+            font-size: 1.4rem !important; /* スマホでも大きく */
+            font-weight: 900 !important;
+            padding-bottom: 8px !important; 
+            line-height: 1.4 !important;
+        }
+        
+        /* ▼ コンビ名は「枠線＋白背景」でスッキリさせて主張を抑える */
         .notice-card .combi-name { 
             display: inline-block !important;
-            background-color: #2E5D4B !important; 
-            color: #F0F0F0 !important;            
-            font-size: 1.15rem !important;
-            font-weight: 800 !important;
-            padding: 8px 18px !important;
-            border-radius: 20px !important;       
+            background-color: #fff !important; 
+            color: #2E5D4B !important;         
+            border: 2px solid #2E5D4B !important; 
+            font-size: 0.95rem !important;     
+            font-weight: bold !important;
+            padding: 4px 12px !important;
+            border-radius: 4px !important;     
             margin-bottom: 15px !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important; 
+            box-shadow: none !important; /* 影を消してフラットに */
         }
-        .notice-card .detail { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; }
-        .notice-link { display: inline-block; background: #2E5D4B; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-
+        
+        .notice-card .detail { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+        
+        /* ▼ 詳しく見るボタンを黄色（ゴールド）にして最強に目立たせる */
+        .notice-link { 
+            display: block !important; /* 横幅いっぱいに広げて押しやすく */
+            text-align: center !important;
+            background-color: #f4d03f !important; /* アクセントの黄色 */
+            color: #1a3c2c !important;            /* 文字は濃い緑 */
+            text-decoration: none !important; 
+            padding: 14px 20px !important; 
+            border-radius: 8px !important; 
+            font-size: 1.1rem !important; 
+            font-weight: 900 !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 -3px 0 rgba(0,0,0,0.1) !important; /* 立体感を追加 */
+            transition: transform 0.1s !important;
+        }
+        /* ボタンを押したときのへこむアニメーション */
+        .notice-link:active {
+            transform: translateY(2px) !important;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.3), inset 0 -1px 0 rgba(0,0,0,0.1) !important;
+        }
         /* === 職員室カードデザイン === */
         .staff-card { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; padding: 25px 10px 20px; text-decoration: none; display: block; color: #222; text-align: center; transition: transform 0.2s; }
         .staff-card:hover { transform: translateY(-3px); }
@@ -380,47 +410,35 @@
                 padding: 30px !important;
             }
 
-/* コンビ名のバッジをPC用に少し大きく */
+/* コンビ名の枠をPC用に少し調整（主張しすぎないように） */
             .notice-card .combi-name {
-                font-size: 1.3rem !important;
-                padding: 10px 24px !important;
-                margin-bottom: 25px !important;
-            }
-
-　　　　　　 /* 掲示板のスライダー領域（透明な枠）を広げてボタンの居場所を作る */
-            #notice-overlay .carousel-wrapper {
-                max-width: 850px !important; /* PC用に枠を大きく広げる */
-            }
-
-            /* ＜＞ボタンを広げた枠の左右の端に配置し、カードから完全に離す */
-            #notice-overlay .carousel-nav.prev {
-                left: 0 !important; 
-            }
-            #notice-overlay .carousel-nav.next {
-                right: 0 !important; 
-            }
-
-            /* お知らせタイトル */
-            .notice-card h3 {
-                font-size: 1.6rem !important;
-                font-weight: 800 !important;
+                font-size: 1.05rem !important;
+                padding: 6px 16px !important;
                 margin-bottom: 20px !important;
-                padding-bottom: 10px !important;
+            }
+
+            /* お知らせタイトルをさらに大きく */
+            .notice-card h3 {
+                font-size: 1.8rem !important;
+                font-weight: 900 !important;
+                margin-bottom: 20px !important;
+                padding-bottom: 12px !important;
             }
 
             /* お知らせ本文（詳細） */
             .notice-card .detail {
                 font-size: 1.2rem !important;
                 line-height: 1.8 !important;
-                margin-bottom: 25px !important;
+                margin-bottom: 30px !important;
             }
 
-            /* 「詳しく見る」ボタン */
+            /* 「詳しく見る」ボタンをPC向けにサイズアップ */
             .notice-link {
-                font-size: 1.1rem !important;
-                padding: 12px 25px !important;
+                font-size: 1.25rem !important;
+                padding: 16px 30px !important;
+                max-width: 300px !important; /* PCでは横幅が広がりすぎないように制限 */
+                margin: 0 auto !important;   /* 中央寄せ */
             }
-        }
         
     </style>
 </head>
