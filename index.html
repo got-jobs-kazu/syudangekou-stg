@@ -318,7 +318,7 @@
         @keyframes stack-yellow { 0%, 33.2% { opacity: 0; } 33.3%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
         @keyframes stack-blue { 0%, 66.5% { opacity: 0; } 66.6%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
 
-       /* ==========================================
+        /* ==========================================
            ★ PC版専用：ワイド黒板スタイル（案A）完全最適化版
            ※スマホ（横幅768px未満）には一切影響しません
            ========================================== */
@@ -344,41 +344,56 @@
             .staff-name { font-size: 1.3rem !important; font-weight: 800 !important; }
 
             /* ==========================================
-               ▼ 追加：時間割・校則・通学路のPC向け文字サイズ調整 ▼
+               ▼ 時間割・校則・通学路のPC向け文字サイズ調整 ▼
                ========================================== */
             
-            /* 【時間割】の「日時」「料金」ラベルの調整 */
-            .info-label {
-                font-size: 1.4rem !important; 
-                font-weight: bold !important; 
-                width: 120px !important;      
-            }
-            
-            /* 【時間割】の中身のテキスト調整 */
-            .info-value {
-                font-size: 1.4rem !important; 
-                font-weight: 800 !important;  
-                line-height: 2.0 !important;  
-            }
+            /* 【時間割】の調整 */
+            .info-label { font-size: 1.4rem !important; font-weight: bold !important; width: 120px !important; }
+            .info-value { font-size: 1.4rem !important; font-weight: 800 !important; line-height: 2.0 !important; }
 
-            /* 【校則（注意事項）】の箇条書きテキスト調整 */
-            .guidelines-box {
-                font-size: 1.25rem !important; 
-            }
-            .guidelines-box li {
-                margin-bottom: 12px !important; 
-                line-height: 1.8 !important;    
-            }
+            /* 【校則（注意事項）】の調整 */
+            .guidelines-box { font-size: 1.25rem !important; }
+            .guidelines-box li { margin-bottom: 12px !important; line-height: 1.8 !important; }
 
             /* 【通学路】のマップ下テキスト調整 */
-            .guidelines-box p {
-                font-size: 1.3rem !important;  
+            .guidelines-box p { font-size: 1.3rem !important; }
+            .guidelines-box p:first-child, .guidelines-box p:last-child { font-size: 1.5rem !important; font-weight: bold !important; }
+
+            /* ==========================================
+               ▼ 今回追加：掲示板ポップアップのPC向け調整 ▼
+               ========================================== */
+            
+            /* カード自体の幅と内側の余白を少し広げてゆったりと */
+            .notice-card {
+                max-width: 550px !important; 
+                padding: 30px !important;
             }
-            /* スタジオ名と「徒歩3分」の強調部分をさらに大きく */
-            .guidelines-box p:first-child,
-            .guidelines-box p:last-child {
-                font-size: 1.5rem !important; 
-                font-weight: bold !important;
+
+            /* コンビ名（上部） */
+            .notice-card .combi-name {
+                font-size: 1.1rem !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* お知らせタイトル */
+            .notice-card h3 {
+                font-size: 1.6rem !important;
+                font-weight: 800 !important;
+                margin-bottom: 20px !important;
+                padding-bottom: 10px !important;
+            }
+
+            /* お知らせ本文（詳細） */
+            .notice-card .detail {
+                font-size: 1.2rem !important;
+                line-height: 1.8 !important;
+                margin-bottom: 25px !important;
+            }
+
+            /* 「詳しく見る」ボタン */
+            .notice-link {
+                font-size: 1.1rem !important;
+                padding: 12px 25px !important;
             }
         }
         
