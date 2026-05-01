@@ -319,7 +319,7 @@
         @keyframes stack-blue { 0%, 66.5% { opacity: 0; } 66.6%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
 
      /* ==========================================
-           ★ PC版専用：ワイド黒板スタイル（案A）文字サイズ最適化版
+           ★ PC版専用：ワイド黒板スタイル（案A）完全最適化版
            ※スマホ（横幅768px未満）には一切影響しません
            ========================================== */
         @media (min-width: 768px) {
@@ -329,58 +329,57 @@
             }
             
             /* ② カードの横幅が広がるため、文字やアイコンも大きく、太くしてリッチに */
-            /* 全体的なベースフォントサイズを少し上げる */
-            body {
-                font-size: 1.1rem !important; 
-            }
-            
-            /* コンビ名バー：太く、大きく */
-            .combi-name-bar { 
-                font-size: 1.4rem !important; 
-                font-weight: 800 !important; /* ★より太字に */
-                padding-top: 35px !important; 
-                padding-bottom: 15px !important;
-            }
-            
-            /* 演者名：大きく、太く */
-            .member-name { 
-                font-size: 1.2rem !important; 
-                font-weight: 800 !important; /* ★より太字に */
-                margin-bottom: 12px !important;
-            }
-            
-            /* 演者名のポジション（写真・左など）：少し大きく */
-            .member-pos { 
-                font-size: 0.9rem !important; 
-                font-weight: normal !important;
-            }
-            
-            /* 所属タグ（吉本、人力舎など）：少し大きく */
-            .affiliation-tag {
-                font-size: 0.9rem !important;
-                width: 140px !important; /* ★タグ自体の幅も広げる */
-                height: 24px !important;
-            }
+            body { font-size: 1.1rem !important; }
+            .combi-name-bar { font-size: 1.4rem !important; font-weight: 800 !important; padding-top: 35px !important; padding-bottom: 15px !important; }
+            .member-name { font-size: 1.2rem !important; font-weight: 800 !important; margin-bottom: 12px !important; }
+            .member-pos { font-size: 0.9rem !important; font-weight: normal !important; }
+            .affiliation-tag { font-size: 0.9rem !important; width: 140px !important; height: 24px !important; }
+            .sns-links i { font-size: 1.6rem !important; }
+            .sns-links a { margin: 0 10px !important; }
 
-            /* SNS・リンクアイコン：大きく、間隔を広げる */
-            .sns-links i { 
-                font-size: 1.6rem !important; 
-            }
-            .sns-links a {
-                margin: 0 10px !important; 
-            }
-
-            /* ③ 職員室カードや時間割のバランスが間延びしないよう中央寄せに調整 */
-            .staff-grid { 
-                max-width: 800px !important; 
-                margin: 0 auto !important; 
-            }
-            .timetable-board { 
-                max-width: 700px !important; 
-            }
-            /* 職員室の役割名と名前も大きく */
+            /* ③ 職員室カードや時間割の全体バランス調整 */
+            .staff-grid { max-width: 800px !important; margin: 0 auto !important; }
+            .timetable-board { max-width: 700px !important; }
             .staff-role { font-size: 0.9rem !important; }
-            .staff-name { font-size: 1.3rem !important; font-weight: 800 !important; /* ★より太字に */}
+            .staff-name { font-size: 1.3rem !important; font-weight: 800 !important; }
+
+            /* ==========================================
+               ▼ 追加：時間割・校則・通学路のPC向け文字サイズ調整 ▼
+               ========================================== */
+            
+            /* 【時間割】の「日時」「料金」ラベルの調整 */
+            .info-label {
+                font-size: 1.4rem !important; 
+                font-weight: bold !important; 
+                width: 120px !important;      
+            }
+            
+            /* 【時間割】の中身のテキスト調整 */
+            .info-value {
+                font-size: 1.4rem !important; 
+                font-weight: 800 !important;  
+                line-height: 2.0 !important;  
+            }
+
+            /* 【校則（注意事項）】の箇条書きテキスト調整 */
+            .guidelines-box {
+                font-size: 1.25rem !important; 
+            }
+            .guidelines-box li {
+                margin-bottom: 12px !important; 
+                line-height: 1.8 !important;    
+            }
+
+            /* 【通学路】のマップ下テキスト調整 */
+            .guidelines-box p {
+                font-size: 1.3rem !important;  
+            }
+            /* スタジオ名と「徒歩3分」の強調部分をさらに大きく */
+            .guidelines-box p:first-child,
+            .guidelines-box p:last-child {
+                font-size: 1.5rem !important; 
+                font-weight: bold !important;
+            }
         }
         
     </style>
