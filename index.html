@@ -42,30 +42,38 @@
             height: auto !important;
             top: 11% !important;   
             left: 72% !important;  
+            z-index: 100;
         }
         
-        /* オープニング待機時の初期状態（完全に透明にして隠す） */
-        .op-board, .op-title, .op-stamp {
-            opacity: 0 !important; /* アニメーションが始まるまでは絶対に見せない */
+        /* オープニング待機時の初期状態 */
+        .op-title, .op-stamp {
+            opacity: 0 !important; /* 文字とハンコは最初は隠す */
+        }
+        /* 深緑の四角形（黒板）は最初から表示しておく */
+        .op-board {
+            opacity: 1 !important; 
+            transform: translateY(-100%); /* ただし画面外（上）に待機 */
         }
         
-        .op-stamp {
-            transform: scale(1.5) rotate(20deg) translateY(-20px); 
-        }
-        
-　　　　/* アニメーション開始の合図で透明化を解除し、動きをスタート */
         .is-animating .op-board { opacity: 1 !important; animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         .is-animating .op-title { opacity: 1 !important; animation: showTitle 0.6s ease-out 0.5s forwards; }
-        .is-animating .op-stamp { opacity: 1 !important; animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
+        .is-animating .op-stamp { opacity: 1 !important; animation: pressStamp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 1.2s forwards; }
 
         @keyframes dropBoard { to { transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
         
-        /* アニメーション（透明度0から1へ、上からドンと落ちてくる） */
+        /* ハンコのズームアウト演出：中央から定位置へ */
         @keyframes pressStamp { 
-            0% { opacity: 0; transform: scale(1.5) rotate(20deg) translateY(-20px); } /* 少し大きめからスタート */
-            50% { opacity: 1; transform: scale(0.9) rotate(0deg) translateY(0); } 
-            100% { opacity: 1; transform: scale(1) rotate(5deg) translateY(0); } /* 最終的に通常の大きさ(25%)と位置に */
+            0% { 
+                opacity: 0; 
+                /* 画面中央付近に見えるように大きくズラして巨大化 */
+                transform: translate(-150%, 100%) scale(5) rotate(20deg); 
+            } 
+            100% { 
+                opacity: 1; 
+                /* 定位置（translate(0,0)）に戻りながら通常の大きさに */
+                transform: translate(0, 0) scale(1) rotate(5deg); 
+            } 
         }
         .scroll-prompt { position: absolute; bottom: 40px; color: #fff; font-family: var(--font-serif); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bounce 2s infinite; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: opacity 0.3s; }
         .is-animating .scroll-prompt { opacity: 0; pointer-events: none; }
@@ -260,7 +268,7 @@
         .btn-sticky { display: block; width: 100%; max-width: 500px; background-color: #f4d03f; color: #1a3c2c; text-align: center; padding: 12px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.5); transition: all 0.2s; }
 
         .pc-br { display: none; }
-        @media (min-width: 600px) { 
+　　　　@media (min-width: 600px) { 
             .container { padding: 60px 50px; } 
             .section-title { text-align: left; } 
             .info-item { flex-direction: row; align-items: baseline; } 
@@ -271,8 +279,8 @@
             .flyer-magnet-left { left: 20px; } 
             .flyer-magnet-right { right: 20px; } 
             .intro-text { font-size: 1.25rem; } 
-            /* ▼ 追加：PC版のみ予約ボタンの最大幅を広げる ▼ */
-            .btn-sticky { max-width: 800px; } 
+            /* ▼ 修正：PC版のみ予約ボタンの最大幅を広げ、サイズを調整 ▼ */
+            .btn-sticky { max-width: 90%; font-size: 1.4rem; padding: 15px 0; } 
         }
 
         /* スマホ用ボタン非表示 */
@@ -786,28 +794,34 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
             updateDots();
         }
 
-　　　　　 document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
             const mainBoard = document.getElementById('main-board');
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
 
-　　　　　const startApp = () => {
+            // ▼ 修正・追加：2回目以降のアクセスかチェック
+            const hasSeen = sessionStorage.getItem('hasSeenOpening');
+
+            const startApp = () => {
                 if(hasStarted) return;
                 hasStarted = true;
+                // 一度演出を開始したら「見た」という記録をつける
+                sessionStorage.setItem('hasSeenOpening', 'true');
+
                 openingLayer.classList.add('is-animating');
                 
-                // 1.8秒後（ハンコが押された後）にフライヤー縮小とメイン画面表示開始
+                // 2.0秒後（ハンコが押された余韻を残す）にフライヤー縮小とメイン画面表示開始
                 setTimeout(() => { 
                     openingLayer.classList.add('is-shrinking'); 
                     mainBoard.classList.add('is-visible'); 
-                }, 1800); 
+                }, 2000); 
                 
-                // 3.0秒後（演出が完全に終わった後）にロック解除
+                // 3.2秒後にロック解除
                 setTimeout(() => { 
                     mainBoard.classList.add('is-magnet-attached'); 
                     document.body.classList.remove('is-locked'); 
                     openingLayer.style.display = 'none'; 
-                }, 3000); 
+                }, 3200); 
             };
 
             // ▼ 追加：アニメーションをスキップして即座に画面を表示する関数
@@ -819,20 +833,16 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
                 document.body.classList.remove('is-locked');
             };
 
-            // ▼ 修正：URLパラメータやハッシュがある場合はアニメーションをスキップ
             const params = new URLSearchParams(window.location.search);
             const volNum = params.get('vol');
             
-            if (window.location.hash || volNum) {
-                // URLに「#」や「?vol=」が含まれていれば即時表示
+            // ▼ 修正：ハッシュ、vol指定、または「一度見ている」場合はスキップ
+            if (window.location.hash || volNum || hasSeen) {
                 skipApp();
-                
-                // 掲示板の自動表示（アニメーションがないので0.5秒後に即表示）
                 if (volNum) {
                     setTimeout(() => { openNotice('vol.' + volNum); }, 500); 
                 }
             } else {
-                // 通常アクセス時はユーザーのアクションを待つ
                 ['scroll', 'wheel', 'click', 'touchstart'].forEach(ev => window.addEventListener(ev, startApp, {once:true}));
             }
 
