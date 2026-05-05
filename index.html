@@ -35,14 +35,14 @@
         
         .op-board { transform: translateY(-100%); }
         .op-title { opacity: 0; transform: translateX(-5%); }
-        /* ▼ ハンコ専用のサイズと位置調整（画像が全画面に引き伸ばされるのを防ぐ） ▼ */
+    　/* ▼ ハンコ専用のサイズと位置調整（画像が全画面に引き伸ばされるのを防ぐ） ▼ */
         .op-stamp, .hero-stamp { 
             width: 25% !important; /* ハンコの大きさ（フライヤー横幅の25%） */
             height: auto !important;
             top: 11% !important;   /* 上からの位置：「校」の斜め下あたりへ */
             left: 72% !important;  /* 左からの位置：「校」のあたりへ */
             opacity: 0; 
-            mix-blend-mode: multiply !important; /* 白背景を透明化 */
+            /* mix-blend-mode の行を削除しました。これで色がハッキリ出ます */
         }
         
         .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
@@ -53,11 +53,11 @@
         @keyframes dropBoard { to { transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
         
-        /* 位置ズレ(translate)を削除し、純粋な回転と拡大縮小のみにする */
+        /* アニメーションの最後（100%）を時計回り（5度）に変更 */
         @keyframes pressStamp { 
             0% { opacity: 0; transform: scale(3) rotate(20deg); } 
-            50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 
-            100% { opacity: 1; transform: scale(1) rotate(-10deg); } 
+            50% { opacity: 1; transform: scale(0.9) rotate(0deg); } 
+            100% { opacity: 1; transform: scale(1) rotate(5deg); } 
         }
         .scroll-prompt { position: absolute; bottom: 40px; color: #fff; font-family: var(--font-serif); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bounce 2s infinite; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: opacity 0.3s; }
         .is-animating .scroll-prompt { opacity: 0; pointer-events: none; }
@@ -76,8 +76,8 @@
         .hero-anim-container img.hero-bg { position: relative; display: block; } /* 画像サイズに枠をピッタリ合わせる */
         .final-state.hero-board { transform: translateY(0); }
         .final-state.hero-title { opacity: 1; transform: translateX(0); }
-        /* translateを外して、topとleftの設定を素直に効かせる */
-        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(-10deg); mix-blend-mode: multiply; }
+        /* 終了後の状態も時計回り（5度）に、かつ mix-blend-mode を削除 */
+        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(5deg); } 
         .flyer-magnet { position: absolute; top: 10px; width: 20px; height: 20px; background-color: #e63946; border-radius: 50%; box-shadow: 1px 3px 5px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4); z-index: 10; opacity: 0; transform: scale(3); }
         .flyer-magnet-left { left: 12px; } .flyer-magnet-right { right: 12px; }
         .container.is-magnet-attached .flyer-magnet { animation: magnetAttach 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
