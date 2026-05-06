@@ -16,17 +16,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #111; color: var(--text-chalk); font-family: var(--font-serif); line-height: 1.8; padding: 20px 20px calc(var(--footer-height) + 40px) 20px; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
         body.is-locked { overflow: hidden; height: 100vh; }
-        /* ▼ アニメーション待機時の初期状態 ▼ */
+/* ▼ アニメーション待機時の初期状態 ▼ */
         .op-board { opacity: 1 !important; transform: translateY(-100%); }
         .op-title { opacity: 0 !important; transform: translateX(-5%); }
         
         /* 魔法のコード（mix-blend-mode）を追加し、全画面サイズでドン！と拡大縮小させるだけ */
-        .op-stamp { opacity: 0 !important; transform: scale(3) rotate(20deg); mix-blend-mode: multiply; } 
+        .op-stamp { opacity: 0 !important; transform: scale(3) rotate(20deg); mix-blend-mode: multiply !important; } 
         
         /* アニメーション開始の合図で透明化を解除し、動きをスタート */
         .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         .is-animating .op-title { opacity: 1 !important; animation: showTitle 0.6s ease-out 0.5s forwards; }
-        .is-animating .op-stamp { opacity: 1 !important; animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
+        .is-animating .op-stamp { opacity: 1 !important; animation: pressStamp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
 
         @keyframes dropBoard { to { transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
@@ -34,9 +34,7 @@
             0% { opacity: 0; transform: scale(3) rotate(20deg); } 
             50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 
             100% { opacity: 1; transform: scale(1) rotate(-10deg); } 
-        }
-
- 
+        } 
     
         .scroll-prompt { position: absolute; bottom: 40px; color: #fff; font-family: var(--font-serif); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bounce 2s infinite; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: opacity 0.3s; }
         .is-animating .scroll-prompt { opacity: 0; pointer-events: none; }
@@ -53,10 +51,11 @@
         .container.is-visible .hero-anim-container { opacity: 1; transform: scale(1) translateY(0); }
         .hero-anim-container img { position: absolute; top: 0; left: 0; width: 100%; height: auto; }
         .hero-anim-container img.hero-bg { position: relative; display: block; } /* 画像サイズに枠をピッタリ合わせる */
-        .final-state.hero-board { transform: translateY(0); }
+　　　　 .final-state.hero-board { transform: translateY(0); }
         .final-state.hero-title { opacity: 1; transform: translateX(0); }
-        /* 終了後の状態も時計回り（5度）に、かつ mix-blend-mode を削除 */
-        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(5deg); } 
+        /* 白背景を透明化する魔法のコードを追加し、元の角度に戻す */
+        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(-10deg); mix-blend-mode: multiply !important; } 
+        @media (max-width: 599px) { .final-state.hero-stamp { transform: scale(1) rotate(-10deg); } }
         .flyer-magnet { position: absolute; top: 10px; width: 20px; height: 20px; background-color: #e63946; border-radius: 50%; box-shadow: 1px 3px 5px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4); z-index: 10; opacity: 0; transform: scale(3); }
         .flyer-magnet-left { left: 12px; } .flyer-magnet-right { right: 12px; }
         .container.is-magnet-attached .flyer-magnet { animation: magnetAttach 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
@@ -485,14 +484,14 @@
     </div>
 
 <div id="opening-layer" class="opening-layer">
-        <div class="op-flyer"><img src="./bg_base_vol.3.jpg" class="op-bg"><img src="./board.png" class="op-board"><img src="./title.png" class="op-title"><img src="./vol3_stamp.png" class="op-stamp"></div>
+        <div class="op-flyer"><img src="./vol3元画像.jpg" class="op-bg"><img src="./board.png" class="op-board"><img src="./title.png" class="op-title"><img src="./vol3_stamp_full.png" class="op-stamp"></div>
         <div class="scroll-prompt"><span>Scroll or Tap to Start</span><i class="fa-solid fa-chevron-down"></i></div>
     </div>
 
     <div class="container" id="main-board">
         <div class="main-visual hero-anim-container final-flyer">
             <div class="flyer-magnet flyer-magnet-left"></div><div class="flyer-magnet flyer-magnet-right"></div>
-            <img src="./bg_base_vol.3.jpg" class="hero-bg" style="opacity: 1;"><img src="./board.png" class="hero-board final-state"><img src="./title.png" class="hero-title final-state"><img src="./vol3_stamp.png" class="hero-stamp final-state">
+            <img src="./vol3元画像.jpg" class="hero-bg" style="opacity: 1;"><img src="./board.png" class="hero-board final-state"><img src="./title.png" class="hero-title final-state"><img src="./vol3_stamp_full.png" class="hero-stamp final-state">
         </div>
 
         <div class="intro-text">吉本、人力舎、フリーの<br>芸歴二年目が集う<br class="sp-br">同期ライブ「集団下校」🏫<br>ネタとコーナーで<br class="sp-br">バチバチの90分‼️</div>
