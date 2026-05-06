@@ -16,56 +16,28 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #111; color: var(--text-chalk); font-family: var(--font-serif); line-height: 1.8; padding: 20px 20px calc(var(--footer-height) + 40px) 20px; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
         body.is-locked { overflow: hidden; height: 100vh; }
-/* ▼ ハンコ専用のサイズと位置調整 ▼ */
-        .op-stamp, .hero-stamp { 
-            position: absolute !important;
-            width: 25% !important; 
-            height: auto !important;
-            top: 11% !important;   
-            left: 72% !important;  
-            z-index: 100;
-        }
+        /* ▼ アニメーション待機時の初期状態 ▼ */
+        .op-board { opacity: 1 !important; transform: translateY(-100%); }
+        .op-title { opacity: 0 !important; transform: translateX(-5%); }
         
-        /* オープニング待機時の初期状態 */
-        .op-title, .op-stamp {
-            opacity: 0 !important; /* 文字とハンコは最初は隠す */
-        }
-        /* 深緑の四角形（黒板枠）は最初から表示しておく */
-        .op-board {
-            opacity: 1 !important; 
-            transform: translateY(-100%); /* 画面外（上）に待機 */
-        }
+        /* 魔法のコード（mix-blend-mode）を追加し、全画面サイズでドン！と拡大縮小させるだけ */
+        .op-stamp { opacity: 0 !important; transform: scale(3) rotate(20deg); mix-blend-mode: multiply; } 
         
         /* アニメーション開始の合図で透明化を解除し、動きをスタート */
-        .is-animating .op-board { opacity: 1 !important; animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         .is-animating .op-title { opacity: 1 !important; animation: showTitle 0.6s ease-out 0.5s forwards; }
-        /* ハンコのアニメーション（本番と同じタイミングで開始） */
-        .is-animating .op-stamp { opacity: 1 !important; animation: pressStampVol3 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
+        .is-animating .op-stamp { opacity: 1 !important; animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
 
         @keyframes dropBoard { to { transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
-        
-        /* ▼ 本番環境と「全く同じ動き」を再現するアニメーション ▼ */
-        @keyframes pressStampVol3 { 
-            /* 0%: 透明で超巨大、かつ画面の「中央」にズレて構えている状態 */
-            0% { opacity: 0; transform: translate(-100%, 150%) scale(5) rotate(20deg); } 
-            
-            /* 50%: 見え始めながら縮小し、目標位置へ向かう（この中間地点があることで動きがスムーズで力強くなります） */
-            50% { opacity: 1; transform: translate(-20%, 30%) scale(1.5) rotate(0deg); } 
-            
-            /* 100%: 定位置に「ドン！」と収まる */
-            100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(5deg); } 
+        @keyframes pressStamp { 
+            0% { opacity: 0; transform: scale(3) rotate(20deg); } 
+            50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 
+            100% { opacity: 1; transform: scale(1) rotate(-10deg); } 
         }
-        
-        /* スマホ向けの微調整 */
-        @media (max-width: 599px) { 
-            .is-animating .op-stamp { animation: pressStampVol3Sp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
-        }
-        @keyframes pressStampVol3Sp { 
-            0% { opacity: 0; transform: translate(-80%, 100%) scale(4) rotate(20deg); } 
-            50% { opacity: 1; transform: translate(-15%, 20%) scale(1.3) rotate(0deg); } 
-            100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(5deg); } 
-        }
+
+ 
+    
         .scroll-prompt { position: absolute; bottom: 40px; color: #fff; font-family: var(--font-serif); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bounce 2s infinite; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: opacity 0.3s; }
         .is-animating .scroll-prompt { opacity: 0; pointer-events: none; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
