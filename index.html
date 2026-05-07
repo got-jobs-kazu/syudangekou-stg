@@ -527,27 +527,32 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
             updateDots();
         }
 
-document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
             const mainBoard = document.getElementById('main-board');
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
 
-            // ▼ 修正・追加：2回目以降のアクセスかチェック
-            const hasSeen = sessionStorage.getItem('hasSeenOpening');
-
             const startApp = () => {
                 if(hasStarted) return;
                 hasStarted = true;
-                // 一度演出を開始したら「見た」という記録をつける
-                sessionStorage.setItem('hasSeenOpening', 'true');
-
+                
+                // アニメーション開始
                 openingLayer.classList.add('is-animating');
                 
-                // 2.0秒後（ハンコが押された余韻を残す）にフライヤー縮小とメイン画面表示開始
-                setTimeout(() => { openingLayer.classList.add('is-shrinking'); mainBoard.classList.add('is-visible'); }, 1500);
-                setTimeout(() => { mainBoard.classList.add('is-magnet-attached'); document.body.classList.remove('is-locked'); openingLayer.style.display = 'none'; }, 2500);
+                // 1.5秒後にフライヤー縮小とメイン画面表示開始
+                setTimeout(() => { 
+                    openingLayer.classList.add('is-shrinking'); 
+                    mainBoard.classList.add('is-visible'); 
+                }, 1500); 
+                
+                // 2.5秒後にロック解除
+                setTimeout(() => { 
+                    mainBoard.classList.add('is-magnet-attached'); 
+                    document.body.classList.remove('is-locked'); 
+                    openingLayer.style.display = 'none'; 
+                }, 2500); 
+            };
 
-            // ▼ 追加：アニメーションをスキップして即座に画面を表示する関数
             const skipApp = () => {
                 if(hasStarted) return;
                 hasStarted = true;
@@ -559,13 +564,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const volNum = params.get('vol');
             
-            // ▼ 修正：ハッシュ、vol指定、または「一度見ている」場合はスキップ
-            if (window.location.hash || volNum || hasSeen) {
+            // ★修正：スキップ機能（hasSeen）を完全に削除しました！
+            // これにより、毎回必ず「スクロール・クリック」のトリガーを待つようになります。
+            if (window.location.hash || volNum) {
                 skipApp();
                 if (volNum) {
                     setTimeout(() => { openNotice('vol.' + volNum); }, 500); 
                 }
             } else {
+                // ここで「スクロール・タップ」のトリガーを待ち受けます
                 ['scroll', 'wheel', 'click', 'touchstart'].forEach(ev => window.addEventListener(ev, startApp, {once:true}));
             }
 
