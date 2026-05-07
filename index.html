@@ -26,16 +26,16 @@
         .op-bg { opacity: 0; animation: fadeInBg 1.5s ease-out forwards; }
         @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
 
-        .op-board { transform: translateY(-100%); }
+        .op-board { opacity: 0; transform: translateY(-100%); }
         .op-title { opacity: 0; transform: translateX(-5%); }
         .op-stamp { opacity: 0; transform: scale(3) rotate(15deg); }
         
-        .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        .is-animating .op-title { animation: showTitle 0.6s ease-out 0.5s forwards; }
-        .is-animating .op-stamp { animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
+        .is-animating .op-board { opacity: 1; animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .is-animating .op-title { opacity: 1; animation: showTitle 0.6s ease-out 0.5s forwards; }
+        .is-animating .op-stamp { opacity: 1; animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
         @media (max-width: 599px) { .is-animating .op-stamp { animation: pressStampSp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; } }
 
-        @keyframes dropBoard { to { transform: translateY(0); } }
+        @keyframes dropBoard { 0% { opacity: 0; transform: translateY(-100%); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
         @keyframes pressStamp { 0% { opacity: 0; transform: scale(3) rotate(15deg); } 50% { opacity: 1; transform: scale(0.9) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } }
         @keyframes pressStampSp { 0% { opacity: 0; transform: scale(3) rotate(15deg); } 50% { opacity: 1; transform: scale(0.9) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } }
@@ -105,6 +105,11 @@
         .carousel-indicators { text-align: center; margin-top: 10px; }
         .carousel-indicators .dot { display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: rgba(255,255,255,0.3); border-radius: 50%; transition: background-color 0.3s; }
         .carousel-indicators .dot.active { background-color: #E6C445; }
+
+        /* ▼ 追加：スマホ版のみカルーセル矢印を非表示 ▼ */
+        @media (max-width: 599px) {
+            .carousel-nav { display: none !important; }
+        }
 
         .video-thumbnail { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 8px; cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.2); }
         .thumbnail-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
@@ -232,7 +237,6 @@
             .notice-card { max-width: 550px !important; padding: 30px !important; }
             .notice-card h3 { font-size: 1.8rem !important; }
             .notice-link { font-size: 1.25rem !important; padding: 16px 30px !important; max-width: 300px !important; margin: 0 auto !important; }
-            .btn-sticky { max-width: 800px !important; }
         }
     </style>
 </head>
@@ -446,7 +450,7 @@
     </div>
 
     <div id="socialSidebar" class="social-sidebar"><a href="https://x.com/shuudangekou1" target="_blank" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a></div>
-    <div class="sticky-ticket-bar"><a href="https://tiget.net/events/486821" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
+    <div class="sticky-ticket-bar"><a href="https://tiget.net/events/486821" class="btn-sticky" target="_blank">TIGETで予約する (¥1,500)</a></div>
 
     <div id="chat-overlay" class="modal-overlay" style="z-index: 2000;"></div>
     <div id="custom-chat-btn" class="custom-chat-btn"><i class="fa-solid fa-comment-dots"></i><span>相談する</span></div>
@@ -532,20 +536,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
 
+            // ▼ 修正・追加：2回目以降のアクセスかチェック
+            const hasSeen = sessionStorage.getItem('hasSeenOpening');
+
             const startApp = () => {
                 if(hasStarted) return;
                 hasStarted = true;
-                
-                // アニメーション開始
+                // 一度演出を開始したら「見た」という記録をつける
+                sessionStorage.setItem('hasSeenOpening', 'true');
+
                 openingLayer.classList.add('is-animating');
                 
-                // 1.5秒後にフライヤー縮小とメイン画面表示開始
                 setTimeout(() => { 
                     openingLayer.classList.add('is-shrinking'); 
                     mainBoard.classList.add('is-visible'); 
                 }, 1500); 
                 
-                // 2.5秒後にロック解除
                 setTimeout(() => { 
                     mainBoard.classList.add('is-magnet-attached'); 
                     document.body.classList.remove('is-locked'); 
@@ -564,15 +570,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const volNum = params.get('vol');
             
-            // ★修正：スキップ機能（hasSeen）を完全に削除しました！
-            // これにより、毎回必ず「スクロール・クリック」のトリガーを待つようになります。
-            if (window.location.hash || volNum) {
+            // ▼ 修正：2回目以降（hasSeenがある）はスキップする
+            if (window.location.hash || volNum || hasSeen) {
                 skipApp();
                 if (volNum) {
                     setTimeout(() => { openNotice('vol.' + volNum); }, 500); 
                 }
             } else {
-                // ここで「スクロール・タップ」のトリガーを待ち受けます
                 ['scroll', 'wheel', 'click', 'touchstart'].forEach(ev => window.addEventListener(ev, startApp, {once:true}));
             }
 
@@ -687,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     };
 
-　　 function appendMsg(text, sender) {
+    function appendMsg(text, sender) {
         const b = document.getElementById('chat-body');
         const d = document.createElement('div');
         d.className = 'chat-msg ' + (sender === 'user' ? 'user-msg' : 'bot-msg');
