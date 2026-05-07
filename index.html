@@ -15,9 +15,22 @@
         :root { --bg-board: #2E5D4B; --text-chalk: #F0F0F0; --logo-green: #3e6b42; --gold-btn: #b4963c; --accent-wood: #8B5A2B; --font-hand: 'Yomogi', cursive; --font-serif: 'Kaisei Decol', serif; --footer-height: 80px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #111; color: var(--text-chalk); font-family: var(--font-serif); line-height: 1.8; padding: 20px 20px calc(var(--footer-height) + 40px) 20px; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
-        body.is-locked { overflow: hidden; height: 100vh; }
+    body.is-locked { overflow: hidden; height: 100vh; }
         
+        /* ▼ ここから：抜け落ちていたオープニングの土台設定を復活！ ▼ */
+        .opening-layer { position: fixed; inset: 0; background: var(--bg-board); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s, background-color 0.6s; }
+        .op-flyer { position: relative; width: 100%; max-width: 700px; overflow: hidden; transform-origin: center center; }
+        @media(max-width: 599px) { .op-flyer { height: 100vh; } }
+        @media(min-width: 600px) { .op-flyer { aspect-ratio: 3/4; max-height: 90vh; box-shadow: 0 10px 30px rgba(0,0,0,0.8); } }
+        .op-flyer img { position: absolute; top: 0; left: 0; width: 100%; height: auto; }
+        .op-bg { opacity: 0; animation: fadeInBg 1.5s ease-out forwards; }
+        @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
+        /* ▲ ここまで：土台設定 ▲ */
+
+        /* ▼ アニメーション待機時の初期状態 ▼ */
         .op-board { opacity: 1 !important; transform: translateY(-100%); }
+        .op-title { opacity: 0 !important; transform: translateX(-5%); }
+        .op-stamp { opacity: 0 !important; transform: scale(3) rotate(20deg); mix-blend-mode: multiply !important; }
         .op-title { opacity: 0 !important; transform: translateX(-5%); }
         .op-stamp { opacity: 0 !important; transform: scale(3) rotate(20deg); mix-blend-mode: multiply !important; } 
         
