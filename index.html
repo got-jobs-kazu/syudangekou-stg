@@ -258,6 +258,37 @@
             .custom-chat-btn span { font-size: 0.95rem !important; margin-top: 4px !important; }
             .custom-chat-window { bottom: 130px !important; right: 40px !important; }
         }
+
+        /* ▼ 追加：PC版専用のフッターアイテムサイズアップ調整 ▼ */
+        @media (min-width: 768px) {
+            /* 黒板消し */
+            .eraser {
+                width: 90px; /* 約2倍に拡大 */
+                height: 30px;
+                bottom: 8px; /* 茶色の枠の上に自然に乗るように調整 */
+                left: 10%; /* PC版での位置調整 */
+            }
+            .eraser::after {
+                width: 16px; /* 取っ手も大きく調整 */
+                height: 40%;
+            }
+
+            /* 白チョーク */
+            .chalk-white {
+                width: 45px; /* 約2倍に拡大 */
+                height: 10px;
+                bottom: 8px; /* 茶色の枠の上に自然に乗るように調整 */
+                right: 25%; /* PC版での位置調整、少し内側に */
+            }
+
+            /* 黄チョーク */
+            .chalk-yellow {
+                width: 32px; /* 約2倍に拡大 */
+                height: 10px;
+                bottom: 6px; /* 白チョークより少し低く */
+                right: 18%; /* PC版での位置調整、少し内側に */
+            }
+        }
     </style>
 </head>
 <body class="is-locked">
