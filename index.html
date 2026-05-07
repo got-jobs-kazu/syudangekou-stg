@@ -238,6 +238,23 @@
             .notice-card h3 { font-size: 1.8rem !important; }
             .notice-link { font-size: 1.25rem !important; padding: 16px 30px !important; max-width: 300px !important; margin: 0 auto !important; }
         }
+
+        /* === 公式Xボタン（スマホ・共通） === */
+        #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; font-size: 1.6rem; text-decoration: none; box-shadow: -2px 2px 5px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; }
+
+        /* === PC版専用の調整（Xボタン復活 ＆ 相談ボタン拡大） === */
+        @media (min-width: 768px) {
+            /* 公式XボタンをPCライクな白黒反転デザインに */
+            .social-btn { width: 65px; height: 65px; font-size: 2.2rem; background-color: #fff; color: #000; border: 2px solid #000; border-right: none; }
+            .social-btn:hover { background-color: #f4d03f; transform: translateX(-5px); }
+
+            /* 相談チャットボタンをいい感じにサイズアップ */
+            .custom-chat-btn { width: 90px !important; height: 90px !important; bottom: 110px !important; right: 30px !important; border-width: 3px !important; }
+            .custom-chat-btn i { font-size: 2.2rem !important; }
+            .custom-chat-btn span { font-size: 0.95rem !important; margin-top: 4px !important; }
+            .custom-chat-window { bottom: 130px !important; right: 40px !important; }
+        }
     </style>
 </head>
 <body class="is-locked">
