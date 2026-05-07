@@ -27,20 +27,21 @@
         @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
         /* ▲ ここまで：土台設定 ▲ */
 
-　　　　 /* ▼ アニメーション待機時の初期状態 ▼ */
-        .op-board { transform: translateY(-100%); }
+        /* ▼ アニメーション待機時の初期状態 ▼ */
+        .op-board { opacity: 0; transform: translateY(-100%); }
         .op-title { opacity: 0; transform: translateX(-5%); }
-        .op-stamp { opacity: 0; transform: scale(3) rotate(20deg); mix-blend-mode: multiply !important; }
+        .op-stamp { opacity: 0; transform: scale(3) rotate(15deg); mix-blend-mode: multiply !important; }
         
-        .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        .is-animating .op-title { animation: showTitle 0.6s ease-out 0.5s forwards; }
-        .is-animating .op-stamp { animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
+        .is-animating .op-board { opacity: 1; animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .is-animating .op-title { opacity: 1; animation: showTitle 0.6s ease-out 0.5s forwards; }
+        .is-animating .op-stamp { opacity: 1; animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
         @media (max-width: 599px) { .is-animating .op-stamp { animation: pressStampSp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; } }
 
-        @keyframes dropBoard { to { transform: translateY(0); } }
+        @keyframes dropBoard { 0% { opacity: 0; transform: translateY(-100%); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
-        @keyframes pressStamp { 0% { opacity: 0; transform: scale(3) rotate(20deg); } 50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 100% { opacity: 1; transform: scale(1) rotate(-10deg) translate(30px, 40px); } }
-        @keyframes pressStampSp { 0% { opacity: 0; transform: scale(3) rotate(20deg); } 50% { opacity: 1; transform: scale(0.9) rotate(-5deg); } 100% { opacity: 1; transform: scale(1) rotate(-10deg) translate(10px, 15px); } }
+        /* ▼ Canvaの配置を活かすため、最終状態を rotate(0) translate(0) に修正！ ▼ */
+        @keyframes pressStamp { 0% { opacity: 0; transform: scale(3) rotate(15deg); } 50% { opacity: 1; transform: scale(0.9) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } }
+        @keyframes pressStampSp { 0% { opacity: 0; transform: scale(3) rotate(15deg); } 50% { opacity: 1; transform: scale(0.9) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } }
     
         .scroll-prompt { position: absolute; bottom: 40px; color: #fff; font-family: var(--font-serif); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: bounce 2s infinite; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: opacity 0.3s; }
         .is-animating .scroll-prompt { opacity: 0; pointer-events: none; }
@@ -60,8 +61,9 @@
         
         .final-state.hero-board { transform: translateY(0); }
         .final-state.hero-title { opacity: 1; transform: translateX(0); }
-        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(-10deg) translate(30px, 40px); mix-blend-mode: multiply !important; } 
-        @media (max-width: 599px) { .final-state.hero-stamp { transform: scale(1) rotate(-10deg) translate(10px, 15px); mix-blend-mode: multiply !important; } }
+        /* ▼ メイン画面側も、Canvaの配置を活かすため rotate(0) translate(0) に修正！ ▼ */
+        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); mix-blend-mode: multiply !important; } 
+        @media (max-width: 599px) { .final-state.hero-stamp { transform: scale(1) rotate(0deg) translate(0, 0); mix-blend-mode: multiply !important; } }
 
         .flyer-magnet { position: absolute; top: 10px; width: 20px; height: 20px; background-color: #e63946; border-radius: 50%; box-shadow: 1px 3px 5px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4); z-index: 10; opacity: 0; transform: scale(3); }
         .flyer-magnet-left { left: 12px; } .flyer-magnet-right { right: 12px; }
