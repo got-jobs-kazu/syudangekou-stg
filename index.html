@@ -246,7 +246,7 @@
         #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; font-size: 1.6rem; text-decoration: none; box-shadow: -2px 2px 5px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; }
 
-        /* === PC版専用の調整（Xボタン復活 ＆ 相談ボタン拡大） === */
+        /* === PC版専用の調整（Xボタン復活 ＆ 相談ボタン・チャット拡大） === */
         @media (min-width: 768px) {
             /* 公式XボタンをPCライクな白黒反転デザインに */
             .social-btn { width: 65px; height: 65px; font-size: 2.2rem; background-color: #fff; color: #000; border: 2px solid #000; border-right: none; }
@@ -256,7 +256,20 @@
             .custom-chat-btn { width: 90px !important; height: 90px !important; bottom: 110px !important; right: 30px !important; border-width: 3px !important; }
             .custom-chat-btn i { font-size: 2.2rem !important; }
             .custom-chat-btn span { font-size: 0.95rem !important; margin-top: 4px !important; }
-            .custom-chat-window { bottom: 130px !important; right: 40px !important; }
+            
+            /* ▼ 追加・変更：チャットウィンドウ全体をPC用に大きく！ ▼ */
+            .custom-chat-window { 
+                bottom: 130px !important; 
+                right: 40px !important; 
+                width: 450px !important; /* 横幅を拡大 */
+                height: 700px !important; /* 高さを拡大 */
+                max-height: 80vh !important; /* 画面が低いPCでもはみ出さないように調整 */
+            }
+            /* チャット内のヘッダー、文字、入力欄もウィンドウに合わせて拡大 */
+            .chat-header { font-size: 1.2rem !important; padding: 20px !important; }
+            .chat-msg { font-size: 1.1rem !important; padding: 12px 18px !important; line-height: 1.6 !important; }
+            .chat-input { font-size: 1.1rem !important; padding: 12px 20px !important; }
+            .chat-send-btn { width: 45px !important; height: 45px !important; font-size: 1.2rem !important; }
         }
 
         /* ▼ 追加：PC版専用のフッターアイテムサイズアップ調整 ▼ */
