@@ -544,18 +544,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 openingLayer.classList.add('is-animating');
                 
                 // 2.0秒後（ハンコが押された余韻を残す）にフライヤー縮小とメイン画面表示開始
-                setTimeout(() => { 
-                    openingLayer.classList.add('is-shrinking'); 
-                    mainBoard.classList.add('is-visible'); 
-                }, 2000); 
-                
-                // 3.2秒後にロック解除
-                setTimeout(() => { 
-                    mainBoard.classList.add('is-magnet-attached'); 
-                    document.body.classList.remove('is-locked'); 
-                    openingLayer.style.display = 'none'; 
-                }, 3200); 
-            };
+                setTimeout(() => { openingLayer.classList.add('is-shrinking'); mainBoard.classList.add('is-visible'); }, 1500);
+                setTimeout(() => { mainBoard.classList.add('is-magnet-attached'); document.body.classList.remove('is-locked'); openingLayer.style.display = 'none'; }, 2500);
 
             // ▼ 追加：アニメーションをスキップして即座に画面を表示する関数
             const skipApp = () => {
