@@ -15,31 +15,28 @@
         :root { --bg-board: #2E5D4B; --text-chalk: #F0F0F0; --logo-green: #3e6b42; --gold-btn: #b4963c; --accent-wood: #8B5A2B; --font-hand: 'Yomogi', cursive; --font-serif: 'Kaisei Decol', serif; --footer-height: 80px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #111; color: var(--text-chalk); font-family: var(--font-serif); line-height: 1.8; padding: 20px 20px calc(var(--footer-height) + 40px) 20px; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
-    body.is-locked { overflow: hidden; height: 100vh; }
+        body.is-locked { overflow: hidden; height: 100vh; }
         
-        /* ▼ ここから：抜け落ちていたオープニングの土台設定を復活！ ▼ */
         .opening-layer { position: fixed; inset: 0; background: var(--bg-board); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s, background-color 0.6s; }
         .op-flyer { position: relative; width: 100%; max-width: 700px; overflow: hidden; transform-origin: center center; }
         @media(max-width: 599px) { .op-flyer { height: 100vh; } }
-        @media(min-width: 600px) { .op-flyer { aspect-ratio: 3/4; max-height: 90vh; box-shadow: 0 10px 30px rgba(0,0,0,0.8); } }
+        @media(min-width: 600px) { .op-flyer { max-height: 90vh; box-shadow: 0 10px 30px rgba(0,0,0,0.8); } }
         .op-flyer img { position: absolute; top: 0; left: 0; width: 100%; height: auto; }
+        .op-flyer img.op-bg { position: relative; display: block; }
         .op-bg { opacity: 0; animation: fadeInBg 1.5s ease-out forwards; }
         @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
-        /* ▲ ここまで：土台設定 ▲ */
 
-        /* ▼ アニメーション待機時の初期状態 ▼ */
-        .op-board { opacity: 0; transform: translateY(-100%); }
+        .op-board { transform: translateY(-100%); }
         .op-title { opacity: 0; transform: translateX(-5%); }
-        .op-stamp { opacity: 0; transform: scale(3) rotate(15deg); mix-blend-mode: multiply !important; }
+        .op-stamp { opacity: 0; transform: scale(3) rotate(15deg); }
         
-        .is-animating .op-board { opacity: 1; animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-        .is-animating .op-title { opacity: 1; animation: showTitle 0.6s ease-out 0.5s forwards; }
-        .is-animating .op-stamp { opacity: 1; animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
+        .is-animating .op-board { animation: dropBoard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .is-animating .op-title { animation: showTitle 0.6s ease-out 0.5s forwards; }
+        .is-animating .op-stamp { animation: pressStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; }
         @media (max-width: 599px) { .is-animating .op-stamp { animation: pressStampSp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards; } }
 
-        @keyframes dropBoard { 0% { opacity: 0; transform: translateY(-100%); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes dropBoard { to { transform: translateY(0); } }
         @keyframes showTitle { to { opacity: 1; transform: translateX(0); } }
-        /* ▼ Canvaの配置を活かすため、最終状態を rotate(0) translate(0) に修正！ ▼ */
         @keyframes pressStamp { 0% { opacity: 0; transform: scale(3) rotate(15deg); } 50% { opacity: 1; transform: scale(0.9) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } }
         @keyframes pressStampSp { 0% { opacity: 0; transform: scale(3) rotate(15deg); } 50% { opacity: 1; transform: scale(0.9) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } }
     
@@ -55,15 +52,15 @@
         .container::after { content: ''; display: block; width: calc(100% + 24px); height: 18px; background-color: var(--accent-wood); position: absolute; bottom: -24px; left: -12px; border-radius: 2px; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
         .intro-text { text-align: center; font-size: 1.15rem; font-weight: bold; margin: 20px 0 40px; padding: 15px; border-top: 1px dashed rgba(255,255,255,0.3); border-bottom: 1px dashed rgba(255,255,255,0.3); line-height: 1.8; background-color: rgba(0,0,0,0.1); border-radius: 4px; color: #F0F0F0; text-shadow: 1px 1px 2px rgba(255,255,255,0.4), 0 0 4px rgba(255,255,255,0.2); }
         
-        .hero-anim-container { position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; margin-bottom: 40px; background-color: var(--bg-board); border: 8px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); opacity: 0; transform: scale(1.05) translateY(-10px); transition: opacity 0.5s ease-in, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .hero-anim-container { position: relative; width: 100%; overflow: hidden; margin-bottom: 40px; background-color: var(--bg-board); border: 8px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); opacity: 0; transform: scale(1.05) translateY(-10px); transition: opacity 0.5s ease-in, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
         .container.is-visible .hero-anim-container { opacity: 1; transform: scale(1) translateY(0); }
         .hero-anim-container img { position: absolute; top: 0; left: 0; width: 100%; height: auto; }
+        .hero-anim-container img.hero-bg { position: relative; display: block; }
         
         .final-state.hero-board { transform: translateY(0); }
         .final-state.hero-title { opacity: 1; transform: translateX(0); }
-        /* ▼ メイン画面側も、Canvaの配置を活かすため rotate(0) translate(0) に修正！ ▼ */
-        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); mix-blend-mode: multiply !important; } 
-        @media (max-width: 599px) { .final-state.hero-stamp { transform: scale(1) rotate(0deg) translate(0, 0); mix-blend-mode: multiply !important; } }
+        .final-state.hero-stamp { opacity: 1; transform: scale(1) rotate(0deg) translate(0, 0); } 
+        @media (max-width: 599px) { .final-state.hero-stamp { transform: scale(1) rotate(0deg) translate(0, 0); } }
 
         .flyer-magnet { position: absolute; top: 10px; width: 20px; height: 20px; background-color: #e63946; border-radius: 50%; box-shadow: 1px 3px 5px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4); z-index: 10; opacity: 0; transform: scale(3); }
         .flyer-magnet-left { left: 12px; } .flyer-magnet-right { right: 12px; }
@@ -114,7 +111,7 @@
         .play-icon { font-size: 3.5rem; color: #E6C445; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); position: relative; z-index: 2; }
         .coming-soon-slide { width: 100%; aspect-ratio: 16/9; background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.5; }
 
-        .video-modal-content { position: relative; width: 90%; max-width: 800px; margin: auto; background-color: #fff; padding: 8px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .video-modal-content { position: relative; width: 95%; max-width: 1000px; margin: auto; background-color: #fff; padding: 8px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .video-wrapper { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; background: #000; aspect-ratio: 16/9; }
         .video-wrapper video { width: 100%; height: 100%; }
         #closeVideoBtn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5002; }
@@ -163,7 +160,7 @@
         .sticky-ticket-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: linear-gradient(to top, #111, rgba(17,17,17,0.95)); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0 20px; }
         .btn-sticky { display: block; width: 100%; max-width: 500px; background-color: #f4d03f; color: #1a3c2c; text-align: center; padding: 12px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.5); transition: all 0.2s; }
 
-        @media (min-width: 600px) { .container { padding: 60px 50px; } .info-item { flex-direction: row; align-items: baseline; } .info-label { width: 100px; flex-shrink: 0; } .intro-text { font-size: 1.25rem; } .btn-sticky { max-width: 90%; font-size: 1.4rem; padding: 15px 0; } }
+        @media (min-width: 600px) { .container { padding: 60px 50px; } .info-item { flex-direction: row; align-items: baseline; } .info-label { width: 100px; flex-shrink: 0; } .intro-text { font-size: 1.25rem; } .btn-sticky { max-width: 700px; font-size: 1.4rem; padding: 15px 0; } }
 
         .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease; }
         .hamburger-btn.is-active { color: #ffffff; transform: rotate(90deg) scale(1.1); filter: none; }
@@ -235,6 +232,7 @@
             .notice-card { max-width: 550px !important; padding: 30px !important; }
             .notice-card h3 { font-size: 1.8rem !important; }
             .notice-link { font-size: 1.25rem !important; padding: 16px 30px !important; max-width: 300px !important; margin: 0 auto !important; }
+            .btn-sticky { max-width: 800px !important; }
         }
     </style>
 </head>
@@ -257,14 +255,14 @@
     </div>
 
     <div id="opening-layer" class="opening-layer">
-        <div class="op-flyer"><img src="./bg_base_vol3.jpg" class="op-bg"><img src="./board.png" class="op-board"><img src="./title.png" class="op-title"><img src="./vol3_stamp_full.png" class="op-stamp"></div>
+        <div class="op-flyer"><img src="./bg_base_vol3.jpg" class="op-bg"><img src="./board.png" class="op-board"><img src="./title.png" class="op-title"><img src="./vol3_stamp_full_transparent.png" class="op-stamp"></div>
         <div class="scroll-prompt"><span>Scroll or Tap to Start</span><i class="fa-solid fa-chevron-down"></i></div>
     </div>
 
     <div class="container" id="main-board">
         <div class="main-visual hero-anim-container final-flyer">
             <div class="flyer-magnet flyer-magnet-left"></div><div class="flyer-magnet flyer-magnet-right"></div>
-            <img src="./bg_base_vol3.jpg" class="hero-bg" style="opacity: 1;"><img src="./board.png" class="hero-board final-state"><img src="./title.png" class="hero-title final-state"><img src="./vol3_stamp_full.png" class="hero-stamp final-state">
+            <img src="./bg_base_vol3.jpg" class="hero-bg" style="opacity: 1;"><img src="./board.png" class="hero-board final-state"><img src="./title.png" class="hero-title final-state"><img src="./vol3_stamp_full_transparent.png" class="hero-stamp final-state">
         </div>
 
         <div class="intro-text">吉本、人力舎、フリーの<br>芸歴二年目が集う<br class="sp-br">同期ライブ「集団下校」🏫<br>ネタとコーナーで<br class="sp-br">バチバチの90分‼️</div>
@@ -448,7 +446,7 @@
     </div>
 
     <div id="socialSidebar" class="social-sidebar"><a href="https://x.com/shuudangekou1" target="_blank" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a></div>
-　　<div class="sticky-ticket-bar"><a href="https://tiget.net/events/486821" class="btn-sticky" target="_blank">TIGETで予約する (¥1,500) <i class="fas fa-external-link-alt"></i></a></div>
+    <div class="sticky-ticket-bar"><a href="https://tiget.net/events/486821" class="btn-sticky" target="_blank">チケットを予約する (¥1,500)</a></div>
 
     <div id="chat-overlay" class="modal-overlay" style="z-index: 2000;"></div>
     <div id="custom-chat-btn" class="custom-chat-btn"><i class="fa-solid fa-comment-dots"></i><span>相談する</span></div>
@@ -529,7 +527,7 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
             updateDots();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
             const mainBoard = document.getElementById('main-board');
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
@@ -789,4 +787,3 @@ function openNotice(vol) {
     </script>
 </body>
 </html>
-
