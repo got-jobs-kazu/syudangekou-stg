@@ -484,10 +484,7 @@
             <h2 class="section-title">掲示板</h2>
             <p style="text-align: center; color: #F0F0F0; margin-bottom: 20px;">演者からのお知らせをチェック！</p>
             <div class="vol-buttons-wrapper">
-                <div class="vol-buttons">
-                    <button class="vol-btn" onclick="openNotice('vol.1')">vol.1</button>
-                    <button class="vol-btn" onclick="openNotice('vol.2')">vol.2</button>
-                    <button class="vol-btn" onclick="openNotice('vol.3')">vol.3</button>
+                <div class="vol-buttons" id="dynamic-vol-buttons">
                 </div>
             </div>
         </section>
@@ -622,6 +619,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const mainBoard = document.getElementById('main-board');
             const openingLayer = document.getElementById('opening-layer');
             let hasStarted = false;
+
+    　　　　// ----------------------------------------------------
+            // ▼ 追加：掲示板のボタンを自動生成する処理 ▼
+            // ----------------------------------------------------
+            const generateVolButtons = () => {
+                const buttonsContainer = document.getElementById('dynamic-vol-buttons');
+                if (!buttonsContainer || typeof notices === 'undefined') return;
+
+                // noticesデータから、一意の「vol」を抽出する
+                // noticesの構造: [["vol.1", "コンビ名", ...], ["vol.2", ...]]
+                const uniqueVols = [...new Set(notices.map(row => row[0]))].filter(vol => vol); // 空文字は除外
+
+                // 抽出したvolの数だけボタンを作成
+                uniqueVols.forEach(vol => {
+                    const btn = document.createElement('button');
+                    btn.className = 'vol-btn';
+                    btn.textContent = escapeHtmlFrontend(vol); // サニタイズ
+                    btn.onclick = () => openNotice(vol);
+                    buttonsContainer.appendChild(btn);
+                });
+            };
+
+            // DOM読み込み完了時にボタン生成を実行
+            generateVolButtons();
+            // ----------------------------------------------------
 
             // ▼ 修正・追加：2回目以降のアクセスかチェック
             const hasSeen = sessionStorage.getItem('hasSeenOpening');
