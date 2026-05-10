@@ -836,7 +836,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // ① AIの回答全体をまずは無害化（サニタイズ）する
             const safeText = escapeHtmlFrontend(text);
             
-            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            const urlPattern = /(https?:\/\/[^\s。、！？「」]+)/g;
             // ② 無害化されたテキストからURLを探してリンクに変換
             const linkedText = safeText.replace(urlPattern, (url) => {
                 try {
