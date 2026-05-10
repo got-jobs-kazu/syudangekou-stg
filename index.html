@@ -480,12 +480,16 @@
 <span id="MEMBERS_END"></span>
         </section>
 
-        <section id="notice-board">
+       <section id="notice-board">
             <h2 class="section-title">掲示板</h2>
             <p style="text-align: center; color: #F0F0F0; margin-bottom: 20px;">演者からのお知らせをチェック！</p>
-            <div class="vol-buttons-wrapper">
-                <div class="vol-buttons" id="dynamic-vol-buttons">
-                </div>
+            <div class="carousel-wrapper" style="padding-bottom: 10px;">
+                <button class="carousel-nav prev" id="volPrev" style="left: -10px; width: 35px; height: 35px; font-size: 1rem;"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="carousel-container" id="dynamic-vol-buttons" style="gap: 15px; padding: 5px; max-width: max-content; margin: 0 auto;">
+                    </div>
+                <button class="carousel-nav next" id="volNext" style="right: -10px; width: 35px; height: 35px; font-size: 1rem;"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="carousel-indicators" id="volIndicators" style="margin-top: 15px;">
+                    </div>
             </div>
         </section>
 
@@ -621,24 +625,47 @@ document.addEventListener('DOMContentLoaded', () => {
             let hasStarted = false;
 
     　　　　// ----------------------------------------------------
-            // ▼ 追加：掲示板のボタンを自動生成する処理 ▼
+            // ▼ 修正：掲示板のボタンを自動生成し、最新順＆カルーセル（●〇〇）化 ▼
             // ----------------------------------------------------
             const generateVolButtons = () => {
                 const buttonsContainer = document.getElementById('dynamic-vol-buttons');
+                const indicatorsContainer = document.getElementById('volIndicators');
                 if (!buttonsContainer || typeof notices === 'undefined') return;
 
-                // noticesデータから、一意の「vol」を抽出する
-                // noticesの構造: [["vol.1", "コンビ名", ...], ["vol.2", ...]]
-                const uniqueVols = [...new Set(notices.map(row => row[0]))].filter(vol => vol); // 空文字は除外
+                // ① 最新のvolから順に表示するために .reverse() を使用！
+                const uniqueVols = [...new Set(notices.map(row => row[0]))].filter(vol => vol).reverse();
 
-                // 抽出したvolの数だけボタンを作成
+                buttonsContainer.innerHTML = '';
+                if(indicatorsContainer) indicatorsContainer.innerHTML = '';
+
+                // ② ボタンの作成
                 uniqueVols.forEach(vol => {
                     const btn = document.createElement('button');
                     btn.className = 'vol-btn';
-                    btn.textContent = escapeHtmlFrontend(vol); // サニタイズ
+                    btn.style.scrollSnapAlign = 'center'; // スワイプ時にピタッと止まる
+                    btn.textContent = escapeHtmlFrontend(vol);
                     btn.onclick = () => openNotice(vol);
                     buttonsContainer.appendChild(btn);
                 });
+
+                // ③ ドット（●〇〇）の自動生成とスクロール連動
+                setTimeout(() => {
+                    if (indicatorsContainer) {
+                        // ボタンの幅が画面より大きい（スクロールできる）場合、ページ数を計算
+                        const pageCount = buttonsContainer.scrollWidth > buttonsContainer.clientWidth 
+                                          ? Math.ceil(buttonsContainer.scrollWidth / buttonsContainer.clientWidth) 
+                                          : 1;
+                        
+                        // ページ数分だけ「●」を作成
+                        for (let i = 0; i < pageCount; i++) {
+                            const dot = document.createElement('span');
+                            dot.className = 'dot' + (i === 0 ? ' active' : '');
+                            indicatorsContainer.appendChild(dot);
+                        }
+                    }
+                    // 放送室と同じスワイプ・スクロール機能をボタン群にも適用
+                    setupCarousel('dynamic-vol-buttons', 'volPrev', 'volNext', 'volIndicators');
+                }, 100); // ボタンが描画された直後に計算するため少し待機
             };
 
             // DOM読み込み完了時にボタン生成を実行
