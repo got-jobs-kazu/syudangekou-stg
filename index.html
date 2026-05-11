@@ -206,7 +206,7 @@
 
         @media (min-width: 600px) { .container { padding: 60px 50px; } .info-item { flex-direction: row; align-items: baseline; } .info-label { width: 100px; flex-shrink: 0; } .intro-text { font-size: 1.25rem; } .btn-sticky { max-width: 700px; font-size: 1.4rem; padding: 15px 0; } }
 
-        .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease; }
+        .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 4000 !important; background-color: transparent; color: #ffffff; border: none; font-size: 2rem; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); transition: transform 0.3s ease, color 0.3s ease, right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .hamburger-btn.is-active { color: #ffffff; transform: rotate(90deg) scale(1.1); filter: none; }
         .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.7); z-index: 3000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .nav-menu.is-active { display: flex !important; opacity: 1 !important; }
@@ -229,7 +229,7 @@
         @media (max-width: 599px) { .tt-desc { font-size: 0.9rem; white-space: nowrap; letter-spacing: -0.5px; } }
 
         /* === 相談チャット === */
-        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s; border: 2px solid #ccc; font-weight: bold; }
+        .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid #ccc; font-weight: bold; }
         .custom-chat-btn span { font-size: 0.7rem; margin-top: 2px; }
         .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 2001; border: 2px solid #2E5D4B; overflow: hidden; }
         .custom-chat-window.is-open { display: flex; }
@@ -279,8 +279,11 @@
         }
 
         /* === 公式Xボタン（スマホ・共通） === */
-        #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        #socialSidebar { position: fixed; bottom: 220px; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 1000; transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: #000; color: #fff; border-radius: 12px 0 0 12px; font-size: 1.6rem; text-decoration: none; box-shadow: -2px 2px 5px rgba(0,0,0,0.5); transition: transform 0.2s, background-color 0.2s; }
+
+        /* ★追加：画面の右外へ隠すための共通クラス */
+        .is-hidden-ui { right: -120px !important; }
 
         /* === PC版専用の調整（Xボタン復活 ＆ 相談ボタン・チャット拡大） === */
         @media (min-width: 768px) {
