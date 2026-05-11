@@ -173,16 +173,30 @@
 
         /* ▼ 追加：モーダル内のボタン位置を広げ、重なりを防ぐ ▼ */
         #notice-overlay .carousel-wrapper { overflow: visible !important; }
-        #noticePrev { left: -30px !important; }
-        #noticeNext { right: -30px !important; }
+        #noticePrev { left: -30px !important; z-index: 200 !important; }
+        #noticeNext { right: -30px !important; z-index: 200 !important; }
         
         /* ★追加：モーダル内の「●○○」を画面下部に固定して確実に見せる */
         #noticeIndicators { position: fixed !important; bottom: 20px !important; left: 0 !important; width: 100% !important; z-index: 10005 !important; margin: 0 !important; pointer-events: none; }
         
+        /* ★追加：モーダル内の縦スクロール用スタイル */
+        .notice-scroll-area { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; margin-top: 5px; }
+        .notice-scroll-area::-webkit-scrollbar { width: 6px; }
+        .notice-scroll-area::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 3px; }
+        .notice-scroll-area::-webkit-scrollbar-thumb { background: rgba(46, 93, 75, 0.6); border-radius: 3px; }
+
+        /* ★追加：テキスト出し分け用 */
+        .catchphrase { text-align: center; color: #f4d03f; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold; letter-spacing: 0; white-space: nowrap; }
+        .text-pc { display: none; }
+        .text-sp { display: inline; }
+
         @media (max-width: 599px) {
             #noticePrev { left: -10px !important; }
             #noticeNext { right: -10px !important; }
-            .notice-card { max-width: 82% !important; margin: 20px auto; }
+            /* ★変更：スマホのモーダルを上にずらし、はみ出ないように高さを制限 */
+            #notice-overlay .carousel-wrapper { margin-top: -5vh !important; }
+            .notice-card { max-width: 82% !important; max-height: 68vh !important; margin: 0 auto !important; }
+            .notice-close-btn { font-size: 35px !important; top: 15px !important; right: 15px !important; }
         }
 
         /* === 職員室 === */
@@ -542,15 +556,14 @@
        <section id="notice-board">
             <h2 class="section-title">掲示板</h2>
             <p class="catchphrase">
-                <span class="text-sp">＼ ポスターをタップして限定情報をチェック！ ／</span><span class="text-pc">＼ ポスターをクリックして限定情報をチェック！ ／</span>
+                <span class="text-sp">＼ タップして裏話＆告知をチェック！ ／</span><span class="text-pc">＼ クリックして裏話＆告知をチェック！ ／</span>
             </p>
             
             <div class="carousel-wrapper" style="padding-bottom: 10px; overflow: visible; padding: 0 10px;">
-                <button class="carousel-nav prev" id="volPrev" style="left: -20px; width: 40px; height: 40px; font-size: 1.2rem;"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="carousel-nav prev" id="volPrev" style="left: -20px; width: 40px; height: 40px; font-size: 1.2rem;"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="carousel-nav prev" id="volPrev" style="left: -30px; width: 40px; height: 40px; font-size: 1.2rem; z-index: 200;"><i class="fa-solid fa-chevron-left"></i></button>
                 <div class="carousel-container" id="dynamic-vol-buttons" style="gap: 25px; padding: 5px; max-width: max-content; margin: 0 auto;">
                     </div>
-                <button class="carousel-nav next" id="volNext" style="right: -20px; width: 40px; height: 40px; font-size: 1.2rem;"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="carousel-nav next" id="volNext" style="right: -30px; width: 40px; height: 40px; font-size: 1.2rem; z-index: 200;"><i class="fa-solid fa-chevron-right"></i></button>
                 <div class="carousel-indicators" id="volIndicators" style="margin-top: 15px;">
                     </div>
             </div>
@@ -687,8 +700,25 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
                 dots.forEach((d, i) => d.classList.toggle('active', i === index));
             };
 
-            if(prev) prev.onclick = () => container.scrollBy({left: -container.clientWidth, behavior: 'smooth'});
-            if(next) next.onclick = () => container.scrollBy({left: container.clientWidth, behavior: 'smooth'});
+            // ★変更：ぐるっと戻る（ループ）ロジック
+            if(prev) {
+                prev.onclick = () => {
+                    if (container.scrollLeft <= 10) {
+                        container.scrollTo({left: container.scrollWidth, behavior: 'smooth'}); // 一番右へ
+                    } else {
+                        container.scrollBy({left: -container.clientWidth, behavior: 'smooth'});
+                    }
+                };
+            }
+            if(next) {
+                next.onclick = () => {
+                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+                        container.scrollTo({left: 0, behavior: 'smooth'}); // 一番左へ
+                    } else {
+                        container.scrollBy({left: container.clientWidth, behavior: 'smooth'});
+                    }
+                };
+            }
             container.addEventListener('scroll', updateDots);
             updateDots();
         }
@@ -1024,14 +1054,16 @@ function openNotice(vol) {
                 const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[4])); // ★変更：画像変換関数を通す
 
                 flyerSlide.innerHTML = `
-                    <div class="notice-card" style="background:#fff; max-width:500px; padding: 25px;">
-                        <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
-                        <div class="flyer-episode-text">
-                            <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px; border-bottom: 2px solid var(--bg-board); padding-bottom: 5px;">${safeTitle}</strong>
-                            ${safeEpisode}
-                        </div>
-                        <div style="text-align: center; margin-top: 25px;">
-                            <a href="https://x.com/shuudangekou1" target="_blank" class="notice-link" style="background-color:#000 !important; color:#fff !important; font-size: 1rem !important; padding: 14px 10px !important; width: 100%; box-sizing: border-box; white-space: nowrap;"><i class="fa-brands fa-x-twitter" style="margin-right:8px;"></i>集団下校公式 アカウント</a>
+                    <div class="notice-card" style="background:#fff; max-width:500px; padding: 20px 25px; display:flex; flex-direction:column;">
+                        <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px; border-bottom: 2px solid var(--bg-board); padding-bottom: 5px; flex-shrink: 0;">${safeTitle}</strong>
+                        <div class="notice-scroll-area">
+                            <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+                            <div class="flyer-episode-text">
+                                ${safeEpisode}
+                            </div>
+                            <div style="text-align: center; margin-top: 25px; margin-bottom: 10px;">
+                                <a href="https://x.com/shuudangekou1" target="_blank" class="notice-link" style="background-color:#000 !important; color:#fff !important; font-size: 1rem !important; padding: 14px 10px !important; width: 100%; box-sizing: border-box; white-space: nowrap;"><i class="fa-brands fa-x-twitter" style="margin-right:8px;"></i>集団下校公式 アカウント</a>
+                            </div>
                         </div>
                     </div>
                 `;
