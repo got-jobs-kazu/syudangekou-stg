@@ -946,11 +946,14 @@ function openNotice(vol) {
                 const safeImg = escapeHtmlFrontend(flyerData[4]);
 
                 flyerSlide.innerHTML = `
-                    <div class="notice-card" style="background:#fff; max-width:500px;">
+                    <div class="notice-card" style="background:#fff; max-width:500px; padding: 25px;">
                         <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
                         <div class="flyer-episode-text">
-                            <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px;">${safeTitle}</strong>
+                            <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px; border-bottom: 2px solid var(--bg-board); padding-bottom: 5px;">${safeTitle}</strong>
                             ${safeEpisode}
+                        </div>
+                        <div style="text-align: center; margin-top: 25px;">
+                            <a href="https://tiget.net/events/486821" target="_blank" class="notice-link" style="font-size: 1rem !important; padding: 14px 20px !important; width: 100%; box-sizing: border-box;">TIGETでチケットを取り置きする</a>
                         </div>
                     </div>
                 `;
