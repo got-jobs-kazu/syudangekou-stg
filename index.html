@@ -128,8 +128,34 @@
         .vol-buttons-wrapper { display: flex; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
         .vol-buttons-wrapper::-webkit-scrollbar { display: none; }
         .vol-buttons { display: flex; gap: 10px; margin: 0 auto; }
-        .vol-btn { background: #3E6B42; color: #fff; border: 2px solid #fff; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Yomogi', cursive; font-size: 1.2rem; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); transition: all 0.2s; flex-shrink: 0; }
-        .vol-btn:hover { background: #fff; color: #2E5D4B; transform: translateY(-2px); }
+        /* ★ 変更：ボタンをポスター風のデザインに刷新 ★ */
+        .vol-btn { 
+            width: 120px; /* ポスターの横幅 */
+            aspect-ratio: 1 / 1.4; /* フライヤーに近い比率 */
+            background: #2E5D4B; 
+            border: 3px solid #eee; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            box-shadow: 2px 5px 10px rgba(0,0,0,0.6); 
+            transition: all 0.2s; 
+            flex-shrink: 0; 
+            overflow: hidden;
+            padding: 0;
+            position: relative;
+        }
+        .vol-btn:hover { transform: scale(1.05) rotate(2deg); z-index: 10; border-color: #f4d03f; }
+        
+        /* ポスター内の画像 */
+        .vol-poster-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* 画像がない場合のvolテキスト */
+        .vol-poster-noimg { 
+            display: flex; align-items: center; justify-content: center; 
+            height: 100%; color: #fff; font-family: 'Yomogi', cursive; font-size: 1.2rem; 
+        }
+
+        /* エピソード画面の文字調整 */
+        .flyer-episode-text { text-align: left; font-size: 0.95rem; line-height: 1.6; margin-top: 15px; color: #333; }
         .notice-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; justify-content: center; align-items: center; }
         .overlay-bg { position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
         .notice-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 40px; cursor: pointer; z-index: 10002; }
@@ -652,8 +678,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 uniqueVols.forEach(vol => {
                     const btn = document.createElement('button');
                     btn.className = 'vol-btn';
-                    btn.style.scrollSnapAlign = 'center'; // スワイプ時にピタッと止まる
-                    btn.textContent = escapeHtmlFrontend(vol);
+                    btn.style.scrollSnapAlign = 'center';
+                    
+                    // ★ シートの中からこのvolの「フライヤー」行を探す
+                    const flyerRow = notices.find(row => row[0] === vol && row[1] === "フライヤー");
+                    
+                    if (flyerRow && flyerRow[4]) {
+                        // 画像がある場合：ポスター画像を表示
+                        btn.innerHTML = `<img src="${escapeHtmlFrontend(flyerRow[4])}" class="vol-poster-img" alt="${vol}">`;
+                    } else {
+                        // 画像がない場合：黒板風にvol数だけ表示
+                        btn.innerHTML = `<div class="vol-poster-noimg">${escapeHtmlFrontend(vol)}</div>`;
+                    }
+
                     btn.onclick = () => openNotice(vol);
                     buttonsContainer.appendChild(btn);
                 });
@@ -892,41 +929,67 @@ function openNotice(vol) {
             container.innerHTML = '';
             indCont.innerHTML = '';
 
-            const filtered = notices.filter(row => row[0] === vol);
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="carousel-slide"><div class="notice-card"><h3>準備中</h3><p>お知らせはまだありません。</p></div></div>';
-            } else {
-                filtered.forEach((row, i) => {
-                    const slide = document.createElement('div');
-                    slide.className = 'carousel-slide';
-                    
-                    // ▼ データを安全な文字列に変換
-                    const safeCombi = escapeHtmlFrontend(row[1]);
-                    const safeTitle = escapeHtmlFrontend(row[2]);
-                    const safeDetail = escapeHtmlFrontend(row[3]).replace(/\n/g, '<br>');
-                    
-                    // ▼ URLの安全性を確認
-                    let safeLinkHtml = '';
-                    if (row[4]) {
-                        const linkUrl = String(row[4]).trim();
-                        if (/^https?:\/\//i.test(linkUrl)) { 
-                            safeLinkHtml = `<a href="${escapeHtmlFrontend(linkUrl)}" target="_blank" class="notice-link">詳しく見る</a>`;
-                        }
-                    }
+            // ① 「フライヤー」行だけを抽出（1枚目用）
+            const flyerData = notices.find(row => row[0] === vol && row[1] === "フライヤー");
+            // ② それ以外の演者告知行を抽出（2枚目以降用）
+            const filteredNotices = notices.filter(row => row[0] === vol && row[1] !== "フライヤー");
+            
+            let slideIndex = 0;
 
-                    // ▼ 安全になった変数だけを画面に流し込む
-                    slide.innerHTML = `<div class="notice-card"><span class="combi-name">${safeCombi}</span><h3>${safeTitle}</h3><div class="detail">${safeDetail}</div>${safeLinkHtml}</div>`;
-                    
-                    container.appendChild(slide);
-                    
-                    const dot = document.createElement('span');
-                    dot.className = 'dot' + (i === 0 ? ' active' : '');
-                    indCont.appendChild(dot);
-                });
+            // --- 1枚目：フライヤー＆エピソード画面 ---
+            if (flyerData) {
+                const flyerSlide = document.createElement('div');
+                flyerSlide.className = 'carousel-slide active';
+                
+                const safeTitle = escapeHtmlFrontend(flyerData[2]);
+                const safeEpisode = escapeHtmlFrontend(flyerData[3]).replace(/\n/g, '<br>');
+                const safeImg = escapeHtmlFrontend(flyerData[4]);
+
+                flyerSlide.innerHTML = `
+                    <div class="notice-card" style="background:#fff; max-width:500px;">
+                        <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+                        <div class="flyer-episode-text">
+                            <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px;">${safeTitle}</strong>
+                            ${safeEpisode}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(flyerSlide);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot active';
+                indCont.appendChild(dot);
+                slideIndex++;
             }
+
+            // --- 2枚目以降：演者告知カード ---
+            filteredNotices.forEach((row, i) => {
+                const slide = document.createElement('div');
+                const isActive = (slideIndex === 0 && i === 0) ? ' active' : '';
+                slide.className = 'carousel-slide' + isActive;
+                
+                const safeCombi = escapeHtmlFrontend(row[1]);
+                const safeTitle = escapeHtmlFrontend(row[2]);
+                const safeDetail = escapeHtmlFrontend(row[3]).replace(/\n/g, '<br>');
+                
+                let safeLinkHtml = '';
+                if (row[4]) {
+                    const linkUrl = String(row[4]).trim();
+                    if (/^https?:\/\//i.test(linkUrl)) { 
+                        safeLinkHtml = `<a href="${escapeHtmlFrontend(linkUrl)}" target="_blank" class="notice-link">詳しく見る</a>`;
+                    }
+                }
+
+                slide.innerHTML = `<div class="notice-card"><span class="combi-name">${safeCombi}</span><h3>${safeTitle}</h3><div class="detail">${safeDetail}</div>${safeLinkHtml}</div>`;
+                container.appendChild(slide);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot' + isActive;
+                indCont.appendChild(dot);
+            });
+
             document.getElementById('notice-overlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            
             setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
         }
 
