@@ -1032,84 +1032,99 @@ document.addEventListener('DOMContentLoaded', () => {
         }); // DOMContentLoadedの閉じカッコ
 
 function openNotice(vol) {
-            const container = document.getElementById('notice-slider-container');
-            const indCont = document.getElementById('noticeIndicators');
-            container.innerHTML = '';
-            indCont.innerHTML = '';
+    const container = document.getElementById('notice-slider-container');
+    const indCont = document.getElementById('noticeIndicators');
+    container.innerHTML = '';
+    indCont.innerHTML = '';
 
-            // ① 「フライヤー」行だけを抽出（1枚目用）
-            const flyerData = notices.find(row => row[0] === vol && row[1] === "フライヤー");
-            // ② それ以外の演者告知行を抽出（2枚目以降用）
-            const filteredNotices = notices.filter(row => row[0] === vol && row[1] !== "フライヤー");
-            
-            let slideIndex = 0;
+    // ① 「フライヤー」行だけを抽出（1枚目用）
+    const flyerData = notices.find(row => row[0] === vol && row[1] === "フライヤー");
+    // ② それ以外の演者告知行を抽出（2枚目以降用）
+    const filteredNotices = notices.filter(row => row[0] === vol && row[1] !== "フライヤー");
 
-            // --- 1枚目：フライヤー＆エピソード画面 ---
-            if (flyerData) {
-                const flyerSlide = document.createElement('div');
-                flyerSlide.className = 'carousel-slide active';
-                
-               const safeTitle = escapeHtmlFrontend(flyerData[2]);
-                const safeEpisode = escapeHtmlFrontend(flyerData[3]).replace(/\n/g, '<br>');
-                const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[4])); // ★変更：画像変換関数を通す
+    let slideIndex = 0;
 
-                flyerSlide.innerHTML = `
-                    <div class="notice-card" style="background:#fff; max-width:500px; padding: 20px 25px; display:flex; flex-direction:column;">
-                        <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px; border-bottom: 2px solid var(--bg-board); padding-bottom: 5px; flex-shrink: 0;">${safeTitle}</strong>
-                        <div class="notice-scroll-area">
-                            <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
-                            <div class="flyer-episode-text">
-                                ${safeEpisode}
-                            </div>
-                            <div style="text-align: center; margin-top: 25px; margin-bottom: 10px;">
-                                <a href="https://x.com/shuudangekou1" target="_blank" class="notice-link" style="background-color:#000 !important; color:#fff !important; font-size: 1rem !important; padding: 14px 10px !important; width: 100%; box-sizing: border-box; white-space: nowrap;"><i class="fa-brands fa-x-twitter" style="margin-right:8px;"></i>集団下校公式 アカウント</a>
-                            </div>
-                        </div>
+    // --- 1枚目：フライヤー＆エピソード画面 ---
+    if (flyerData) {
+        const flyerSlide = document.createElement('div');
+        flyerSlide.className = 'carousel-slide active';
+
+        const safeTitle = escapeHtmlFrontend(flyerData[2]);
+        const safeEpisode = escapeHtmlFrontend(flyerData[3]).replace(/\n/g, '<br>');
+        const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[4]));
+
+        flyerSlide.innerHTML = `
+            <div class="notice-card" style="background:#fff; max-width:500px; padding: 20px 25px; display:flex; flex-direction:column;">
+                <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px; border-bottom: 2px solid var(--bg-board); padding-bottom: 5px; flex-shrink: 0;">${safeTitle}</strong>
+                <div class="notice-scroll-area">
+                    <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+                    <div class="flyer-episode-text">
+                        ${safeEpisode}
                     </div>
-                `;
-                container.appendChild(flyerSlide);
+                    <div style="text-align: center; margin-top: 25px; margin-bottom: 10px;">
+                        <a href="https://x.com/shuudangekou1" target="_blank" class="notice-link" style="background-color:#000 !important; color:#fff !important; font-size: 1rem !important; padding: 14px 10px !important; width: 100%; box-sizing: border-box; white-space: nowrap;"><i class="fa-brands fa-x-twitter" style="margin-right:8px;"></i>集団下校公式 アカウント</a>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(flyerSlide);
 
-                const dot = document.createElement('span');
-                dot.className = 'dot active';
-                indCont.appendChild(dot);
-                slideIndex++;
+        const dot = document.createElement('span');
+        dot.className = 'dot active';
+        indCont.appendChild(dot);
+        slideIndex++;
+    }
+
+    // --- 2枚目以降：演者告知カード ---
+    filteredNotices.forEach((row, i) => {
+        const slide = document.createElement('div');
+        // フライヤーがない場合（vol.1など）は最初の告知をactiveにする
+        const isActive = (slideIndex === 0 && i === 0) ? ' active' : '';
+        slide.className = 'carousel-slide' + isActive;
+
+        const safeCombi = escapeHtmlFrontend(row[1]);
+        const safeTitle = escapeHtmlFrontend(row[2]);
+        const safeDetail = escapeHtmlFrontend(row[3]).replace(/\n/g, '<br>');
+
+        let safeLinkHtml = '';
+        if (row[4]) {
+            const linkUrl = String(row[4]).trim();
+            if (/^https?:\/\//i.test(linkUrl)) {
+                safeLinkHtml = `<a href="${escapeHtmlFrontend(linkUrl)}" target="_blank" class="notice-link">詳しく見る</a>`;
             }
-
-            // --- 2枚目以降：演者告知カード ---
-            filteredNotices.forEach((row, i) => {
-                const slide = document.createElement('div');
-                const isActive = (slideIndex === 0 && i === 0) ? ' active' : '';
-                slide.className = 'carousel-slide' + isActive;
-                
-                const safeCombi = escapeHtmlFrontend(row[1]);
-                const safeTitle = escapeHtmlFrontend(row[2]);
-                const safeDetail = escapeHtmlFrontend(row[3]).replace(/\n/g, '<br>');
-                
-                let safeLinkHtml = '';
-                if (row[4]) {
-                    const linkUrl = String(row[4]).trim();
-                    if (/^https?:\/\//i.test(linkUrl)) { 
-                        safeLinkHtml = `<a href="${escapeHtmlFrontend(linkUrl)}" target="_blank" class="notice-link">詳しく見る</a>`;
-                    }
-                }
-
-                slide.innerHTML = `<div class="notice-card"><span class="combi-name">${safeCombi}</span><h3>${safeTitle}</h3><div class="detail">${safeDetail}</div>${safeLinkHtml}</div>`;
-                container.appendChild(slide);
-
-                const dot = document.createElement('span');
-                dot.className = 'dot' + isActive;
-                indCont.appendChild(dot);
-            });
-
-            document.getElementById('notice-overlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
         }
 
-        function closeNotice() {
-            document.getElementById('notice-overlay').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        slide.innerHTML = `
+            <div class="notice-card" style="display:flex; flex-direction:column; padding: 20px 25px;">
+                <div style="flex-shrink: 0;">
+                    <span class="combi-name">${safeCombi}</span>
+                    <h3>${safeTitle}</h3>
+                </div>
+                <div class="notice-scroll-area">
+                    <div class="detail">${safeDetail}</div>
+                    ${safeLinkHtml}
+                </div>
+            </div>
+        `;
+        container.appendChild(slide);
+
+        const dot = document.createElement('span');
+        dot.className = 'dot' + isActive;
+        indCont.appendChild(dot);
+    });
+
+    // モーダルを表示
+    document.getElementById('notice-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // カルーセルの初期化（無限ループ機能付き）
+    setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
+}
+
+function closeNotice() {
+    document.getElementById('notice-overlay').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
     </script>
 </body>
 </html>
