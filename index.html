@@ -360,6 +360,10 @@
             /* 掲示板の「閉じる(✕)」ボタンとスライダーの「＜ ＞」矢印も大きく */
             .notice-close-btn { font-size: 60px !important; top: 30px !important; right: 40px !important; }
             .carousel-nav { width: 60px !important; height: 60px !important; font-size: 1.8rem !important; }
+            
+            /* ★追加：PC版の掲示板ポスターサイズをドーンと大きくする */
+            .vol-btn { width: 180px !important; }
+            .vol-poster-noimg { font-size: 1.8rem !important; }
         }
     </style>
 </head>
@@ -633,7 +637,18 @@ const notices = [["vol.1","ドゥドゥディダーダー","","",""],["vol.1","�
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#x60;' }[match];
             });
         }
+        
+        // ★ 追加：GoogleドライブのURLを画像として表示できるURLに変換する関数
+        function convertDriveUrlFrontend(url) {
+            if (!url) return '';
+            const match = String(url).match(/[-\w]{25,}/);
+            if (String(url).includes("drive.google.com") && match) {
+                return "https://drive.google.com/thumbnail?id=" + match[0] + "&sz=w1000";
+            }
+            return url;
+        }
         // ▲ここまで▲
+
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxEYvPUPrBM8KqW9NJi_WFoAmVXNC9FZTNytC4IxK34ijexMs6FSrhRtmiCSF56ebe7GQ/exec';
         function setupCarousel(containerId, prevBtnId, nextBtnId, indicatorContainerId) {
             const container = document.getElementById(containerId);
@@ -684,8 +699,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const flyerRow = notices.find(row => row[0] === vol && row[1] === "フライヤー");
                     
                     if (flyerRow && flyerRow[4]) {
-                        // 画像がある場合：ポスター画像を表示
-                        btn.innerHTML = `<img src="${escapeHtmlFrontend(flyerRow[4])}" class="vol-poster-img" alt="${vol}">`;
+                        // ★変更：ドライブのURLを画像用に変換してから表示する
+                        const imgUrl = convertDriveUrlFrontend(flyerRow[4]);
+                        btn.innerHTML = `<img src="${escapeHtmlFrontend(imgUrl)}" class="vol-poster-img" alt="${vol}">`;
                     } else {
                         // 画像がない場合：黒板風にvol数だけ表示
                         btn.innerHTML = `<div class="vol-poster-noimg">${escapeHtmlFrontend(vol)}</div>`;
@@ -921,7 +937,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 b.scrollTop = b.scrollHeight;
                 return d;
             }
-        });
+
+            // ★追加：スクロール中は隠して、止まったらひょっこり出すアニメーション処理
+            let scrollTimer;
+            const floatingUI = [
+                document.getElementById('hamburgerBtn'),
+                document.getElementById('socialSidebar'),
+                document.getElementById('custom-chat-btn')
+            ];
+            const movieSec = document.getElementById('movie'); // 「放送室」セクション
+
+            const checkFloatingUI = () => {
+                if (!movieSec) return;
+                // 放送室の少し上（画面半分くらい）を判定ポイントにする
+                const triggerPoint = movieSec.offsetTop - (window.innerHeight / 2);
+
+                // メニューやチャットが開いている時は隠さない（ユーザーが閉じられなくなるのを防ぐため）
+                const isMenuOpen = document.getElementById('hamburgerBtn').classList.contains('is-active');
+                const isChatOpen = document.getElementById('custom-chat-window').classList.contains('is-open');
+                if (isMenuOpen || isChatOpen) return;
+
+                // スクロール中、または判定ポイントより上の場合は隠す
+                floatingUI.forEach(el => {
+                    if (el) el.classList.add('is-hidden-ui');
+                });
+
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    // スクロールが止まって、かつ判定ポイントより下にいる場合のみ「ひょっこり」出す
+                    if (window.scrollY >= triggerPoint) {
+                        floatingUI.forEach(el => {
+                            if (el) el.classList.remove('is-hidden-ui');
+                        });
+                    }
+                }, 250); // 250ミリ秒後にひょっこり
+            };
+
+            window.addEventListener('scroll', checkFloatingUI);
+            setTimeout(checkFloatingUI, 100); // 読み込み直後にも一度チェック
+
+        }); // DOMContentLoadedの閉じカッコ
 
 function openNotice(vol) {
             const container = document.getElementById('notice-slider-container');
@@ -941,9 +996,9 @@ function openNotice(vol) {
                 const flyerSlide = document.createElement('div');
                 flyerSlide.className = 'carousel-slide active';
                 
-                const safeTitle = escapeHtmlFrontend(flyerData[2]);
+               const safeTitle = escapeHtmlFrontend(flyerData[2]);
                 const safeEpisode = escapeHtmlFrontend(flyerData[3]).replace(/\n/g, '<br>');
-                const safeImg = escapeHtmlFrontend(flyerData[4]);
+                const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[4])); // ★変更：画像変換関数を通す
 
                 flyerSlide.innerHTML = `
                     <div class="notice-card" style="background:#fff; max-width:500px; padding: 25px;">
@@ -953,10 +1008,10 @@ function openNotice(vol) {
                             ${safeEpisode}
                         </div>
                         <div style="text-align: center; margin-top: 25px;">
-                            <a href="https://tiget.net/events/486821" target="_blank" class="notice-link" style="font-size: 1rem !important; padding: 14px 20px !important; width: 100%; box-sizing: border-box;">TIGETでチケットを取り置きする</a>
+                            <a href="https://x.com/shuudangekou1" target="_blank" class="notice-link" style="background-color:#000 !important; color:#fff !important; font-size: 1rem !important; padding: 14px 20px !important; width: 100%; box-sizing: border-box;"><i class="fa-brands fa-x-twitter" style="margin-right:8px;"></i>集団下校公式 X をフォロー</a>
                         </div>
                     </div>
-                `;
+                `; 
                 container.appendChild(flyerSlide);
 
                 const dot = document.createElement('span');
