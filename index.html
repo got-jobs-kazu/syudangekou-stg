@@ -378,25 +378,29 @@
             .notebook-paper li { margin-bottom: 20px !important; }
             .notebook-paper a { font-size: 1.5rem !important; }
 
-            /* ② 掲示板ポップアップの全体的なサイズアップ */
-            .notice-card { max-width: 750px !important; padding: 50px !important; border-width: 6px !important; border-radius: 20px !important; }
-            .notice-card .combi-name { font-size: 1.2rem !important; padding: 8px 20px !important; border-width: 3px !important; margin-bottom: 20px !important; }
-            .notice-card h3 { font-size: 2.2rem !important; margin-bottom: 25px !important; padding-bottom: 15px !important; border-bottom-width: 3px !important; }
-            .notice-card .detail { font-size: 1.3rem !important; line-height: 1.8 !important; margin-bottom: 40px !important; }
-            .notice-link { font-size: 1.4rem !important; padding: 20px 40px !important; max-width: 350px !important; border-radius: 12px !important; }
+            /* ② 掲示板ポップアップの全体的なサイズアップ（1000pxに拡大） */
+            .notice-card { max-width: 1000px !important; padding: 60px !important; border-width: 8px !important; border-radius: 24px !important; height: auto; max-height: 85vh; }
+            .notice-card .combi-name { font-size: 1.4rem !important; padding: 10px 25px !important; border-width: 4px !important; margin-bottom: 25px !important; }
+            .notice-card h3 { font-size: 2.8rem !important; margin-bottom: 30px !important; padding-bottom: 20px !important; border-bottom-width: 4px !important; line-height: 1.2 !important; }
+            .notice-card .detail { font-size: 1.6rem !important; line-height: 1.8 !important; margin-bottom: 50px !important; }
+            .notice-link { font-size: 1.8rem !important; padding: 25px 60px !important; max-width: 450px !important; border-radius: 16px !important; }
             
-            /* 掲示板の「閉じる(✕)」ボタンとスライダーの「＜ ＞」矢印も大きく */
-            .notice-close-btn { font-size: 60px !important; top: 30px !important; right: 40px !important; }
-            .carousel-nav { width: 60px !important; height: 60px !important; font-size: 1.8rem !important; }
+            /* 掲示板の「閉じる(✕)」ボタンとスライダーの「＜ ＞」矢印もさらに大きく */
+            .notice-close-btn { font-size: 70px !important; top: 30px !important; right: 40px !important; }
+            .carousel-nav { width: 80px !important; height: 80px !important; font-size: 2.5rem !important; }
             
-            /* ★追加：PC版の掲示板ポスターサイズをドーンと大きくする */
-            .vol-btn { width: 270px !important; } /* ★変更：PC版ポスター横幅を1.5倍にサイズアップ */
-            .vol-poster-noimg { font-size: 2.2rem !important; }
+            /* ★掲示板ポスター（フライヤーボタン）のサイズをさらにアップ（横幅400px） */
+            .vol-btn { width: 400px !important; border-width: 5px !important; } 
+            .vol-poster-noimg { font-size: 4rem !important; }
+
+            /* ★掲示板のメイン「＜」「＞」ボタンをさらに外側へ広げて重なりを解消 */
+            #volPrev { left: -120px !important; width: 90px !important; height: 90px !important; font-size: 3rem !important; }
+            #volNext { right: -120px !important; width: 90px !important; height: 90px !important; font-size: 3rem !important; }
 
             /* ★追加：PC版のキャッチコピー表示切り替えとサイズアップ */
             .text-pc { display: inline !important; }
             .text-sp { display: none !important; }
-            .catchphrase { font-size: 1.3rem !important; letter-spacing: 1px !important; }
+            .catchphrase { font-size: 1.4rem !important; letter-spacing: 1px !important; margin-bottom: 30px !important; }
         }
     </style>
 </head>
@@ -1054,7 +1058,7 @@ function openNotice(vol) {
         const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[4]));
 
         flyerSlide.innerHTML = `
-            <div class="notice-card" style="background:#fff; max-width:500px; padding: 20px 25px; display:flex; flex-direction:column;">
+            <div class="notice-card" style="background:#fff; width:100%; max-width:none; padding: 20px 25px; display:flex; flex-direction:column;">
                 <strong style="color:var(--bg-board); font-size:1.1rem; display:block; margin-bottom:8px; border-bottom: 2px solid var(--bg-board); padding-bottom: 5px; flex-shrink: 0;">${safeTitle}</strong>
                 <div class="notice-scroll-area">
                     <img src="${safeImg}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
@@ -1095,7 +1099,7 @@ function openNotice(vol) {
         }
 
         slide.innerHTML = `
-            <div class="notice-card" style="display:flex; flex-direction:column; padding: 20px 25px;">
+            <div class="notice-card" style="display:flex; flex-direction:column; padding: 20px 25px; width: 100%; max-width: none;">
                 <div style="flex-shrink: 0;">
                     <span class="combi-name">${safeCombi}</span>
                     <h3>${safeTitle}</h3>
@@ -1113,11 +1117,8 @@ function openNotice(vol) {
         indCont.appendChild(dot);
     });
 
-    // モーダルを表示
     document.getElementById('notice-overlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
-
-    // カルーセルの初期化（無限ループ機能付き）
     setTimeout(() => setupCarousel('notice-slider-container', 'noticePrev', 'noticeNext', 'noticeIndicators'), 100);
 }
 
