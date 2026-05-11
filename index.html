@@ -126,8 +126,8 @@
         #closeVideoBtn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5002; }
 
         /* === 掲示板 === */
-        /* ★追加：キャッチコピー用のスタイル（絶対に1行固定、スマホ用サイズ） */
-        .catchphrase { text-align: center; color: #f4d03f; margin-bottom: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: bold; letter-spacing: 0; }
+        /* ★変更：スマホの画面幅に合わせて文字を自動縮小（clamp）し、絶対にはみ出さず左右対称にする */
+        .catchphrase { text-align: center; color: #f4d03f; margin-bottom: 20px; font-size: clamp(0.6rem, 3.5vw, 0.85rem); font-weight: bold; letter-spacing: -0.5px; white-space: nowrap; width: 100%; display: block; overflow: hidden; }
         .text-pc { display: none; }
         .text-sp { display: inline; }
 
@@ -185,11 +185,6 @@
         .notice-scroll-area::-webkit-scrollbar { width: 6px; }
         .notice-scroll-area::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 3px; }
         .notice-scroll-area::-webkit-scrollbar-thumb { background: rgba(46, 93, 75, 0.6); border-radius: 3px; }
-
-        /* ★追加：テキスト出し分け用 */
-        .catchphrase { text-align: center; color: #f4d03f; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold; letter-spacing: 0; white-space: nowrap; }
-        .text-pc { display: none; }
-        .text-sp { display: inline; }
 
         @media (max-width: 599px) {
             #noticePrev { left: -10px !important; }
