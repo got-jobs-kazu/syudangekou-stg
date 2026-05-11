@@ -125,6 +125,11 @@
         #closeVideoBtn { position: absolute; top: -15px; right: -15px; background-color: #e63946; color: #fff; border: 2px solid #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 5002; }
 
         /* === 掲示板 === */
+        /* ★追加：キャッチコピー用のスタイル（絶対に1行固定、スマホ用サイズ） */
+        .catchphrase { text-align: center; color: #f4d03f; margin-bottom: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: bold; letter-spacing: 0; }
+        .text-pc { display: none; }
+        .text-sp { display: inline; }
+
         .vol-buttons-wrapper { display: flex; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
         .vol-buttons-wrapper::-webkit-scrollbar { display: none; }
         .vol-buttons { display: flex; gap: 10px; margin: 0 auto; }
@@ -373,6 +378,11 @@
             /* ★追加：PC版の掲示板ポスターサイズをドーンと大きくする */
             .vol-btn { width: 270px !important; } /* ★変更：PC版ポスター横幅を1.5倍にサイズアップ */
             .vol-poster-noimg { font-size: 2.2rem !important; }
+
+            /* ★追加：PC版のキャッチコピー表示切り替えとサイズアップ */
+            .text-pc { display: inline !important; }
+            .text-sp { display: none !important; }
+            .catchphrase { font-size: 1.3rem !important; letter-spacing: 1px !important; }
         }
     </style>
 </head>
@@ -531,9 +541,12 @@
 
        <section id="notice-board">
             <h2 class="section-title">掲示板</h2>
-            <p style="text-align: center; color: #F0F0F0; margin-bottom: 20px;">👇 ポスターをタップして、ライブの裏側を覗き見する 👀</p>
+            <p class="catchphrase">
+                <span class="text-sp">＼ ポスターをタップして限定情報をチェック！ ／</span><span class="text-pc">＼ ポスターをクリックして限定情報をチェック！ ／</span>
+            </p>
             
             <div class="carousel-wrapper" style="padding-bottom: 10px; overflow: visible; padding: 0 10px;">
+                <button class="carousel-nav prev" id="volPrev" style="left: -20px; width: 40px; height: 40px; font-size: 1.2rem;"><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="carousel-nav prev" id="volPrev" style="left: -20px; width: 40px; height: 40px; font-size: 1.2rem;"><i class="fa-solid fa-chevron-left"></i></button>
                 <div class="carousel-container" id="dynamic-vol-buttons" style="gap: 25px; padding: 5px; max-width: max-content; margin: 0 auto;">
                     </div>
