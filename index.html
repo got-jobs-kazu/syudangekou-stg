@@ -1008,7 +1008,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return d;
             }
 
-            // ★追加：スクロール中は隠して、止まったらひょっこり出すアニメーション処理
+            // ★変更：スクロール中は隠して、止まったらひょっこり出すアニメーション処理（最強判定バージョン）
             let scrollTimer;
             const floatingUI = [
                 document.getElementById('hamburgerBtn'),
@@ -1018,29 +1018,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const movieSec = document.getElementById('movie'); // 「放送室」セクション
 
             const checkFloatingUI = () => {
-                if (!movieSec) return;
-                // 放送室の少し上（画面半分くらい）を判定ポイントにする
-                const triggerPoint = movieSec.offsetTop - (window.innerHeight / 2);
-
                 // メニューやチャットが開いている時は隠さない（ユーザーが閉じられなくなるのを防ぐため）
                 const isMenuOpen = document.getElementById('hamburgerBtn').classList.contains('is-active');
                 const isChatOpen = document.getElementById('custom-chat-window').classList.contains('is-open');
                 if (isMenuOpen || isChatOpen) return;
 
-                // スクロール中、または判定ポイントより上の場合は隠す
+                // スクロール中はいったん全て隠す
                 floatingUI.forEach(el => {
                     if (el) el.classList.add('is-hidden-ui');
                 });
 
                 clearTimeout(scrollTimer);
                 scrollTimer = setTimeout(() => {
-                    // スクロールが止まって、かつ判定ポイントより下にいる場合のみ「ひょっこり」出す
-                    if (window.scrollY >= triggerPoint) {
+                    // スクロールが完全に止まった時の判定（放送室が画面の真ん中より上に来たら通過とみなす）
+                    if (movieSec && movieSec.getBoundingClientRect().top < window.innerHeight / 2) {
                         floatingUI.forEach(el => {
                             if (el) el.classList.remove('is-hidden-ui');
                         });
                     }
-                }, 250); // 250ミリ秒後にひょっこり
+                }, 250); // 指を離して完全にスクロールが止まり、0.25秒後にひょっこり
             };
 
             window.addEventListener('scroll', checkFloatingUI);
