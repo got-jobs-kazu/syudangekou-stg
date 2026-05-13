@@ -262,7 +262,7 @@
         .chat-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 0.95rem; outline: none; }
         .chat-send-btn { background-color: #2E5D4B; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
 
-        /* ★追加：相談チャットの「入力中（ローディング）」アニメーション */
+        /* 相談チャットの「入力中（ローディング）」アニメーション */
         .typing-indicator { display: flex; gap: 6px; justify-content: center; align-items: center; padding: 14px 18px !important; min-width: 60px; }
         .typing-indicator span { display: block; width: 8px; height: 8px; background-color: #888; border-radius: 50%; animation: typingBounce 1.4s infinite ease-in-out both; }
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
@@ -1018,7 +1018,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const movieSec = document.getElementById('movie'); // 「放送室」セクション
 
             const checkFloatingUI = () => {
-                // メニューやチャットが開いている時は隠さない（ユーザーが閉じられなくなるのを防ぐため）
+                // メニューやチャットが開いている時は隠さない
                 const isMenuOpen = document.getElementById('hamburgerBtn').classList.contains('is-active');
                 const isChatOpen = document.getElementById('custom-chat-window').classList.contains('is-open');
                 if (isMenuOpen || isChatOpen) return;
@@ -1030,13 +1030,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 clearTimeout(scrollTimer);
                 scrollTimer = setTimeout(() => {
-                    // スクロールが完全に止まった時の判定（放送室が画面の真ん中より上に来たら通過とみなす）
+                    // スクロール停止時の判定（放送室が画面の半分より上に来たらひょっこり出す）
                     if (movieSec && movieSec.getBoundingClientRect().top < window.innerHeight / 2) {
                         floatingUI.forEach(el => {
                             if (el) el.classList.remove('is-hidden-ui');
                         });
                     }
-                }, 250); // 指を離して完全にスクロールが止まり、0.25秒後にひょっこり
+                }, 250);
             };
 
             window.addEventListener('scroll', checkFloatingUI);
