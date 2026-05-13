@@ -250,7 +250,8 @@
         /* === 相談チャット === */
         .custom-chat-btn { position: fixed; bottom: 90px; right: 15px; width: 70px; height: 70px; background: #F0F0F0; color: #2E5D4B; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 2000; transition: transform 0.3s, right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid #ccc; font-weight: bold; }
         .custom-chat-btn span { font-size: 0.7rem; margin-top: 2px; }
-        .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 2001; border: 2px solid #2E5D4B; overflow: hidden; }
+        /* ★変更：チャットウィンドウのz-indexをハンバーガー(4000)より上の 4501 に引き上げ */
+        .custom-chat-window { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; max-width: 90vw; max-height: 70vh; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 4501; border: 2px solid #2E5D4B; overflow: hidden; }
         .custom-chat-window.is-open { display: flex; }
         .chat-header { background-color: #2E5D4B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .chat-close-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 1.2rem; }
@@ -633,7 +634,7 @@
     <div id="socialSidebar" class="social-sidebar"><a href="https://x.com/shuudangekou1" target="_blank" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a></div>
     <div class="sticky-ticket-bar"><a href="https://tiget.net/events/486821" class="btn-sticky" target="_blank">TIGETで予約する (¥1,500)</a></div>
 
-    <div id="chat-overlay" class="modal-overlay" style="z-index: 2000;"></div>
+    <div id="chat-overlay" class="modal-overlay" style="z-index: 4500;"></div>
     <div id="custom-chat-btn" class="custom-chat-btn"><i class="fa-solid fa-comment-dots"></i><span>相談する</span></div>
     <div id="custom-chat-window" class="custom-chat-window">
         <div class="chat-header"><span>集団下校AIスタッフ</span><button id="chat-close-btn" class="chat-close-btn"><i class="fa-solid fa-xmark"></i></button></div>
