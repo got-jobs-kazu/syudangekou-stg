@@ -78,29 +78,36 @@
         .info-label { font-family: var(--font-hand); color: #ccc; font-size: 1.1rem; margin-bottom: 4px; }
         .info-value { padding-left: 10px; font-weight: 700; font-size: 1.2rem; }
         #MEMBERS_START, #MEMBERS_END { display: none !important; }
-        /* ★スマホで2列に変更し、間隔を少し狭める */
-        .grid-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; list-style: none; margin-top: 0; }
+        /* ★① スマホ版の列数を修正前の縦1列(1fr)に戻し、見やすさ優先で間隔(gap)も元の30pxに復元 */
+        .grid-list { display: grid; grid-template-columns: 1fr; gap: 30px; list-style: none; margin-top: 0; }
         @media (min-width: 600px) { .grid-list { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
         
         .card-box { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; height: auto; padding-bottom: 15px; transition: transform 0.2s; }
         .card-box:hover { transform: translateY(-3px); }
         
-        /* ★マグネットバーを上部中央に追加 */
-        .card-box::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 30px; height: 12px; background: linear-gradient(to bottom, #eeeeee, #999999); border-radius: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.8); z-index: 20; }
+        /* ★④ マグネットバーの追加を修正前に戻すため削除 */
         
-        /* 所属タグの位置を少し下にずらす */
-        .affiliation-tag { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 80%; max-width: 100px; height: 18px; border-radius: 3px; box-shadow: 1px 2px 3px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: bold; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5); letter-spacing: 1px; font-family: 'M PLUS Rounded 1c', sans-serif; }
+        /* ★④ 所属タグの位置を修正前のトップ6px、元のサイズ感に完全復元 */
+        .affiliation-tag { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 120px; height: 20px; border-radius: 3px; box-shadow: 1px 3px 4px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5); letter-spacing: 2px; font-family: 'M PLUS Rounded 1c', sans-serif; }
         .magnet-red .affiliation-tag { background-color: #e63946; } .magnet-blue .affiliation-tag { background-color: #457b9d; } .magnet-yellow .affiliation-tag { background-color: #e9c46a; } .magnet-green .affiliation-tag { background-color: #2a9d8f; }
 
+        /* ★③ コンビ名の表示ルールは修正後のまま（1行に収めて三点リーダー表示） */
         .combi-name-bar { background-color: transparent; color: #333; font-family: var(--font-serif); font-weight: bold; font-size: 0.85rem; padding: 35px 5px 6px; border-bottom: 2px dashed #ccc; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-img-box { width: 100%; aspect-ratio: 1 / 1; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #888; font-size: 0.8rem; background-size: cover; background-position: center; }
         
+        /* ★⑤ 全体的な文字サイズ・余白の縮小は修正後のコンパクトさを維持 */
         .member-details { display: flex; flex-direction: column; gap: 8px; padding: 10px 5px 0; }
         .member-person { display: flex; flex-direction: column; align-items: center; flex: 1; }
-        .member-person-row { display: flex; justify-content: space-evenly; align-items: flex-start; gap: 4px; padding-top: 5px; }
         
-        /* 2列にしたため文字サイズや余白をコンパクトに調整 */
-        .member-name { font-family: var(--font-serif); font-size: 0.75rem; font-weight: bold; color: #222; margin-bottom: 4px; line-height: 1.2; text-align: center; }
+        /* ★② 左右メンバーの配置：スマホ版はすっきり横並び、PC版（600px以上）の時は縦3段並びに自動可変するよう設計 */
+        .member-person-row { display: flex; justify-content: space-evenly; align-items: flex-start; gap: 4px; padding-top: 5px; }
+        @media (min-width: 600px) {
+            .member-person-row { flex-direction: column; align-items: center; width: 100%; gap: 12px; }
+            .member-person-row .member-person:first-child { border-bottom: 1px dashed #ccc; padding-bottom: 12px; width: 100%; }
+        }
+        
+        /* ★② 長い表示名（りゅーしょー伝説など）を画面幅に連動して自動縮小させ、強制的に1行に収める設定 */
+        .member-name { font-family: var(--font-serif); font-size: clamp(0.65rem, 1.8vw, 0.85rem); font-weight: bold; color: #222; margin-bottom: 4px; line-height: 1.2; text-align: center; white-space: nowrap; width: 100%; display: block; }
         .member-pos { font-size: 0.6rem; color: #666; font-weight: normal; display: block; }
         .sns-links { display: flex; gap: 6px; justify-content: center; }
         .sns-links a { color: #555; transition: color 0.2s, transform 0.2s; display: inline-block; }
@@ -302,7 +309,8 @@
             .op-flyer { max-width: min(1050px, calc(90vh * 3 / 4)) !important; }
             body { font-size: 1.1rem !important; }
             .combi-name-bar { font-size: 1.4rem !important; font-weight: 800 !important; padding-top: 35px !important; padding-bottom: 15px !important; }
-            .member-name { font-size: 1.2rem !important; font-weight: 800 !important; margin-bottom: 12px !important; }
+            /* ★② PC版でも「りゅーしょー伝説」などの長い名前が強制的に1行に綺麗に収まるよう自動縮小(clamp)とnowrapを設定 */
+            .member-name { font-size: clamp(0.9rem, 1.3vw, 1.2rem) !important; font-weight: 800 !important; margin-bottom: 12px !important; white-space: nowrap; width: 100%; display: block; }
             .affiliation-tag { font-size: 0.9rem !important; width: 140px !important; height: 24px !important; }
             .sns-links i { font-size: 1.6rem !important; }
             .sns-links a { margin: 0 10px !important; }
