@@ -853,9 +853,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // ★ シートの中からこのvolの「フライヤー」行を探す
                     const flyerRow = notices.find(row => row[0] === vol && row[1] === "フライヤー");
                     
-                    if (flyerRow && flyerRow[4]) {
+                    if (flyerRow && flyerRow[5]) { // ★修正：4を5に変更
                         // ★変更：ドライブのURLを画像用に変換してから表示する
-                        const imgUrl = convertDriveUrlFrontend(flyerRow[4]);
+                        const imgUrl = convertDriveUrlFrontend(flyerRow[5]); // ★修正：4を5に変更
                         btn.innerHTML = `<img src="${escapeHtmlFrontend(imgUrl)}" class="vol-poster-img" alt="${vol}">`;
                     } else {
                         // 画像がない場合：黒板風にvol数だけ表示
