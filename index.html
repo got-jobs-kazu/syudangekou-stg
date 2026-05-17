@@ -1156,9 +1156,11 @@ function openNotice(vol) {
         const flyerSlide = document.createElement('div');
         flyerSlide.className = 'carousel-slide active';
 
-        const safeTitle = escapeHtmlFrontend(flyerData[2]);
+        // ★修正①：フライヤーのタイトルも改行対応
+        const safeTitle = escapeHtmlFrontend(flyerData[2]).replace(/\n/g, '<br>');
         const safeEpisode = escapeHtmlFrontend(flyerData[3]).replace(/\n/g, '<br>');
-        const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[4]));
+        // ★修正：フライヤーの画像URLの読み込み先を E列(4) から F列(5) に変更
+        const safeImg = escapeHtmlFrontend(convertDriveUrlFrontend(flyerData[5]));
 
         flyerSlide.innerHTML = `
             <div class="notice-card" style="background:#fff; width:100%; max-width:none; padding: 20px 25px; display:flex; flex-direction:column;">
@@ -1191,7 +1193,8 @@ function openNotice(vol) {
         slide.className = 'carousel-slide' + isActive;
 
         const safeCombi = escapeHtmlFrontend(row[1]);
-        const safeTitle = escapeHtmlFrontend(row[2]);
+        // ★修正①：演者告知のタイトルも改行対応
+        const safeTitle = escapeHtmlFrontend(row[2]).replace(/\n/g, '<br>');
         const safeDetail = escapeHtmlFrontend(row[3]).replace(/\n/g, '<br>');
 
         let safeLinkHtml = '';
@@ -1199,6 +1202,16 @@ function openNotice(vol) {
             const linkUrl = String(row[4]).trim();
             if (/^https?:\/\//i.test(linkUrl)) {
                 safeLinkHtml = `<a href="${escapeHtmlFrontend(linkUrl)}" target="_blank" class="notice-link">詳しく見る</a>`;
+            }
+        }
+
+        // ★修正②：F列(row[5])の画像URL処理を追加
+        let safeComboImgHtml = '';
+        if (row[5]) {
+            const imgUrl = String(row[5]).trim();
+            if (imgUrl !== '') {
+                const convertedUrl = convertDriveUrlFrontend(imgUrl);
+                safeComboImgHtml = `<img src="${escapeHtmlFrontend(convertedUrl)}" style="width:100%; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2); margin-bottom: 15px;">`;
             }
         }
 
@@ -1210,6 +1223,7 @@ function openNotice(vol) {
                 </div>
                 
                 <div class="notice-scroll-area" style="flex-grow:1; overflow-y:auto;">
+                    ${safeComboImgHtml}
                     <div class="detail">${safeDetail}</div>
                 </div>
 
