@@ -1109,7 +1109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('socialSidebar'),
                 document.getElementById('custom-chat-btn')
             ];
-            const movieSec = document.getElementById('movie'); // 「放送室」セクション
+            const targetSec = document.getElementById('info'); // ★修正：「時間割」セクションを基準にする
 
             const checkFloatingUI = () => {
                 // メニューやチャットが開いている時は隠さない
@@ -1124,8 +1124,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 clearTimeout(scrollTimer);
                 scrollTimer = setTimeout(() => {
-                    // スクロール停止時の判定（放送室が画面の半分より上に来たらひょっこり出す）
-                    if (movieSec && movieSec.getBoundingClientRect().top < window.innerHeight / 2) {
+                    // ★修正：スクロール停止時の判定（時間割が画面の半分より上に来たらひょっこり出す）
+                    if (targetSec && targetSec.getBoundingClientRect().top < window.innerHeight / 2) {
                         floatingUI.forEach(el => {
                             if (el) el.classList.remove('is-hidden-ui');
                         });
