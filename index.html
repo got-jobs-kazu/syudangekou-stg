@@ -977,7 +977,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                movies.forEach((movie, index) => {
+                // ★修正：movies のデータをコピーして「逆順(reverse)」にしてからスライドを生成する
+                [...movies].reverse().forEach((movie, index) => {
                     const title = escapeHtmlFrontend(movie[0]);
                     const videoUrl = String(movie[1]).trim();
                     const thumbUrl = convertDriveUrlFrontend(String(movie[2]).trim());
