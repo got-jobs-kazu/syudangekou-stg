@@ -742,8 +742,11 @@
     <div id="videoModal" class="modal-overlay">
         <div class="video-modal-content">
             <button id="closeVideoBtn" onclick="closeVideoModal()"><i class="fa-solid fa-xmark"></i></button>
-            <div class="video-wrapper">
-                <iframe id="modalVideoPlayer" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+            <div class="video-wrapper" style="position: relative;">
+                <div id="videoLoader" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #E6C445; font-size: 2.5rem; z-index: 1;">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                </div>
+                <video id="modalVideoPlayer" controls playsinline autoplay style="position: relative; z-index: 2; width: 100%; height: 100%; object-fit: contain; background: transparent;" onplaying="document.getElementById('videoLoader').style.display='none'" onwaiting="document.getElementById('videoLoader').style.display='block'"></video>
             </div>
         </div>
     </div>
@@ -964,7 +967,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.innerHTML = '';
                 if(indicators) indicators.innerHTML = '';
 
-                // もしデータがない場合は Coming Soon を表示
                 if (movies.length === 0) {
                     container.innerHTML = `
                         <div class="carousel-slide" style="padding: 0 5px;">
@@ -977,24 +979,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // ★修正：movies のデータをコピーして「逆順(reverse)」にしてからスライドを生成する
+                // 新しいものが左に来るように逆順で表示
                 [...movies].reverse().forEach((movie, index) => {
                     const title = escapeHtmlFrontend(movie[0]);
                     const videoUrl = String(movie[1]).trim();
                     const thumbUrl = convertDriveUrlFrontend(String(movie[2]).trim());
 
-                    // Googleドライブの通常の共有リンクを、埋め込み用(preview)のURLへ自動変換する処理
-                    let embedUrl = videoUrl;
+                    // ★修正：GoogleドライブのURLを、超軽量な「直接データ取得用URL」に変換！
+                    let directUrl = videoUrl;
                     const match = videoUrl.match(/[-\w]{25,}/);
                     if (videoUrl.includes("drive.google.com") && match) {
-                        embedUrl = `https://drive.google.com/file/d/${match[0]}/preview`;
+                        directUrl = `https://drive.google.com/uc?export=download&id=${match[0]}`;
                     }
 
                     const slide = document.createElement('div');
                     slide.className = 'carousel-slide';
                     
                     slide.innerHTML = `
-                        <div class="video-thumbnail" onclick="openVideoModal('${escapeHtmlFrontend(embedUrl)}')">
+                        <div class="video-thumbnail" onclick="openVideoModal('${escapeHtmlFrontend(directUrl)}')">
                             <img class="thumbnail-bg-video" src="${escapeHtmlFrontend(thumbUrl)}" style="object-fit: cover; opacity: 0.6; width: 100%; height: 100%;">
                             <div class="thumbnail-overlay"><i class="fa-solid fa-circle-play play-icon"></i></div>
                         </div>
@@ -1009,21 +1011,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
 
-                // 動的生成完了後にカルーセルの制御を有効化
                 setupCarousel('dynamic-video-carousel', 'videoPrev', 'videoNext', 'videoIndicators');
             };
 
             generateMovies();
 
-// ▼ モーダルを開いて指定した動画URLを iframe にセットする関数
+// ▼ モーダルを開き、ローディングを表示しつつ自動再生させる関数
 window.openVideoModal = function(url) {
-    document.getElementById('modalVideoPlayer').src = url;
+    const player = document.getElementById('modalVideoPlayer');
+    const loader = document.getElementById('videoLoader');
+    loader.style.display = 'block'; // 最初にくるくるを表示
+    player.src = url;
     document.getElementById('videoModal').classList.add('is-active');
+    
+    // 読み込みが完了次第、自動再生をスタート
+    player.play().catch(e => console.log("自動再生がブラウザに制限されました", e));
 };
-// ▼ モーダルを閉じ、音を止めるために iframe の中身をクリアする関数
+
+// ▼ モーダルを閉じ、動画を完全にリセットする関数
 window.closeVideoModal = function() {
     document.getElementById('videoModal').classList.remove('is-active');
-    document.getElementById('modalVideoPlayer').src = '';
+    const player = document.getElementById('modalVideoPlayer');
+    player.pause();
+    player.src = '';
 };
 
             const memberSection = document.getElementById('member');
