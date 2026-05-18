@@ -210,7 +210,14 @@
             #notice-overlay .carousel-wrapper { margin-top: -5vh !important; }
             .notice-card { max-width: 82% !important; max-height: 68vh !important; margin: 0 auto !important; }
             .notice-close-btn { font-size: 35px !important; top: 15px !important; right: 15px !important; }
+
+            /* ▼ 追加：スマホ版のGoogleドライブ動画のズレ・グレーアウト修正 ▼ */
+            .video-modal-content { width: 96% !important; padding: 4px !important; }
+            /* ドライブの上下UI（黒帯）を吸収するため、スマホ時のみ16:9から4:3へ縦幅を広げる */
+            .video-wrapper { aspect-ratio: 4/3 !important; }
         }
+
+
 
         /* === 職員室 === */
         .staff-card { background-color: #fcfcfc; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); position: relative; border-radius: 2px; padding: 25px 10px 20px; text-decoration: none; display: block; color: #222; text-align: center; transition: transform 0.2s; }
