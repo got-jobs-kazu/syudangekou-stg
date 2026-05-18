@@ -994,8 +994,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     let embedUrl = videoUrl;
                     
-                    // ★YouTubeの各種URL（短縮リンク、通常リンク）から動画IDを一発で自動抽出する正規表現
-                    let ytMatch = videoUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/);
+                    // ★YouTubeの各種URL（短縮リンク、通常リンク、ショート動画）から動画IDを一発で自動抽出する正規表現
+                    let ytMatch = videoUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/);
                     
                     if (ytMatch) {
                         const ytId = ytMatch[1];
