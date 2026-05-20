@@ -655,11 +655,26 @@
             <h2 class="section-title">放送室</h2>
             <div class="carousel-wrapper">
                 <button class="carousel-nav prev" id="videoPrev"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="carousel-container" id="dynamic-video-carousel">
+                <div class="carousel-container" id="videoCarousel">
+                    <div class="carousel-slide">
+                        <div class="video-thumbnail" onclick="openLocalVideoModal('./digest_movie_vol2.mp4')">
+                            <video class="thumbnail-bg-video" src="./digest_movie_vol2.mp4#t=0.001" muted playsinline preload="metadata"></video>
+                            <div class="thumbnail-overlay"><i class="fa-solid fa-circle-play play-icon"></i></div>
+                        </div>
+                        <p style="text-align:center; margin-top:5px; font-weight:bold;">第2回 ダイジェスト</p>
                     </div>
+                    <div class="carousel-slide" style="padding: 0 5px;">
+                        <div class="video-thumbnail" onclick="openLocalVideoModal('./digest_movie.mp4')">
+                            <video class="thumbnail-bg-video" src="./digest_movie.mp4#t=0.001" muted playsinline preload="metadata"></video>
+                            <div class="thumbnail-overlay"><i class="fa-solid fa-circle-play play-icon"></i></div>
+                        </div>
+                        <p style="text-align:center; margin-top:5px; font-weight:bold;">第1回 ダイジェスト</p>
+                    </div>
+                </div>
                 <button class="carousel-nav next" id="videoNext"><i class="fa-solid fa-chevron-right"></i></button>
                 <div class="carousel-indicators" id="videoIndicators">
-                    </div>
+                    <span class="dot active"></span><span class="dot"></span>
+                </div>
             </div>
         </section>
 
@@ -748,12 +763,9 @@
 
     <div id="videoModal" class="modal-overlay">
         <div class="video-modal-content">
-            <button id="closeVideoBtn" onclick="closeVideoModal()"><i class="fa-solid fa-xmark"></i></button>
-            <div class="video-wrapper" style="position: relative; background: #000;">
-                <div id="videoLoader" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #E6C445; font-size: 2.5rem; z-index: 1;">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                </div>
-                <iframe id="modalVideoPlayer" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position: relative; z-index: 2; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity=1; document.getElementById('videoLoader').style.display='none';"></iframe>
+            <button id="closeVideoBtn" onclick="closeLocalVideoModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="video-wrapper">
+                <video id="modalVideoPlayer" controls playsinline style="width: 100%; height: 100%; object-fit: contain; background: #000;"></video>
             </div>
         </div>
     </div>
@@ -966,78 +978,8 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('openTimetableBtn').onclick = () => document.getElementById('timetableModal').classList.add('is-active');
             document.getElementById('closeTimetableBtn').onclick = () => document.getElementById('timetableModal').classList.remove('is-active');
 
-            // ▼ 放送室（動画）の自動生成ロジック
-            const generateMovies = () => {
-                const container = document.getElementById('dynamic-video-carousel');
-                const indicators = document.getElementById('videoIndicators');
-                if (!container || typeof movies === 'undefined') return;
-                
-                container.innerHTML = '';
-                if(indicators) indicators.innerHTML = '';
-
-                if (movies.length === 0) {
-                    container.innerHTML = `
-                        <div class="carousel-slide" style="padding: 0 5px;">
-                            <div class="coming-soon-slide">
-                                <i class="fa-solid fa-film" style="font-size:2rem; margin-bottom:10px;"></i>
-                                <p>動画準備中<br><span style="color: #E6C445; font-weight: bold;">Coming Soon...</span></p>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // 新しい動画が最初（左）に来るように降順で処理
-                [...movies].reverse().forEach((movie, index) => {
-                    const title = escapeHtmlFrontend(movie[0]);
-                    const videoUrl = String(movie[1]).trim();
-                    let thumbUrl = convertDriveUrlFrontend(String(movie[2]).trim());
-
-                    let embedUrl = videoUrl;
-                    
-                    // 通常リンク、短縮リンク、Shorts動画(shorts/)のすべてから動画IDを自動抽出する正規表現
-                    let ytMatch = videoUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/);
-                    
-                    if (ytMatch) {
-                        const ytId = ytMatch[1];
-                        embedUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`;
-                        
-                        // スプレッドシートのサムネ画像URLが空欄の場合、YouTubeから高画質サムネを自動取得
-                        if (!movie[2] || String(movie[2]).trim() === '') {
-                            thumbUrl = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
-                        }
-                        var imgHtml = `<img class="thumbnail-bg-video" src="${escapeHtmlFrontend(thumbUrl)}" onerror="this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg'" style="object-fit: cover; opacity: 0.6; width: 100%; height: 100%;">`;
-                    } else {
-                        const match = videoUrl.match(/[-\w]{25,}/);
-                        if (videoUrl.includes("drive.google.com") && match) {
-                            embedUrl = `https://drive.google.com/file/d/${match[0]}/preview`;
-                        }
-                        var imgHtml = `<img class="thumbnail-bg-video" src="${escapeHtmlFrontend(thumbUrl)}" style="object-fit: cover; opacity: 0.6; width: 100%; height: 100%;">`;
-                    }
-
-                    const slide = document.createElement('div');
-                    slide.className = 'carousel-slide';
-                    
-                    slide.innerHTML = `
-                        <div class="video-thumbnail" onclick="openVideoModal('${escapeHtmlFrontend(embedUrl)}')">
-                            ${imgHtml}
-                            <div class="thumbnail-overlay"><i class="fa-solid fa-circle-play play-icon"></i></div>
-                        </div>
-                        <p style="text-align:center; margin-top:5px; font-weight:bold;">${title}</p>
-                    `;
-                    container.appendChild(slide);
-
-                    if (indicators) {
-                        const dot = document.createElement('span');
-                        dot.className = 'dot' + (index === 0 ? ' active' : '');
-                        indicators.appendChild(dot);
-                    }
-                });
-
-                setupCarousel('dynamic-video-carousel', 'videoPrev', 'videoNext', 'videoIndicators');
-            };
-
-            generateMovies();
+            // 放送室カルーセルの制御を有効化
+            setupCarousel('videoCarousel', 'videoPrev', 'videoNext', 'videoIndicators');
 
             // ▼ 出席確認（出演者一覧のローディング制御）
             const memberSection = document.getElementById('member');
@@ -1185,21 +1127,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }); // DOMContentLoadedの閉じカッコ
 
-// ▼ グローバル関数（モーダル・ポップアップ制御）
-window.openVideoModal = function(url) {
+// ▼ グローバル関数（ローカル動画再生用モーダル制御）
+window.openLocalVideoModal = function(src) {
     const player = document.getElementById('modalVideoPlayer');
-    const loader = document.getElementById('videoLoader');
-    
-    player.style.opacity = 0; 
-    loader.style.display = 'block'; 
-    
-    player.src = url;
+    player.src = src;
     document.getElementById('videoModal').classList.add('is-active');
+    player.play().catch(e => console.log("自動再生が制限されました", e));
 };
 
-window.closeVideoModal = function() {
+window.closeLocalVideoModal = function() {
     document.getElementById('videoModal').classList.remove('is-active');
-    document.getElementById('modalVideoPlayer').src = '';
+    const player = document.getElementById('modalVideoPlayer');
+    player.pause();
+    player.src = '';
 };
 
 function openNotice(vol) {
@@ -1295,7 +1235,7 @@ function openNotice(vol) {
 function closeNotice() {
     document.getElementById('notice-overlay').style.display = 'none';
     document.body.style.overflow = 'auto';
-}  
-    </script>
+}
+</script>
 </body>
 </html>
